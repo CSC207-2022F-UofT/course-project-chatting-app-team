@@ -12,7 +12,7 @@ public class Servlet2 extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter writer = resp.getWriter();
-        writer.write("cnmd");
+        writer.write("d");
         writer.write("生草");
     }
 }
