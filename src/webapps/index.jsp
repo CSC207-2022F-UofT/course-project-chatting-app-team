@@ -92,11 +92,16 @@
         console.log("nihao");
         $.ajax({
             type: "get",
-            url: "demo.json",
-            dataType: "json",
+            url: "Servlet04",
             async: false,
             success: function(data){
-                console.log(data[0]["user"]);
+				console.log(data[18]);
+                // $.each(data, function(index, element){
+				// 	let content = $('<p class= "userme">'+element["your_own_property"] + '</p>');
+				// 	let time = $('<p class = "timeline userme">'+element["theTime"] + '</p>');
+				// 	$("#top>p").eq(-1).after(time);
+				// 	$("#top>p").eq(-1).after(content);
+				// })
             },
             error: function(e){
                 console.log(e);
@@ -115,12 +120,12 @@
     })
     $("button").eq(0).click(function(){
         // 传递数据
-        var excuese = initialWord();
+        var absolu = initialWord();
         $.ajax({
-            url: "ser01", //java文件名
+            url: "ser03", //java文件名
             contentType: "application/x-www-form-urlencoded;charset:utf-8;",
             type: "get", //post传递参数
-            data: {text:excuese}, //传递参数类型
+            data: {time:absolu[0],text:absolu[1]}, //传递参数类型
             async: false,
             success: function(data){
                 //遍历数据 实现array
@@ -128,7 +133,7 @@
                 console.log(data);
             },
             error: function (e) {
-                console.log("出现错误");
+                console.log("出现错误:" + e);
             }
         });
 
@@ -151,7 +156,7 @@
         $("#top>p").eq(-1).after(content_time);
         $("#top>p").eq(-1).after(content);
         inppp.value = "";
-        return inpContent;
+        return [intime, inpContent]
     }
     function initialTime(){
         let dayTime = new Date();

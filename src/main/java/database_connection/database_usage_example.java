@@ -21,3 +21,4 @@ public class database_usage_example {
         System.out.println(doc);
     }
 }
+// <connection string goes here>
