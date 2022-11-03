@@ -28,20 +28,11 @@ public class database_usage_example {
         // paste in connection string
         Database myDatabase = new Database("<connection string goes here>", "DatingAppStaging");
 
-        // Use this function to insert a document into database.
-//        myDatabase.insert_post (new Document()
-//                .append("_id", new ObjectId())
-//                .append("user_id", "a_new_user_id")
-//                .append("your_own_property", "whatever value"));
-//
-//        // user this to query for a user.
-//        Document doc = myDatabase.find_user_by_id("my_user_name_test");
-//
         //test for insert_post
         myDatabase.insert_post("input_username", "input_post_content");
 
         //test for insert_reply
-        myDatabase.insert_reply("_id","input_username", "input_post_content");
+        myDatabase.insert_reply("_id","input_username", "input_reply_content");
 
         //test for find_post_by_id
         Document doc1 = myDatabase.find_post_by_id("_id");

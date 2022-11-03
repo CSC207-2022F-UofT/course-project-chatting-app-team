@@ -35,20 +35,6 @@ public class Database {
 
     }
 
-//    public Document find_user_by_id(String user_id){
-//
-//        // Maybe this can be moved to an instance variable, need double-checking
-//        MongoCollection<Document> user_collection = mongo_database.getCollection("user");
-//        Document doc = user_collection.find(eq("user_id", user_id)).first();
-//        return doc;
-//
-//    };
-//
-//    public void insert_user(Document doc) {
-//        MongoCollection<Document> user_collection = mongo_database.getCollection("user");
-//        user_collection.insertOne(doc);
-//    }
-
     public void insert_post(String user_nickname, String post_content) {
         MongoCollection<Document> post_collection = mongo_database.getCollection("post");
         String uuid = UUID.randomUUID().toString();
