@@ -26,7 +26,7 @@ public class database_usage_example {
 
     public static void main(String[] args) {
         // paste in connection string
-        Database myDatabase = new Database("mongodb+srv://K125_member1:asdf4321@cluster0.jd1nala.mongodb.net/test", "DatingAppStaging");
+        Database myDatabase = new Database("<connection string goes here>", "DatingAppStaging");
 
         // Use this function to insert a document into database.
 //        myDatabase.insert_post (new Document()
