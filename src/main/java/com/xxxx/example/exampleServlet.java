@@ -2,8 +2,6 @@ package com.xxxx.example;
 
 
 import database_connection.Database;
-import org.bson.Document;
-import org.bson.types.ObjectId;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,20 +33,17 @@ public class exampleServlet extends HttpServlet {
         //生成数据库实例,其中 <connection string goes here> 需要改成数据库地址,其余无需改变
         Database myDatabase = new Database("<connection string goes here>", "DatingAppStaging");
         // 此行代码展示如何向数据库传递数据,前两行不要改变,后面可以更改, 基本语法为      .append(key:value),通常value填入之前获取的数据
-        myDatabase.insert_user (new Document()
-                .append("_id", new ObjectId())
-                .append("user_id", "(自行命名)")
-                .append("传递信息名称(自行命名)", "任何数据,比如value(去掉引号)"));
+
         //2.2 获取数据,将“user_id”改为你所输入的id名
-        Document doc = myDatabase.find_user_by_id("user_id");
+
         //2.3 通常数据库返回document形式, 此处doc为document形式,我们需要转成String或其他java常见形式
-        String stringDoc = doc.toString();
+
 
         //3. 接收完数据库的数据后,将数据返回给前端
         //3.1 为了让前端不出现乱码,加入此行代码
         resp.setCharacterEncoding("utf-8");
         //3.2 向前端传回所需数据, 在append中填入你要传递的数据
-        resp.getWriter().append(stringDoc);
+
 
     }
 }

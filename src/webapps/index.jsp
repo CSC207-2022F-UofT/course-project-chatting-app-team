@@ -38,9 +38,10 @@
         .nnn {
             height: 300px;
         }
+		/*以上是测试*/
         .interview {
-            width: 300px;
-            height: 200px;
+            width: 400px;
+            height: 300px;
 
             display: block;
             overflow: scroll;
@@ -73,6 +74,7 @@
     </style>
 </head>
 <body>
+<div class="night"></div>
 <input placeholder="输入你想要的话" value=""/>
 <button>发送</button>
 <button>点击切换</button>
@@ -92,10 +94,28 @@
         console.log("nihao");
         $.ajax({
             type: "get",
-            url: "Servlet04",
+            url: "Servlet04", //Servlet04
             async: false,
             success: function(data){
-				console.log(data[18]);
+				//将数据转换成数组
+				console.log(data);
+				let messageArr = data.split("しょうwがないけどねkom锛捕啦即托いあねfkおうだよ");
+				console.log(messageArr);
+				for(var i = messageArr.length - 2; i >= 0; i--){
+					//转化成json形式
+					let messageJson = eval("(" + messageArr[i] + ")");
+					let message = $("<p class = 'userme' >" + messageJson.content + "</p>");
+					//创建时间元素
+					let time = $("<p class = 'timeline userme' >" + messageJson.created_on + "</p>");
+					//创建昵称元素
+					let nickname = $("<p class = 'userme' >" + messageJson.user_nickname + "</p>")
+					$("#top>p").eq(-1).after(time);
+					$("#top>p").eq(-1).after(message);
+
+
+				}
+				//让滚动条处于最底部
+				$("#top").scrollTop(300);
                 // $.each(data, function(index, element){
 				// 	let content = $('<p class= "userme">'+element["your_own_property"] + '</p>');
 				// 	let time = $('<p class = "timeline userme">'+element["theTime"] + '</p>');
@@ -122,7 +142,7 @@
         // 传递数据
         var absolu = initialWord();
         $.ajax({
-            url: "ser03", //java文件名
+            url: "ser03", //java文件名 ser03
             contentType: "application/x-www-form-urlencoded;charset:utf-8;",
             type: "get", //post传递参数
             data: {time:absolu[0],text:absolu[1]}, //传递参数类型
@@ -130,7 +150,7 @@
             success: function(data){
                 //遍历数据 实现array
                 console.log("成功");
-                console.log(data);
+                console.log(eval("(" + data + ")"));
             },
             error: function (e) {
                 console.log("出现错误:" + e);
@@ -140,9 +160,6 @@
 
         // 创建文件
         $("input").eq(0).attr("autofocus","true");
-    })
-    $("button").eq(2).click(function(){
-        window.open("163.html");
     })
     function initialWord(){
         var inppp = document.getElementsByTagName("input")[0];
@@ -156,6 +173,8 @@
         $("#top>p").eq(-1).after(content_time);
         $("#top>p").eq(-1).after(content);
         inppp.value = "";
+		//让滚轮处于最底部
+		$("#top").scrollTop(300);
         return [intime, inpContent]
     }
     function initialTime(){
@@ -184,6 +203,12 @@
             }
         });
     }
+	//趣味测试
+	//网页转换测试
+	$("button").eq(2).click(function(){
+		window.open("163.html");
+	})
+	//黑白切换测试
 </script>
 </body>
 </html>
