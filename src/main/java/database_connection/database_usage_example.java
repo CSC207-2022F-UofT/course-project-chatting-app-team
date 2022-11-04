@@ -43,3 +43,4 @@ public class database_usage_example {
         System.out.println(doc2);
     }
 }
+// <connection string goes here>
