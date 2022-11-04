@@ -18,14 +18,16 @@ public class Servlet3 extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //接收前端字符
         req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
         String get = req.getParameter("text");
         String hydragel = req.getParameter("time");
+        String userName = req.getParameter("userName");
         System.out.println("接收前端信息: "+ get);
         System.out.println("接收前端时间:"+ hydragel);
 
         //上传到数据库 commit前请不要暴露地址
         Database myDatabase = new Database("<connection string goes here>", "DatingAppStaging");
-        myDatabase.insert_post("tianxianbaobao", get);
+        myDatabase.insert_post(userName, get);
         List<Document> doc2 = myDatabase.find_latest_posts(1);
 
         // user this to query for a user.
