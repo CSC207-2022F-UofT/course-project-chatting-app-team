@@ -24,7 +24,7 @@ public class Servlet3 extends HttpServlet {
         System.out.println("接收前端时间:"+ hydragel);
 
         //上传到数据库 commit前请不要暴露地址
-        Database myDatabase = new Database("mongodb+srv://K125_member1:rewq4321@cluster0.jd1nala.mongodb.net/test", "DatingAppStaging");
+        Database myDatabase = new Database("<connection string goes here>", "DatingAppStaging");
         myDatabase.insert_post("tianxianbaobao", get);
         List<Document> doc2 = myDatabase.find_latest_posts(1);
 
