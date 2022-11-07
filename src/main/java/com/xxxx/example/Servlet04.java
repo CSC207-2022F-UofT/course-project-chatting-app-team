@@ -20,14 +20,15 @@ public class Servlet04 extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         Database myDatabase = new Database("<connection string goes here>", "DatingAppStaging");
         List<Document> doc2 = myDatabase.find_latest_posts(100);
-         // user this to query for a user.
+//          user this to query for a user.
         for(int i = 0; i < doc2.toArray().length; i++){
             Document doc = doc2.get(i);
             resp.getWriter().append(doc.toJson() + "tbs010143fniwufwifnj+)4733&3uoghqgushvsjcvbjbke3bfb34uofuvhduvwb1=f");
         }
+//        resp.getWriter().append(doc2.toString());
 
 
-        System.out.println(doc2.toString());
+        System.out.println(doc2);
     }
 }
 // <connection string goes here>
