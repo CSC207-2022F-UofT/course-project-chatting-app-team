@@ -7,64 +7,162 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <head>
-    <meta charset="utf-8">
-    <title></title>
-    <style>
-        * {
-            list-style: none;
-            margin: 0px;
-            text-decoration: none;
-        }
-        .toolbar {
-            border: solid 1px brown;
-            width: 400px;
-        }
-        .shit {
-            border-bottom: solid 1px green;
-            color: antiquewhite;
-        }
-        .shit>.fuck {
-            padding: 5px;
-            margin-right: 10px;
-            margin-left: 10px;
-            border: solid 1px yellow;
-            display: inline-block;
-        }
-        .shit>.box {
-            border: solid 1px blueviolet;
-        }
-        .nnn {
-            height: 300px;
-        }
-		/*以上是测试*/
-        .interview {
-            width: 600px;
-            height: 550px;
+	<meta charset="utf-8">
+	<title></title>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<style>
+		/*Please take some time read this before writing CSS!
+		请用几分钟详细阅读后再书写CSS!
+		CSS coding style: CSS书写规范
+		Reference 参考: https://zhuanlan.zhihu.com/p/75946952
 
-            display: block;
-            overflow: scroll;
-            background-color: white;
-            border: solid 1px green;
+		When writing CSS, please follow this type of format for style
+		在书写CSS时，请在每个样式声明里保持这样格式,属性请按这样顺序声明
+		name {
+		    1. first order declaration style type, 首先要最先声明这些属性(如果有):
+		    position type,位置属性: position, top, right, z-index, display, float
+			2. second order declaration style type,其次再声明这些属性(如果有):
+			Box style type,盒子样式属性: width, height, padding, margin
+		    3. third type order, font type
+		    文字属性 font, line-height, letter-spacing, color- text-align
+		    4. forth type order, background type
+			背景属性 background, border
+			5. fifth type order, animation type
+			动画属性 animation, transition
 
+		}
+		Summary: position > box type > font type > background type + other > animation
+		总结: 位置>盒子格式>盒子内部格式>背景>动画
+
+		2. Please write CSS style in every domain related order.
+		   For instance, we have a box with class chatting_app_chatting_room, and a box classed chatting_box inside, and
+		   a box classed chatting_message inside chatting_box,
+		   please style in this order: chatting_app_chatting_room -> chatting_box -> chatting_message
+		   Please do not write chatting_box style underneath other domain class!
+
+		   请把每个CSS元素样式按顺序排列, 比如chatting_app_chatting_room里有一个chatting_box里有一个chatting_message
+		   请按如下顺序chatting_app_chatting_room -> chatting_box -> chatting_message
+		   不要把chatting_box写在其他大类下面
+		   每个大类按顺序写好
+
+		3. Naming rules: when naming class and id, please give element a name that can easily related to its domain and
+		   parent, enable others to inspect.
+		   命名:命名class与id时,命名能够，跟父元素+此板块+相关功能 相关联,方便他人阅读
+
+		4. It is suggested that you should comment on every style, so that people can understand quickly.
+		   Adding reference if necessary
+		   建议每个样式都写入注释,方便他人阅读, 如果直接从网页复制,请添加reference以供他人了解
+
+		It is believable that you can become a very elegant frontend constructor after obeying those rules!!!
+		Thanks for your time!
+		遵循以上书写规范,相信你能成为优秀的前端设计师-----K125-Team-2022.11.07
+		 */
+
+		/*CSS project coding 一下为project CSS coding*/
+		/* Whole Web CSS Setting 全局设定 */
+		* {
+			margin: 0px;
+
+			list-style: none;
+			text-decoration: none;
+		}
+		/* Five domain CSS design 五大板块 */
+		/* 大类: header domain design 头部设计*/
+		.chatting_app_header {
+			position: relative;
+			height: 8%;
+			background-color: pink;
+		}
+		#LoginUser {
+			width: 100px;
+			height: 20px;
+			background-color: beige;
+			border-radius: 10%;
+		}
+		#LoginUser:after{
+			color: blueviolet;
+		}
+
+		/* 大类: left side domain design 左侧栏目设计 */
+		.chatting_app_left_side {
+			position: relative;
+			float: left;
+			height: 84%;
+			width: 8%;
+			background-color: red;
+		}
+
+		/* 大类: chatting room domain design 中部聊天室设计 */
+		.chatting_app_chatting_room{
+			position: relative;
+			float: left;
+			height: 84%;
+			width: 78%;
+			border-radius: 10px 10px;
+			background-color: rgb(188, 182, 216);
+		}
+		/*Chatting window 聊天窗口*/
+		.chatting_box {
+			display: block;
+			height: 90%;
+			width: 90%;
+			overflow: scroll;
+			background-color: transparent;
+			border: none;
 			cursor: default;
-        }
-        .timeline {
-            color: grey;
-            font-size: 0.8rem;
-        }
-        .interview>.other{
-        }
-        .interview>.userme{
-            display: inline-block;
-            margin-left: 50%;
-        }
-		.vip{
-			animation-name: vipSpecial;
-			animation-iteration-count: infinite;
-			animation-duration: 2s;
-			animation-timing-function: ease-in;
+		}
+		/*Alter the scrollbar pattern 修改scrollbar外观*/
+		/*Reference:https://zhuanlan.zhihu.com/p/457998392*/
+		.chatting_box::-webkit-scrollbar {
+			width : 10px;
+			height: 1px;
+		}
+		.chatting_box::-webkit-scrollbar-thumb {
+			border-radius : 10px;
+			background-color: skyblue;
+			background-image: -webkit-linear-gradient(
+					45deg,
+					rgba(255, 255, 255, 0.2) 25%,
+					transparent 25%,
+					transparent 50%,
+					rgba(255, 255, 255, 0.2) 50%,
+					rgba(255, 255, 255, 0.2) 75%,
+					transparent 75%,
+					transparent
+			);
+		}
+		.chatting_box::-webkit-scrollbar-track{
+			box-shadow : inset 0 0 5px rgba(0, 0, 0, 0.2);
+			background : #ededed;
+			border-radius: 10px;
+		}
+		/*chatting window 聊天窗口*/
+		.chatting_messageBox {
+			transition: 1s;
+		}
+		.chatting_messageBox:hover {
+			background-color: rgb(144, 135, 184)
+		}
+		#top {
+			z-index: 0;
+		}
+		#bottom {
+			position: absolute;
+			left:0%;
+			top: 0%;
+			z-index: -1;
+		}
+		.chatting_messageBox>.other{
+			margin-left: 10%;
+		}
+		.chatting_messageBox>.userme{
+			display: inline-block;
+			margin-left: 50%;
+		}
+		.timeline {
+			color: grey;
+			font-size: 0.8rem;
 		}
 		@keyframes vipSpecial {
 			0% {
@@ -83,225 +181,299 @@
 				color: aliceblue;
 			}
 		}
-        #top {
-            position: absolute;
-            left: 200px;
-            top: 100px;
-            z-index: 0;
-        }
-        #bottom {
-            position: absolute;
-            left: 200px;
-            top: 100px;
-            z-index: -1;
-        }
-    </style>
+		.vip{
+			animation-name: vipSpecial;
+			animation-iteration-count: infinite;
+			animation-duration: 2s;
+			animation-timing-function: ease-in;
+		}
+		/* input box 输入框 */
+		.chatting_input_box {
+			height: 10%;
+			background-color: blue;
+		}
+		.chatting_input_function {
+			width: 100%;
+			height: 45%;
+			background-color: gold;
+		}
+		.chatting_input_text {
+			float: left;
+			width: 90%;
+			height: 50%;
+			font-size: 1.1em;
+			border-radius: 10px 10px;
+		}
+		.chatting_input_submit {
+			float: left;
+			height: 45%;
+			width: 10%;
+			margin-top: 0.2%;
+			background-color: pink;
+			border-radius: 10px 10px;
+			cursor: auto;
+		}
+		.chatting_input_submit_mark {
+			display: inline-block;
+			margin-top: 5%;
+			margin-left: 30%;
+			cursor: pointer;
+			user-select: none;
+		}
+
+		/* 大类: right side domain design 右部边栏设计 */
+		.chatting_app_right_side {
+			position:relative;
+			float: left;
+			height: 84%;
+			width: 14%;
+			background-color: violet;
+		}
+
+		/* 大类: bottom domain design 底部栏目设计 */
+		.chatting_app_bottom {
+			position:relative;
+			float: left;
+
+			height: 8%;
+			width: 100%;
+			background-color: grey;
+		}
+
+	</style>
 </head>
 <body>
-<div class="night"></div>
-<input placeholder="输入你想要的话" value=""/>
-<button>发送</button>
-<button>点击切换版面(测试中)</button>
-<button>点击切换网页(测试中)</button>
-<button id="switch">切换用户(测试中)</button>
-<button>点击切换天气(筹备中)</button>
-<button id="apply_Vip">点击申请vip,彩虹狗牌(筹备中)</button>
-<span class="interview" id="top">
-			<p></p>
-			<p class="timeline">2022-10-31-10:46:42</p>
+<!-- Five domain 五大板块 -->
+
+<!-- Header domain 头部栏 -->
+<div class="chatting_app_header">
+	<div class="night"></div>
+	<button id="switch_chatting_box">点击切换版面(测试中)</button>
+	<button id="switch_webpage">点击切换网页(未创建)</button>
+	<button id="switch">登录/切换用户(测试中)</button>
+	<button id="logout">退出(测试中)</button>
+	<button>点击切换天气(筹备中)</button>
+	<button id="apply_Vip">点击申请vip,彩虹狗牌(筹备中)</button>
+	<div id="LoginUser">尚未登陆</div>
+</div>
+
+<!-- left side domain 左侧边栏 -->
+<div class="chatting_app_left_side">
+
+</div>
+
+<!-- middle domain:chatting room 聊天室 -->
+<div class="chatting_app_chatting_room">
+	<div class="chatting_box" id="top">
+		<p>公共群群1</p>
+		<div class="chatting_messageBox">
+			<p class="timeline other">2022-10-31-10:46:42</p>
 			<p class="other">这是第一段话</p>
-		</span>
-<span class="interview" id="bottom">
-			<p></p>
+		</div>
+	</div>
+	<div class="chatting_box" id="bottom">
+		<p>公共群群2</p>
+		<div class="chatting_messageBox">
 			<p class="timeline">2022-10-31-10:46:42</p>
 			<p class="other">这是第二段话</p>
-		</span>
+		</div>
+	</div>
+	<div class="chatting_input_box">
+		<div class="chatting_input_function"></div>
+		<input class="chatting_input_text" placeholder="输入你想要的话" value="" />
+		<div class="chatting_input_submit"><div class="chatting_input_submit_mark">发送</div></div>
+	</div>
+</div>
+
+<!-- left side domain 右侧边栏 -->
+<div class="chatting_app_right_side">
+
+</div>
+
+<!-- bottom side domain 底部边栏 -->
+<div class="chatting_app_bottom">
+
+</div>
+
+<!-- 代码部分(需要js文档与html分离) -->
 <script>
-	var User;
-    $(function(){
-        console.log("nihao");
-		//cookie设置,之后需要清除重写
+	var User; //Prepare to request User information || 准备获取User信息
+	// jq framework language || jq语法: $(function(){}) || Immediately execute these function ||刷新时立即响应
+	$(function () {
+		//acquier the User information||获取用户信息
+		//get the cookie if user already login||cookie设置,因为安全问题之后需要清除重写
 		let cookieIndex = document.cookie.indexOf("userName");
 		User = document.cookie.substring(cookieIndex + 9);
-		if(cookieIndex == -1 || User == "") {
-			User = prompt("(测试)用户登录");
-			document.cookie = "userName="+ User;
-		    //用正则查找违规字符
-		    let r = /\W/;
-		    while ($.trim(User) == '' || User.search(r) != -1) {
-			    User = prompt("NickName中不能出现数字和字母以外的符号!请重新输入,也不能输入空白！");
-			    document.cookie = "userName=" + User;
-		}
-		}
-		//loading界面
-        $.ajax({
-            type: "get",
-            url: "Servlet04", //Servlet04
-            async: false,
-            success: function(data){
-				//将数据转换成数组
+		if (User != '') $("#LoginUser").text(User);
+
+		//display the message history || loading界面时，获取并展示历史消息
+		$.ajax({
+			type: "get",
+			url: "Servlet04", //Servlet04
+			async: false,
+			success: function (data) {
+				//turn data to array type || 将数据转换成数组
 				console.log(data);
 				let messageArr = data.split("tbs010143fniwufwifnj+)4733&3uoghqgushvsjcvbjbke3bfb34uofuvhduvwb1=f");
 				console.log(messageArr);
-				for(var i = messageArr.length - 2; i >= 0; i--){
-					//转化成json形式
+				for (var i = messageArr.length - 2; i >= 0; i--) {
+					//turn each element in array to json type || 转化成json形式
 					let messageJson = eval("(" + messageArr[i] + ")");
-					//根据用户名生成
+					//distinguish other user and "me" || 根据用户名生成，区别“其他用户”和“我”
 					let messageClass = 'other'
-					//设置UserTag
+					//set the user name tag || 设置UserTag(姓名牌)
 					let userTag = messageJson.user_nickname;
-					//如果是user本人
-					if(messageJson.user_nickname == User) {
+					//if this message is sent by "me" || 如果是user本人发送的信息
+					if (messageJson.user_nickname == User) {
 						messageClass = "userme"
 						userTag = "Me"
 					}
-					//如果是尊贵的vip会员
+					//build div element || 创建盒子元素
+					let messageBox = $("<div class='chatting_messageBox'></div>");
+					//build text element, put history message || 创建文本元素
 					let message = $("<p class =" + messageClass + ">" + messageJson.content + "</p>");
-					//创建时间元素
+					//record the time send the element || 创建时间元素
 					let time = $("<p>" + messageJson.created_on + " <span>(" + userTag + ")<span></p>");
-					//纯属娱乐
-					if(messageJson.user_nickname == "tianxianbaobao") {
+					//append message element and time element into div element || 盒子中塞入文本和时间元素
+					messageBox.append(time);
+					messageBox.append(message);
+
+					//This is just for fun || 一下纯属娱乐,vip + title标签测试
+					if (messageJson.user_nickname == "tianxianbaobao") {
 						let vipTitle = "这是尊贵的VIP用户"
-						time.attr("title",vipTitle);
-						time.children("span").attr("class","vip")
+						time.attr("title", vipTitle);
+						time.children("span").attr("class", "vip")
 					}
-					if(messageJson.user_nickname == "bruce_liu") {
+					if (messageJson.user_nickname == "bruce_liu") {
 						let descriptiveTitle = "这是个写不完论文的废物"
-						time.attr("title",descriptiveTitle);
+						time.attr("title", descriptiveTitle);
 					}
-					if(messageJson.user_nickname == "Dai") {
+					if (messageJson.user_nickname == "Dai") {
 						let descriptiveTitle = "这是高级数据工程师 + shuaibi"
-						time.attr("title",descriptiveTitle);
+						time.attr("title", descriptiveTitle);
 					}
 					time.attr("class", "timeline " + messageClass);
 
-					//创建昵称元素
+					//创建昵称元素(弃用)
 					let nickname = $("<p class =" + messageClass + ">" + messageJson.user_nickname + "</p>")
-					$("#top>p").eq(-1).after(time);
-					$("#top>p").eq(-1).after(message);
+					$("#top>div").eq(-1).after(messageBox);
 
 
 				}
-				//让滚动条处于最底部
+				//Make the scrollbar bottom || 让滚动条处于最底部(最底部展示最新消息)
 				$("#top").scrollTop(10000);
-                // $.each(data, function(index, element){
-				// 	let content = $('<p class= "userme">'+element["your_own_property"] + '</p>');
-				// 	let time = $('<p class = "timeline userme">'+element["theTime"] + '</p>');
-				// 	$("#top>p").eq(-1).after(time);
-				// 	$("#top>p").eq(-1).after(content);
-				// })
-            },
-            error: function(e){
-                console.log(e);
-                console.log("发生错误");
-            }
-        });
-        $("button").eq(1).click(function(){
-            let user1 = $('#top');
-            let user2 = $('#bottom');
-            user1.attr("id","bottom");
-            user2.attr("id","top");
-            console.log("测试一下")
-            console.log(user1);
-            console.log(user2);
-        })
-    })
-	//发送消息
-    $("button").eq(0).click(function(){
-        // 传递数据
-        var absolu = initialWord();
-        $.ajax({
-            url: "ser03", //java文件名 ser03
-            contentType: "application/x-www-form-urlencoded;charset:utf-8;",
-            type: "get", //post传递参数
-            data: {time:absolu[0],text:absolu[1],userName:User}, //传递参数类型
-            async: false,
-            success: function(data){
-                //遍历数据 实现array
-                console.log("成功");
-                console.log(eval("(" + data + ")"));
-            },
-            error: function (e) {
-                console.log("出现错误:" + e);
-            }
-        });
-
-    })
-	//前端立即响应发送消息event
-    function initialWord(){
-        var inppp = document.getElementsByTagName("input")[0];
-        var intime = initialTime();
-        inpContent = inppp.value
-        if(inppp.value.trim() == ""){
-            inpContent = "[空白文字no]"
-        }
-		//此处代码有耦合，注意优化
-        var content = $('<p class= "userme">'+inpContent + '</p>');
-        var content_time = $('<p class = "timeline userme">'+intime + '<span>(Me)</span></p>');
-		if(User == "tianxianbaobao") {
-			let vipTitle = "这是尊贵的VIP用户"
-			content_time.attr("title",vipTitle);
-			content_time.children("span").attr("class","vip")
+			},
+			error: function (e) {
+				//If request history message fails, return error || 如果请求失败,返回错误问题
+				console.log(e);
+				console.log("Error occur!");
+			}
+		});
+		//Switch the chatting box when click this button || 点击切换版面
+		$("#switch_chatting_box").click(function () {
+			let user1 = $('#top');
+			let user2 = $('#bottom');
+			user1.attr("id", "bottom");
+			user2.attr("id", "top");
+			console.log("测试一下")
+			console.log(user1);
+			console.log(user2);
+		});
+	})
+	//Send message when click this button || 点击按钮发送消息
+	$(".chatting_input_submit").click(function () {
+		// 传递数据
+		//如果没登陆，那么不能发送信息
+		if (User == '') {
+			alert("请先登录!");
+			return
 		}
-        $("#top>p").eq(-1).after(content_time);
-        $("#top>p").eq(-1).after(content);
-        inppp.value = "";
-		//让滚轮处于最底部
+		var absolu = initialWord(); //line 375, display the message just sent || 前端展示刚刚发送消息, 374行
+		$.ajax({
+			url: "ser03", //java文件名 ser03
+			contentType: "application/x-www-form-urlencoded;charset:utf-8;",
+			type: "get", //post, send the parameter || post传递参数
+			data: { time: absolu[0], text: absolu[1], userName: User }, //send key:values data || 传递参数类型
+			async: false,
+			success: function (data) {
+				//get response from backend || 遍历数据 实现array
+				console.log("成功");
+				console.log(eval("(" + data + ")"));
+			},
+			error: function (e) {
+				console.log("出现错误:" + e);
+			}
+		});
+
+	})
+	//Display the message at chatting box once click the button || 前端立即响应发送消息event
+	function initialWord() {
+		var inppp = document.getElementsByTagName("input")[0];
+		var intime = initialTime();
+		inpContent = inppp.value
+		if (inppp.value.trim() == "") {
+			inpContent = "[空白文字no]"
+		}
+		//此处代码有耦合，注意优化
+		var messageBox = $("<div class='chatting_messageBox'></div>")
+		var content = $('<p class= "userme">' + inpContent + '</p>');
+		var content_time = $('<p class = "timeline userme">' + intime + '<span>(Me)</span></p>');
+		messageBox.append(content_time);
+		messageBox.append(content);
+		if (User == "tianxianbaobao") {
+			let vipTitle = "这是尊贵的VIP用户"
+			content_time.attr("title", vipTitle);
+			content_time.children("span").attr("class", "vip")
+		}
+		$("#top>.chatting_messageBox").eq(-1).after(messageBox);
+		inppp.value = "";
+		// make scrollbar always bottom when sending message 让滚轮处于最底部
 		$("#top").scrollTop(10000);
-        return [intime, inpContent]
-    }
-    function initialTime(){
-        let dayTime = new Date();
-        let year = dayTime.getFullYear();
-        let month = dayTime.getMonth() + 1;
-        let day = dayTime.getDate();
-        let hour = dayTime.getHours();
-        let minute = dayTime.getMinutes();
-        let second = dayTime.getSeconds();
-        let time = year+"-"+month+"-"+day+"-"+hour+":"+minute+":"+second;
-        return time;
-    }
-    function initialUser(){
-        $.ajax({
-            type: "get",
-            url: "demo.json",
-            dataType: "json",
-            async: false,
-            success: function(data){
-                console.log(data[0]["user"]);
-            },
-            error: function(e){
-                console.log(e);
-                console.log("发生错误");
-            }
-        });
-    }
-	//趣味测试
-	//网页转换测试
-	$("button").eq(2).click(function(){
+		return [intime, inpContent]
+	}
+	function initialTime() {
+		let dayTime = new Date();
+		let year = dayTime.getFullYear();
+		let month = dayTime.getMonth() + 1;
+		let day = dayTime.getDate();
+		let hour = dayTime.getHours();
+		let minute = dayTime.getMinutes();
+		let second = dayTime.getSeconds();
+		let time = year + "-" + month + "-" + day + "-" + hour + ":" + minute + ":" + second;
+		return time;
+	}
+	//some funny extension || 趣味测试
+	//jump to another webpage || 网页转换测试
+	$("#switch_webpage").click(function () {
 		window.open("163.html");
 	})
-	//黑白切换测试
-	//切换用户测试
-	$("#switch").click(function(){
+	//switch the user || 切换用户测试
+	$("#switch").click(function () {
 		document.cookie = 'userName=tianxianbaobao;expires=Fri, 04 Nov 2022 17:59:51 GMT'
 		let User = prompt("请输入你想切换的NickName");
 		let r = /\W/;
-		while ($.trim(User) == '' || User.search(r) != -1) {
-			User = prompt("NickName中不能出现数字和字母以外的符号!请重新输入,也不能输入空白！");
+		while (User.search(r) != -1) {
+			User = prompt("NickName中不能出现数字和字母以外的符号!请重新输入");
 			document.cookie = "userName=" + User;
 		}
-		document.cookie = 'userName='+User;
+		if ($.trim(User) == '') alert("登录失败,不能输入空白！");
+		document.cookie = 'userName=' + User;
 		location.reload();
 	})
-	//检查用户拼写规范(还未使用)
-	function checkUser(){
+	//when user login, check if user spell right username || 检查用户拼写规范(还未使用)
+	function checkUser() {
 		let r = /\W/;
 		while ($.trim(User) == '' || User.search(r) != -1) {
 			User = prompt("NickName中不能出现数字和字母以外的符号!请重新输入,也不能输入空白！");
 			document.cookie = "userName=" + User;
 		}
 	}
+	//exit from this user || 退出web
+	$("#logout").on("click", function () {
+		document.cookie = 'userName=tianxianbaobao;expires=Fri, 04 Nov 2022 17:59:51 GMT';
+		User = "";
+		location.reload();
+	})
 </script>
 </body>
 </html>
