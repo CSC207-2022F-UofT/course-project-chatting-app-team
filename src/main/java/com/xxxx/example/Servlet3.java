@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 //这个是project文件
@@ -19,11 +20,17 @@ public class Servlet3 extends HttpServlet {
         //接收前端字符
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
+
         String get = req.getParameter("text");
         String hydragel = req.getParameter("time");
         String userName = req.getParameter("userName");
         System.out.println("接收前端信息: "+ get);
         System.out.println("接收前端时间:"+ hydragel);
+//        Time hello = new Time(2,1,1);
+//        hello.toLocalTime();
+        Date hello = new Date();
+        System.out.println(hello.getTime());
+
 
         //上传到数据库 commit前请不要暴露地址
         Database myDatabase = new Database("<connection string goes here>", "DatingAppStaging");
