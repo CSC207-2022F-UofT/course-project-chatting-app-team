@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<%--path for package upload to the server: cd usr/local/Tomcat8.5/webapps/k125--%>
 <head>
 	<meta charset="utf-8">
 	<title></title>
@@ -67,6 +68,25 @@
 			list-style: none;
 			text-decoration: none;
 		}
+
+		/* font icon, using icomoon, reference: https://icomoon.io/app/#/select/font
+		设定个性化字符标签,引入方法:直接输入此icon对应的字符串
+		*/
+		@font-face {
+			font-family: 'icomoon';
+			src: url('fonts/icomoon.eot?r27nfd');
+			src: url('fonts/icomoon.eot?r27nfd#iefix') format('embedded-opentype'),
+			url('fonts/icomoon.ttf?r27nfd') format('truetype'),
+			url('fonts/icomoon.woff?r27nfd') format('woff'),
+			url('fonts/icomoon.svg?r27nfd#icomoon') format('svg');
+			font-weight: normal;
+			font-style: normal;
+			font-display: block;
+		}
+		.hide_element {
+			display: none;
+		}
+
 		/* Five domain CSS design 五大板块 */
 		/* 大类: header domain design 头部设计*/
 		.chatting_app_header {
@@ -74,13 +94,15 @@
 			height: 8%;
 			background-color: pink;
 		}
+
 		#LoginUser {
 			width: 100px;
 			height: 20px;
 			background-color: beige;
 			border-radius: 10%;
 		}
-		#LoginUser:after{
+
+		#LoginUser:after {
 			color: blueviolet;
 		}
 
@@ -94,7 +116,7 @@
 		}
 
 		/* 大类: chatting room domain design 中部聊天室设计 */
-		.chatting_app_chatting_room{
+		.chatting_app_chatting_room {
 			position: relative;
 			float: left;
 			height: 84%;
@@ -102,6 +124,7 @@
 			border-radius: 10px 10px;
 			background-color: rgb(188, 182, 216);
 		}
+
 		/*Chatting window 聊天窗口*/
 		.chatting_box {
 			display: block;
@@ -112,118 +135,195 @@
 			border: none;
 			cursor: default;
 		}
+
 		/*Alter the scrollbar pattern 修改scrollbar外观*/
 		/*Reference:https://zhuanlan.zhihu.com/p/457998392*/
 		.chatting_box::-webkit-scrollbar {
-			width : 10px;
+			width: 10px;
 			height: 1px;
 		}
+
 		.chatting_box::-webkit-scrollbar-thumb {
-			border-radius : 10px;
+			border-radius: 10px;
 			background-color: skyblue;
-			background-image: -webkit-linear-gradient(
-					45deg,
-					rgba(255, 255, 255, 0.2) 25%,
-					transparent 25%,
-					transparent 50%,
-					rgba(255, 255, 255, 0.2) 50%,
-					rgba(255, 255, 255, 0.2) 75%,
-					transparent 75%,
-					transparent
-			);
+			background-image: -webkit-linear-gradient(45deg,
+			rgba(255, 255, 255, 0.2) 25%,
+			transparent 25%,
+			transparent 50%,
+			rgba(255, 255, 255, 0.2) 50%,
+			rgba(255, 255, 255, 0.2) 75%,
+			transparent 75%,
+			transparent);
 		}
-		.chatting_box::-webkit-scrollbar-track{
-			box-shadow : inset 0 0 5px rgba(0, 0, 0, 0.2);
-			background : #ededed;
+
+		.chatting_box::-webkit-scrollbar-track {
+			box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+			background: #ededed;
 			border-radius: 10px;
 		}
+
 		/*chatting window 聊天窗口*/
 		.chatting_messageBox {
 			transition: 1s;
 		}
+
 		.chatting_messageBox:hover {
 			background-color: rgb(144, 135, 184)
 		}
+
 		#top {
 			z-index: 0;
 		}
+
 		#bottom {
 			position: absolute;
-			left:0%;
+			left: 0%;
 			top: 0%;
 			z-index: -1;
 		}
-		.chatting_messageBox>.other{
+
+		.chatting_messageBox>.other {
 			margin-left: 10%;
 		}
-		.chatting_messageBox>.userme{
+
+		.chatting_messageBox>.userme {
 			display: inline-block;
 			margin-left: 50%;
 		}
+
 		.timeline {
 			color: grey;
 			font-size: 0.8rem;
 		}
+
 		@keyframes vipSpecial {
 			0% {
 				color: aliceblue;
 			}
+
 			25% {
 				color: aquamarine;
 			}
+
 			50% {
 				color: blueviolet;
 			}
+
 			75% {
 				color: aquamarine;
 			}
+
 			100% {
 				color: aliceblue;
 			}
 		}
-		.vip{
+
+		.vip {
 			animation-name: vipSpecial;
 			animation-iteration-count: infinite;
 			animation-duration: 2s;
 			animation-timing-function: ease-in;
 		}
+
 		/* input box 输入框 */
 		.chatting_input_box {
 			height: 10%;
 			background-color: blue;
 		}
+
 		.chatting_input_function {
 			width: 100%;
 			height: 45%;
 			background-color: gold;
 		}
+
 		.chatting_input_text {
 			float: left;
-			width: 90%;
+			width: 86%;
 			height: 50%;
 			font-size: 1.1em;
 			border-radius: 10px 10px;
 		}
+		/*emoji tab css style 表情符面板CSS样式*/
+		.chatting_input_emoji {
+			position: relative;
+			float: left;
+			width: 4%;
+			height: 50%;
+			padding-top: .6%;
+			font-size: 1.5em;
+			text-align: center;
+			font-family: 'icomoon';
+			background-color: transparent;
+			user-select: none;
+		}
+
+		.chatting_input_emoji:hover {
+			color: beige;
+		}
+
+		.chatting_input_emoji_tab {
+			position: absolute;
+			left: -300px;
+			top: -300px;
+			width: 300px;
+			height: 300px;
+			background-color: yellow;
+		}
+
+		.chatting_input_emoji_tab_header {
+			float: left;
+			height: 20%;
+			width: 100%;
+			background-color: purple;
+		}
+
+		.exit_emoji_box {
+			float: right;
+			margin-top: 2%;
+			margin-right: 2%;
+		}
+
+		.chatting_input_emoji_tab_body {
+			float: left;
+			height: 80%;
+			width: 100%;
+			overflow: scroll;
+			background-color: skyblue;
+		}
+
+		.chatting_input_emoji_tab_body>.chatting_input_emoji_singleword {
+			float: left;
+			height: 10%;
+			width: 10%;
+			font-size: .6em;
+			text-align: center;
+			line-height: 140%;
+			background-color: transparent;
+			cursor: pointer;
+		}
+		.chatting_input_emoji_tab_body>.chatting_input_emoji_singleword:hover {
+			background-color: grey;
+		}
+
+		/*Send message button CSS style\发送信息按钮CSS样式*/
 		.chatting_input_submit {
 			float: left;
 			height: 45%;
 			width: 10%;
 			margin-top: 0.2%;
+			text-align: center;
+			line-height: 170%;
 			background-color: pink;
 			border-radius: 10px 10px;
-			cursor: auto;
-		}
-		.chatting_input_submit_mark {
-			display: inline-block;
-			margin-top: 5%;
-			margin-left: 30%;
 			cursor: pointer;
 			user-select: none;
 		}
 
+
 		/* 大类: right side domain design 右部边栏设计 */
 		.chatting_app_right_side {
-			position:relative;
+			position: relative;
 			float: left;
 			height: 84%;
 			width: 14%;
@@ -232,16 +332,16 @@
 
 		/* 大类: bottom domain design 底部栏目设计 */
 		.chatting_app_bottom {
-			position:relative;
+			position: relative;
 			float: left;
 
 			height: 8%;
 			width: 100%;
 			background-color: grey;
 		}
-
 	</style>
 </head>
+
 <body>
 <!-- Five domain 五大板块 -->
 
@@ -249,7 +349,7 @@
 <div class="chatting_app_header">
 	<div class="night"></div>
 	<button id="switch_chatting_box">点击切换版面(测试中)</button>
-	<button id="switch_webpage">点击切换网页(未创建)</button>
+	<button>点击切换网页(未创建)</button>
 	<button id="switch">登录/切换用户(测试中)</button>
 	<button id="logout">退出(测试中)</button>
 	<button>点击切换天气(筹备中)</button>
@@ -265,7 +365,6 @@
 <!-- middle domain:chatting room 聊天室 -->
 <div class="chatting_app_chatting_room">
 	<div class="chatting_box" id="top">
-		<p>公共群群1</p>
 		<div class="chatting_messageBox">
 			<p class="timeline other">2022-10-31-10:46:42</p>
 			<p class="other">这是第一段话</p>
@@ -281,7 +380,18 @@
 	<div class="chatting_input_box">
 		<div class="chatting_input_function"></div>
 		<input class="chatting_input_text" placeholder="输入你想要的话" value="" />
-		<div class="chatting_input_submit"><div class="chatting_input_submit_mark">发送</div></div>
+		<div class="chatting_input_emoji">
+			<div class="chatting_input_emoji_tab hide_element">
+				<div class="chatting_input_emoji_tab_header">
+				</div>
+				<div class="chatting_input_emoji_tab_body">
+					<div class="chatting_input_emoji_singleword"></div>
+					<div class="chatting_input_emoji_singleword">😂</div>
+				</div>
+			</div>
+			<span class="chatting_input_emoji_logo"></span>
+		</div>
+		<div class="chatting_input_submit"><span class="chatting_input_submit_mark">发送</span></div>
 	</div>
 </div>
 
@@ -306,7 +416,63 @@
 		User = document.cookie.substring(cookieIndex + 9);
 		if (User != '') $("#LoginUser").text(User);
 
-		//display the message history || loading界面时，获取并展示历史消息
+
+		//Function_piece 1: display the message history || loading界面时，获取并展示历史消息
+		display_message_history();
+		//Switch the chatting box when click this button || 点击切换版面
+		$("#switch_chatting_box").click(function () {
+			let user1 = $('#top');
+			let user2 = $('#bottom');
+			user1.attr("id", "bottom");
+			user2.attr("id", "top");
+			console.log("测试一下")
+			console.log(user1);
+			console.log(user2);
+		});
+		//Function_piece 4: Initialize the emoji tab\生成表情包库
+		initialize_emoji_tab();
+
+		$("body").click(function(){
+			if ($(".chatting_input_emoji_tab").attr('class')=="chatting_input_emoji_tab"){
+				$(".chatting_input_emoji_tab").attr("class","chatting_input_emoji_tab hide_element");
+			}
+		})
+		$(".chatting_input_emoji").bind("click",function(){
+			return false;
+		})
+	})
+	//Send message when click this button || 点击按钮发送消息
+	$(".chatting_input_submit").click(function () {
+		// 传递数据
+		//如果没登陆，那么不能发送信息
+		if (User == '') {
+			alert("请先登录!");
+			return
+		}
+		var absolu = initialWord(); //line 375, display the message just sent || 前端展示刚刚发送消息, 374行
+		$.ajax({
+			url: "ser03", //java文件名 ser03
+			contentType: "application/x-www-form-urlencoded;charset:utf-8;",
+			type: "get", //post, send the parameter || post传递参数
+			data: { time: absolu[0], text: absolu[1], userName: User }, //send key:values data || 传递参数类型
+			async: false,
+			success: function (data) {
+				//get response from backend || 遍历数据 实现array
+				console.log("成功");
+				console.log(eval("(" + data + ")"));
+			},
+			error: function (e) {
+				console.log("出现错误:" + e);
+			}
+		});
+		// Form emoji word 生成emoji
+
+	})
+
+	//Function piece part, definition of the function
+
+	//Function_piece 1: Function that show message history\此处function为展示历史记录
+	function display_message_history(){
 		$.ajax({
 			type: "get",
 			url: "Servlet04", //Servlet04
@@ -356,12 +522,12 @@
 
 					//创建昵称元素(弃用)
 					let nickname = $("<p class =" + messageClass + ">" + messageJson.user_nickname + "</p>")
-					$("#top>div").eq(-1).after(messageBox);
+					$("#top>div").eq(0).before(messageBox);
 
 
 				}
 				//Make the scrollbar bottom || 让滚动条处于最底部(最底部展示最新消息)
-				$("#top").scrollTop(10000);
+				$("#top").scrollTop(0);
 			},
 			error: function (e) {
 				//If request history message fails, return error || 如果请求失败,返回错误问题
@@ -369,44 +535,8 @@
 				console.log("Error occur!");
 			}
 		});
-		//Switch the chatting box when click this button || 点击切换版面
-		$("#switch_chatting_box").click(function () {
-			let user1 = $('#top');
-			let user2 = $('#bottom');
-			user1.attr("id", "bottom");
-			user2.attr("id", "top");
-			console.log("测试一下")
-			console.log(user1);
-			console.log(user2);
-		});
-	})
-	//Send message when click this button || 点击按钮发送消息
-	$(".chatting_input_submit").click(function () {
-		// 传递数据
-		//如果没登陆，那么不能发送信息
-		if (User == '') {
-			alert("请先登录!");
-			return
-		}
-		var absolu = initialWord(); //line 375, display the message just sent || 前端展示刚刚发送消息, 374行
-		$.ajax({
-			url: "ser03", //java文件名 ser03
-			contentType: "application/x-www-form-urlencoded;charset:utf-8;",
-			type: "get", //post, send the parameter || post传递参数
-			data: { time: absolu[0], text: absolu[1], userName: User }, //send key:values data || 传递参数类型
-			async: false,
-			success: function (data) {
-				//get response from backend || 遍历数据 实现array
-				console.log("成功");
-				console.log(eval("(" + data + ")"));
-			},
-			error: function (e) {
-				console.log("出现错误:" + e);
-			}
-		});
-
-	})
-	//Display the message at chatting box once click the button || 前端立即响应发送消息event
+	}
+	//Function_piece 2: Display the message at chatting box once click the button || 前端立即响应发送消息event
 	function initialWord() {
 		var inppp = document.getElementsByTagName("input")[0];
 		var intime = initialTime();
@@ -425,12 +555,14 @@
 			content_time.attr("title", vipTitle);
 			content_time.children("span").attr("class", "vip")
 		}
-		$("#top>.chatting_messageBox").eq(-1).after(messageBox);
+		$("#top>.chatting_messageBox").eq(0).before(messageBox);
 		inppp.value = "";
 		// make scrollbar always bottom when sending message 让滚轮处于最底部
-		$("#top").scrollTop(10000);
+		$("#top").scrollTop(0);
 		return [intime, inpContent]
 	}
+
+	//Function_piece 3: initialize the time\生成时间
 	function initialTime() {
 		let dayTime = new Date();
 		let year = dayTime.getFullYear();
@@ -442,9 +574,50 @@
 		let time = year + "-" + month + "-" + day + "-" + hour + ":" + minute + ":" + second;
 		return time;
 	}
+	//Function_piece 4: Initialize the emoji tab\生成表情包库
+	function initialize_emoji_tab(){
+		var emoji = '😀😁😂😃😄😅😆😉😊😋😎😍😘😗😙😚😇😐😑😶😏😣😥😮😯😪😫😴😌😛😜😝😒😓😔😕😲😷😖😞😟😤😢😭😦😧😨😬😰😱😳😵😡😠😈👿👹👺💀👻👽👦👧👨👩👴👵👶👱👮👲👳👷👸💂🎅👰👼💆💇🙍🙎🙅🙆💁🙋🙇🙌🙏👤👥🚶🏃👯💃👫👬👭💏💑👪💪👈👉☝';
+		console.log("测试"+emoji.substring(0,2))
+		console.log("测试" + '😃')
+		for(var i=0;i<emoji.length;i+=2){
+			let emoji_singleword = emoji.substring(i,i + 2);
+			let chatting_emoji_singleword = $("<div class='chatting_input_emoji_singleword'>"+emoji_singleword+"</div>");
+			$(".chatting_input_emoji_tab_body").append(chatting_emoji_singleword);
+			console.log(emoji_singleword);
+		}
+	}
+	//clicking chatting_input_emoji show emoji tab
+	//点击emoji出现emoji提示库
+	//emoji提示词
+	$(".chatting_input_emoji").click(function () {
+		$(".chatting_input_emoji_tab").toggleClass("hide_element");
+		if ($(".chatting_input_emoji_logo").text() == '') {
+			$(".chatting_input_emoji_logo").text('')}
+		else {
+			$(".chatting_input_emoji_logo").text('')
+		}
+		$("input").focus();
+	})
+	$(".chatting_input_emoji_tab").bind("click", function(){
+		return false
+	})
+	//input will add the emoji which clicked
+	//点击哪个emoji，就添加哪个emoji
+	$(".chatting_input_emoji_tab_body").delegate(".chatting_input_emoji_singleword","click", function(){
+		if($("input").val() !='') {
+			let input_text = $("input").val() + $(this).text();
+			$("input").val(input_text);
+		}
+		else {
+			$("input").val($(this).text());
+		}
+		$("input").focus();
+	})
+
+
 	//some funny extension || 趣味测试
 	//jump to another webpage || 网页转换测试
-	$("#switch_webpage").click(function () {
+	$("button").eq(1).click(function () {
 		window.open("163.html");
 	})
 	//switch the user || 切换用户测试
@@ -476,4 +649,5 @@
 	})
 </script>
 </body>
+
 </html>

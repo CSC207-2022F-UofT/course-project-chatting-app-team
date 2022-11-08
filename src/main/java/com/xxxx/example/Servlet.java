@@ -1,6 +1,8 @@
 package com.xxxx.example;
 
 
+import database_connection.Database;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,5 +23,6 @@ public class Servlet extends HttpServlet {
         System.out.println("Hello!");
         //通过输出数据到浏览器
         resp.getWriter().write("Hello There!");
+        Database data = new Database("","");
     }
 }
