@@ -1,5 +1,5 @@
 <<<<<<< HEAD
-rootProject.name = 'demo'
-=======
 rootProject.name = 'springboot-course-priject'
->>>>>>> 55c22fe (hello, this is springboot)
+=======
+rootProject.name = 'demo'
+>>>>>>> da17e06 (init project)

@@ -1,0 +1,17 @@
+当你新建一个project时, terminal里依次输入:
+git init
+git add .
+git commit -m 'init project'
+git branch -M branch名      (branch名自己取)
+git remote add origin https://github.com/CSC207-2022F-UofT/course-project-dating-app-team.git
+
+git push -u origin springboot_branch
+
+如果发现最后一步出错，请点击commit，然后push，即成功
+
+
+<<<<<<< HEAD
+rootProject.name = 'springboot-course-priject'
+=======
+rootProject.name = 'demo'
+>>>>>>> da17e06 (init project)
