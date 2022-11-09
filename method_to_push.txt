@@ -25,3 +25,5 @@ https://blog.csdn.net/zhangbaidi_WinCE/article/details/108519673
 
 gradle bootrun运行springboot
 打开网址
+
+https://blog.csdn.net/u014074697/article/details/90205138
