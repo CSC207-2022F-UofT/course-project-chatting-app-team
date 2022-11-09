@@ -16,3 +16,12 @@ rootProject.name = 'springboot-course-priject'
 rootProject.name = 'demo'
 >>>>>>> da17e06 (init project)
 mmm
+
+出现release17 错误怎么办
+https://www.cjavapy.com/article/2566/
+
+如何运行springboot环境？
+https://blog.csdn.net/zhangbaidi_WinCE/article/details/108519673
+
+gradle bootrun运行springboot
+打开网址
