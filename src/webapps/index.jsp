@@ -7,11 +7,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<%--path for package upload to the server: cd usr/local/Tomcat8.5/webapps/k125--%>
+<!-- <%--path for package upload to the server: cd usr/local/Tomcat8.5/webapps/k125--%> -->
+
 <head>
 	<meta charset="utf-8">
 	<title></title>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://cdn.staticfile.org/vue/2.7.0/vue.min.js"></script>
 	<style>
 		/*Please take some time read this before writing CSS!
 		请用几分钟详细阅读后再书写CSS!
@@ -64,7 +66,7 @@
 		/* Whole Web CSS Setting 全局设定 */
 		* {
 			margin: 0px;
-
+			border: none;
 			list-style: none;
 			text-decoration: none;
 		}
@@ -83,6 +85,7 @@
 			font-style: normal;
 			font-display: block;
 		}
+
 		.hide_element {
 			display: none;
 		}
@@ -162,6 +165,148 @@
 			border-radius: 10px;
 		}
 
+		.chatting_post {
+			display: inline-block;
+			/* position: relative; */
+			margin: auto;
+			width: 100%;
+			/* height: 40%; */
+			background-color: transparent;
+			border: none;
+		}
+
+		.chatting_post_body {
+			/* position: absolute; */
+			/* left: 5%; */
+			/* top: 5%; */
+			margin-left:3%;
+			margin-top: 8%;
+			margin-bottom: 3%;
+			display: inline-block;
+			/* height: 90%; */
+			width: 90%;
+			border-radius: 10%;
+			overflow: hidden;
+			background-color: white;
+			border: none;
+			box-shadow: 6px 5px 10px rgb(164, 160, 160);
+		}
+		.chatting_post_body_para {
+			width: 90%;
+			margin-left: 5%;
+		}
+		.chatting_post_body_head {
+			float: left;
+			height: 136px;
+			width: 100%;
+			margin-top: 1%;
+			line-height: 136px;
+			background-color: white;
+		}
+		/* .chatting_post_header_block {
+			float: left;
+			display: inline-block;
+			height: 100%;
+			width: 10%;
+			background-color: white;
+		} */
+		.chatting_post_user_pic {
+			float: left;
+			height: 25%;
+			width: 110px;
+			background-color: white;
+		}
+		.user_photo {
+			width: 90px;
+			height: 90px;
+			margin-left: 2%;
+			margin-top: 20%;
+			border-radius: 45px;
+			background-color: gold;
+		}
+		.chatting_post_user_name {
+			font-size: 2.6em;
+			color: rgb(77, 71, 71);
+		}
+		.chatting_post_body_content {
+			width: 100%;
+			margin-bottom: 30px;
+			overflow: hidden;
+			background-color: white;
+		}
+		.chatting_post_body_content>p {
+			font-size: 2.3em;
+		}
+		.chatting_post_body_pictures {
+			display: inline-block;
+			width: 100%;
+			margin-bottom: 28px;
+			border-radius: 10%;
+			overflow: hidden;
+
+		}
+		.chatting_post_body_pictures>img {
+			float: left;
+			width: 49.5%;
+			height: 200px;
+			margin-bottom: 1%;
+			background-color: rgb(182, 131, 182);
+		}
+		.chatting_post_body_pictures>img:nth-child(2n-1){
+			margin-right: 1%;
+			background-color: blue;
+		}
+		.chatting_post_body_pictures>img:last-child {
+			margin-bottom: 0;
+			background-color: green;
+		}
+		.chatting_function_box {
+			margin-bottom: 60px;
+			width: 100%;
+			background-color: grey;
+		}
+		.chatting_post_time {
+			float: left;
+			margin-right: 11%;
+			color: rgb(187, 182, 182);
+			font-size: 2em;
+		}
+		.chatting_post_like {
+			float: left;
+			margin-right: 20%;
+			color: pink;
+			font-size: 2em;
+			font-family: 'icomoon';
+		}
+		.chatting_post_like>.chatting_post_like_count {
+			display: inline-block;
+			margin-left: 10px;
+
+			font-size: 1.2em;
+			color: blanchedalmond;
+		}
+		.chatting_post_delete {
+			float: left;
+			margin-right: 20%;
+			color: rgb(38, 38, 116);
+			font-size: 1.8em;
+		}
+		.chatting_post_reply_box {
+			margin-bottom: 58px;
+			border: 1px solid white;
+			background-color: rgb(168, 158, 158);
+		}
+		.chatting_post_reply_box>p {
+			font-size: 1.8em;
+		}
+		.chatting_post_reply_box>p:first-child {
+			margin-top: 3px;
+		}
+		.chatting_post_reply_history {
+			text-align: center;
+			font-size: 1.5em;
+			color: rgb(56, 56, 188);
+		}
 		/*chatting window 聊天窗口*/
 		.chatting_messageBox {
 			transition: 1s;
@@ -187,7 +332,6 @@
 		}
 
 		.chatting_messageBox>.userme {
-			display: inline-block;
 			margin-left: 50%;
 		}
 
@@ -244,6 +388,7 @@
 			font-size: 1.1em;
 			border-radius: 10px 10px;
 		}
+
 		/*emoji tab css style 表情符面板CSS样式*/
 		.chatting_input_emoji {
 			position: relative;
@@ -302,6 +447,7 @@
 			background-color: transparent;
 			cursor: pointer;
 		}
+
 		.chatting_input_emoji_tab_body>.chatting_input_emoji_singleword:hover {
 			background-color: grey;
 		}
@@ -339,6 +485,23 @@
 			width: 100%;
 			background-color: grey;
 		}
+
+		/* mobile end webpage alteration */
+		@media screen and (max-width: 980px) {
+			.chatting_app_left_side {
+				display: none;
+				background-color: grey;
+			}
+
+			.chatting_app_chatting_room {
+				width: 100%;
+			}
+
+			.chatting_app_right_side {
+				display: none;
+				background-color: black;
+			}
+		}
 	</style>
 </head>
 
@@ -369,6 +532,103 @@
 			<p class="timeline other">2022-10-31-10:46:42</p>
 			<p class="other">这是第一段话</p>
 		</div>
+
+		<!-- chatting post  -->
+		<div class="chatting_post">
+			<div class="chatting_post_body">
+				<div class="chatting_post_body_para">
+					<div class="chatting_post_body_head">
+						<div class="chatting_post_user_pic">
+							<div class="user_photo"></div>
+						</div>
+						<span class="chatting_post_user_name">Bruce</span>
+					</div>
+					<div class="chatting_post_body_content">
+						<p>我今天写不完论文了,太难受了</p>
+						<p>Robart走起!</p>
+					</div>
+					<div class="chatting_post_body_pictures">
+					</div>
+					<div class="chatting_function_box">
+						<span class="chatting_post_time">21 小时前</span>
+						<div class="chatting_post_like"><span class="chatting_post_like_count">20</span></div>
+						<span class="chatting_post_delete">删除</span>
+					</div>
+					<div class="chatting_post_reply_box">
+						<p><em>DingDing:</em>太惨了，论文啥玩意</p>
+						<p><em>Xiaobo:</em>哇，你在哪里</p>
+						<div class="chatting_post_reply_history">--查看历史记录<span>17</span>条--</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="chatting_post">
+			<div class="chatting_post_body">
+				<div class="chatting_post_body_para">
+					<div class="chatting_post_body_head">
+						<div class="chatting_post_user_pic">
+							<div class="user_photo"></div>
+						</div>
+						<span class="chatting_post_user_name">Mike</span>
+					</div>
+					<div class="chatting_post_body_content">
+						<p>大家好,我是Mike,我想说两句，今天的月色真美</p>
+						<p>月色真美，快看看月亮！</p>
+					</div>
+					<div class="chatting_post_body_pictures">
+						<img>
+						<img>
+						<img>
+					</div>
+					<div class="chatting_function_box">
+						<span class="chatting_post_time">21 小时前</span>
+						<div class="chatting_post_like"><span class="chatting_post_like_count">20</span></div>
+						<span class="chatting_post_delete">删除</span>
+					</div>
+					<div class="chatting_post_reply_box">
+						<p><em>Tianxianbaobao:</em>快看看月亮!</p>
+						<p><em>Tianxianbaobao:</em>快看看月亮!</p>
+						<div class="chatting_post_reply_history">--查看历史记录<span>17</span>条--</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="chatting_post_reach_out">
+			<div v-for="item in lala" class="chatting_post">
+				<div class="chatting_post_body">
+					<div class="chatting_post_body_para">
+						<div class="chatting_post_body_head">
+							<div class="chatting_post_user_pic">
+								<div class="user_photo"></div>
+							</div>
+							<span class="chatting_post_user_name">Mike</span>
+						</div>
+						<div class="chatting_post_body_content">
+							<p>大家好,我是Mike,我想说两句，今天的月色真美</p>
+							<p>月色真美，快看看月亮！</p>
+						</div>
+						<div class="chatting_post_body_pictures">
+							<img>
+							<img>
+							<img>
+						</div>
+						<div class="chatting_function_box">
+							<span class="chatting_post_time">21 小时前</span>
+							<div class="chatting_post_like"><span class="chatting_post_like_count">20</span></div>
+							<span class="chatting_post_delete">删除</span>
+						</div>
+						<div class="chatting_post_reply_box">
+							<p><em>Tianxianbaobao:</em>快看看月亮!</p>
+							<p><em>Tianxianbaobao:</em>快看看月亮!</p>
+							<div class="chatting_post_reply_history">--查看历史记录<span>17</span>条--</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
 	</div>
 	<div class="chatting_box" id="bottom">
 		<p>公共群群2</p>
@@ -402,7 +662,6 @@
 
 <!-- bottom side domain 底部边栏 -->
 <div class="chatting_app_bottom">
-
 </div>
 
 <!-- 代码部分(需要js文档与html分离) -->
@@ -432,12 +691,15 @@
 		//Function_piece 4: Initialize the emoji tab\生成表情包库
 		initialize_emoji_tab();
 
-		$("body").click(function(){
-			if ($(".chatting_input_emoji_tab").attr('class')=="chatting_input_emoji_tab"){
-				$(".chatting_input_emoji_tab").attr("class","chatting_input_emoji_tab hide_element");
+		$("body").click(function () {
+			if ($(".chatting_input_emoji_tab").attr('class') == "chatting_input_emoji_tab") {
+				$(".chatting_input_emoji_tab").attr("class", "chatting_input_emoji_tab hide_element");
+				var icomoon_arr = ['', '', '', '', '', '', '', '', '', ''];
+				var random = icomoon_arr[Math.floor((Math.random() * 10))];
+				$(".chatting_input_emoji_logo").text(random);
 			}
 		})
-		$(".chatting_input_emoji").bind("click",function(){
+		$(".chatting_input_emoji").bind("click", function () {
 			return false;
 		})
 	})
@@ -472,7 +734,7 @@
 	//Function piece part, definition of the function
 
 	//Function_piece 1: Function that show message history\此处function为展示历史记录
-	function display_message_history(){
+	function display_message_history() {
 		$.ajax({
 			type: "get",
 			url: "Servlet04", //Servlet04
@@ -575,13 +837,13 @@
 		return time;
 	}
 	//Function_piece 4: Initialize the emoji tab\生成表情包库
-	function initialize_emoji_tab(){
+	function initialize_emoji_tab() {
 		var emoji = '😀😁😂😃😄😅😆😉😊😋😎😍😘😗😙😚😇😐😑😶😏😣😥😮😯😪😫😴😌😛😜😝😒😓😔😕😲😷😖😞😟😤😢😭😦😧😨😬😰😱😳😵😡😠😈👿👹👺💀👻👽👦👧👨👩👴👵👶👱👮👲👳👷👸💂🎅👰👼💆💇🙍🙎🙅🙆💁🙋🙇🙌🙏👤👥🚶🏃👯💃👫👬👭💏💑👪💪👈👉☝';
-		console.log("测试"+emoji.substring(0,2))
+		console.log("测试" + emoji.substring(0, 2))
 		console.log("测试" + '😃')
-		for(var i=0;i<emoji.length;i+=2){
-			let emoji_singleword = emoji.substring(i,i + 2);
-			let chatting_emoji_singleword = $("<div class='chatting_input_emoji_singleword'>"+emoji_singleword+"</div>");
+		for (var i = 0; i < emoji.length; i += 2) {
+			let emoji_singleword = emoji.substring(i, i + 2);
+			let chatting_emoji_singleword = $("<div class='chatting_input_emoji_singleword'>" + emoji_singleword + "</div>");
 			$(".chatting_input_emoji_tab_body").append(chatting_emoji_singleword);
 			console.log(emoji_singleword);
 		}
@@ -592,19 +854,20 @@
 	$(".chatting_input_emoji").click(function () {
 		$(".chatting_input_emoji_tab").toggleClass("hide_element");
 		if ($(".chatting_input_emoji_logo").text() == '') {
-			$(".chatting_input_emoji_logo").text('')}
+			$(".chatting_input_emoji_logo").text('')
+		}
 		else {
 			$(".chatting_input_emoji_logo").text('')
 		}
 		$("input").focus();
 	})
-	$(".chatting_input_emoji_tab").bind("click", function(){
+	$(".chatting_input_emoji_tab").bind("click", function () {
 		return false
 	})
 	//input will add the emoji which clicked
 	//点击哪个emoji，就添加哪个emoji
-	$(".chatting_input_emoji_tab_body").delegate(".chatting_input_emoji_singleword","click", function(){
-		if($("input").val() !='') {
+	$(".chatting_input_emoji_tab_body").delegate(".chatting_input_emoji_singleword", "click", function () {
+		if ($("input").val() != '') {
 			let input_text = $("input").val() + $(this).text();
 			$("input").val(input_text);
 		}
@@ -646,6 +909,13 @@
 		document.cookie = 'userName=tianxianbaobao;expires=Fri, 04 Nov 2022 17:59:51 GMT';
 		User = "";
 		location.reload();
+	})
+	const x = new Vue({
+		el: ".chatting_post_reach_out",
+		data: {
+			lala: [1,2,3,4,5,6],
+			message: 'hello'
+		}
 	})
 </script>
 </body>
