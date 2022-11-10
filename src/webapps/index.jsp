@@ -528,10 +528,6 @@
 <!-- middle domain:chatting room 聊天室 -->
 <div class="chatting_app_chatting_room">
 	<div class="chatting_box" id="top">
-		<div class="chatting_messageBox">
-			<p class="timeline other">2022-10-31-10:46:42</p>
-			<p class="other">这是第一段话</p>
-		</div>
 
 		<!-- chatting post  -->
 		<div class="chatting_post">
@@ -595,27 +591,24 @@
 		</div>
 
 		<div class="chatting_post_reach_out">
-			<div v-for="item in lala" class="chatting_post">
+			<div v-for="post in posts" class="chatting_post">
 				<div class="chatting_post_body">
 					<div class="chatting_post_body_para">
 						<div class="chatting_post_body_head">
 							<div class="chatting_post_user_pic">
 								<div class="user_photo"></div>
 							</div>
-							<span class="chatting_post_user_name">Mike</span>
+							<span class="chatting_post_user_name">{{ post.user }}</span>
 						</div>
 						<div class="chatting_post_body_content">
-							<p>大家好,我是Mike,我想说两句，今天的月色真美</p>
-							<p>月色真美，快看看月亮！</p>
+							<p>{{ post.message }}</p>
 						</div>
 						<div class="chatting_post_body_pictures">
-							<img>
-							<img>
-							<img>
+							<img v-for="picture in post.img">
 						</div>
 						<div class="chatting_function_box">
 							<span class="chatting_post_time">21 小时前</span>
-							<div class="chatting_post_like"><span class="chatting_post_like_count">20</span></div>
+							<div class="chatting_post_like"><span class="chatting_post_like_count">{{ post.liked.length }}</span></div>
 							<span class="chatting_post_delete">删除</span>
 						</div>
 						<div class="chatting_post_reply_box">
@@ -632,10 +625,6 @@
 	</div>
 	<div class="chatting_box" id="bottom">
 		<p>公共群群2</p>
-		<div class="chatting_messageBox">
-			<p class="timeline">2022-10-31-10:46:42</p>
-			<p class="other">这是第二段话</p>
-		</div>
 	</div>
 	<div class="chatting_input_box">
 		<div class="chatting_input_function"></div>
@@ -735,7 +724,8 @@
 
 	//Function_piece 1: Function that show message history\此处function为展示历史记录
 	function display_message_history() {
-		$.ajax({
+		let list_of_all_posts = [];
+        $.ajax({
 			type: "get",
 			url: "Servlet04", //Servlet04
 			async: false,
@@ -744,52 +734,68 @@
 				console.log(data);
 				let messageArr = data.split("tbs010143fniwufwifnj+)4733&3uoghqgushvsjcvbjbke3bfb34uofuvhduvwb1=f");
 				console.log(messageArr);
-				for (var i = messageArr.length - 2; i >= 0; i--) {
+				for (var i = 0; i <= messageArr.length - 2; i++) {
+					//Vue data
+					let list_of_post = {};
+					list_of_post["id"] = ''
+					list_of_post["message"] = '';
+					list_of_post["liked"] = [];
+					list_of_post["user"] = '';
+					list_of_post["userme"] = false;
+					list_of_post["time"] = '';
+					list_of_post["img"] = [];
+					list_of_post["reply"] = [];
+					list_of_post["user_pic"] = '';
+					// list_of_post = {id = string,message:string,liked:[],user:string,userme:'',time:string,img:[],reply:[],user_pic:string}
+
 					//turn each element in array to json type || 转化成json形式
 					let messageJson = eval("(" + messageArr[i] + ")");
 					//distinguish other user and "me" || 根据用户名生成，区别“其他用户”和“我”
 					let messageClass = 'other'
+					let userme = false;
 					//set the user name tag || 设置UserTag(姓名牌)
 					let userTag = messageJson.user_nickname;
 					//if this message is sent by "me" || 如果是user本人发送的信息
 					if (messageJson.user_nickname == User) {
-						messageClass = "userme"
-						userTag = "Me"
+						messageClass = "userme";
+						userTag = "Me";
+						userme = true;
 					}
-					//build div element || 创建盒子元素
-					let messageBox = $("<div class='chatting_messageBox'></div>");
-					//build text element, put history message || 创建文本元素
-					let message = $("<p class =" + messageClass + ">" + messageJson.content + "</p>");
-					//record the time send the element || 创建时间元素
-					let time = $("<p>" + messageJson.created_on + " <span>(" + userTag + ")<span></p>");
-					//append message element and time element into div element || 盒子中塞入文本和时间元素
-					messageBox.append(time);
-					messageBox.append(message);
+
+					//Vue data bind
+					list_of_post.message = messageJson.content;
+					list_of_post.time = messageJson.created_on;
+					list_of_post.user = messageJson.user_nickname;
+					list_of_post.userme = userme;
+					list_of_post.id = messageJson._id;
+					list_of_post.reply = messageJson.replies;
+					// test
+					// console.log(list_of_post);
+					// console.log(messageJson.content);
+					// console.log(messageJson.created_on);
+					// console.log(messageJson._id)
+					// console.log(messageJson.replies);
+					list_of_all_posts[i] = list_of_post;
 
 					//This is just for fun || 一下纯属娱乐,vip + title标签测试
-					if (messageJson.user_nickname == "tianxianbaobao") {
-						let vipTitle = "这是尊贵的VIP用户"
-						time.attr("title", vipTitle);
-						time.children("span").attr("class", "vip")
-					}
-					if (messageJson.user_nickname == "bruce_liu") {
-						let descriptiveTitle = "这是个写不完论文的废物"
-						time.attr("title", descriptiveTitle);
-					}
-					if (messageJson.user_nickname == "Dai") {
-						let descriptiveTitle = "这是高级数据工程师 + shuaibi"
-						time.attr("title", descriptiveTitle);
-					}
-					time.attr("class", "timeline " + messageClass);
-
-					//创建昵称元素(弃用)
-					let nickname = $("<p class =" + messageClass + ">" + messageJson.user_nickname + "</p>")
-					$("#top>div").eq(0).before(messageBox);
-
+					// if (messageJson.user_nickname == "tianxianbaobao") {
+					// 	let vipTitle = "这是尊贵的VIP用户"
+					// 	time.attr("title", vipTitle);
+					// 	time.children("span").attr("class", "vip")
+					// }
+					// if (messageJson.user_nickname == "bruce_liu") {
+					// 	let descriptiveTitle = "这是个写不完论文的废物"
+					// 	time.attr("title", descriptiveTitle);
+					// }
+					// if (messageJson.user_nickname == "Dai") {
+					// 	let descriptiveTitle = "这是高级数据工程师 + shuaibi"
+					// 	time.attr("title", descriptiveTitle);
+					// }
 
 				}
 				//Make the scrollbar bottom || 让滚动条处于最底部(最底部展示最新消息)
 				$("#top").scrollTop(0);
+				console.log(list_of_all_posts);
 			},
 			error: function (e) {
 				//If request history message fails, return error || 如果请求失败,返回错误问题
@@ -797,6 +803,7 @@
 				console.log("Error occur!");
 			}
 		});
+		return list_of_all_posts;
 	}
 	//Function_piece 2: Display the message at chatting box once click the button || 前端立即响应发送消息event
 	function initialWord() {
@@ -913,8 +920,10 @@
 	const x = new Vue({
 		el: ".chatting_post_reach_out",
 		data: {
-			lala: [1,2,3,4,5,6],
-			message: 'hello'
+			posts: display_message_history()
+		},
+		computed: {
+
 		}
 	})
 </script>
