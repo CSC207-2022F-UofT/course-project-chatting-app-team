@@ -191,6 +191,9 @@
 			border: none;
 			box-shadow: 6px 5px 10px rgb(164, 160, 160);
 		}
+		.chatting_post>.chatting_post_shadow {
+			box-shadow: inset 6px 5px 10px rgb(164, 160, 160);
+		}
 		.chatting_post_body_para {
 			width: 90%;
 			margin-left: 5%;
@@ -201,7 +204,7 @@
 			width: 100%;
 			margin-top: 1%;
 			line-height: 136px;
-			background-color: white;
+			background-color: transparent;
 		}
 		/* .chatting_post_header_block {
 			float: left;
@@ -214,7 +217,7 @@
 			float: left;
 			height: 25%;
 			width: 110px;
-			background-color: white;
+			background-color: transparent;
 		}
 		.user_photo {
 			width: 90px;
@@ -232,7 +235,7 @@
 			width: 100%;
 			margin-bottom: 30px;
 			overflow: hidden;
-			background-color: white;
+			background-color: transparent;
 		}
 		.chatting_post_body_content>p {
 			font-size: 2.3em;
@@ -529,7 +532,36 @@
 <div class="chatting_app_chatting_room">
 	<div class="chatting_box" id="top">
 
-		<!-- chatting post  -->
+		<div class="chatting_post_reach_out">
+			<div v-for="post in posts" class="chatting_post">
+				<div :class='["chatting_post_body", {"chatting_post_shadow":post_shadow}]' :id="post._id" @mousedown="change_shadow" @mouseup="change_shadow">
+					<div class="chatting_post_body_para">
+						<div class="chatting_post_body_head">
+							<div class="chatting_post_user_pic">
+								<div class="user_photo"></div>
+							</div>
+							<span class="chatting_post_user_name">{{ post.user }}</span>
+						</div>
+						<div class="chatting_post_body_content">
+							<p>{{ post.message }}</p>
+						</div>
+						<div class="chatting_post_body_pictures">
+							<img v-for="picture in post.img">
+						</div>
+						<div class="chatting_function_box">
+							<span class="chatting_post_time">21 小时前</span>
+							<div class="chatting_post_like"><span class="chatting_post_like_count">{{ post.liked.length }}</span></div>
+							<span v-if="post.userme" class="chatting_post_delete">删除</span>
+						</div>
+						<div v-if="post.has_reply" class="chatting_post_reply_box">
+							<p v-for="reply in post.replies"><em>Tianxianbaobao:</em>{{ reply }}</p>
+							<div class="chatting_post_reply_history">--查看历史记录<span>{{ post.replies.length }}</span>条--</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- chatting post two example -->
 		<div class="chatting_post">
 			<div class="chatting_post_body">
 				<div class="chatting_post_body_para">
@@ -589,39 +621,6 @@
 				</div>
 			</div>
 		</div>
-
-		<div class="chatting_post_reach_out">
-			<div v-for="post in posts" class="chatting_post">
-				<div class="chatting_post_body">
-					<div class="chatting_post_body_para">
-						<div class="chatting_post_body_head">
-							<div class="chatting_post_user_pic">
-								<div class="user_photo"></div>
-							</div>
-							<span class="chatting_post_user_name">{{ post.user }}</span>
-						</div>
-						<div class="chatting_post_body_content">
-							<p>{{ post.message }}</p>
-						</div>
-						<div class="chatting_post_body_pictures">
-							<img v-for="picture in post.img">
-						</div>
-						<div class="chatting_function_box">
-							<span class="chatting_post_time">21 小时前</span>
-							<div class="chatting_post_like"><span class="chatting_post_like_count">{{ post.liked.length }}</span></div>
-							<span class="chatting_post_delete">删除</span>
-						</div>
-						<div class="chatting_post_reply_box">
-							<p><em>Tianxianbaobao:</em>快看看月亮!</p>
-							<p><em>Tianxianbaobao:</em>快看看月亮!</p>
-							<div class="chatting_post_reply_history">--查看历史记录<span>17</span>条--</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-
 	</div>
 	<div class="chatting_box" id="bottom">
 		<p>公共群群2</p>
@@ -667,32 +666,17 @@
 
 		//Function_piece 1: display the message history || loading界面时，获取并展示历史消息
 		display_message_history();
-		//Switch the chatting box when click this button || 点击切换版面
-		$("#switch_chatting_box").click(function () {
-			let user1 = $('#top');
-			let user2 = $('#bottom');
-			user1.attr("id", "bottom");
-			user2.attr("id", "top");
-			console.log("测试一下")
-			console.log(user1);
-			console.log(user2);
-		});
+
 		//Function_piece 4: Initialize the emoji tab\生成表情包库
 		initialize_emoji_tab();
 
-		$("body").click(function () {
-			if ($(".chatting_input_emoji_tab").attr('class') == "chatting_input_emoji_tab") {
-				$(".chatting_input_emoji_tab").attr("class", "chatting_input_emoji_tab hide_element");
-				var icomoon_arr = ['', '', '', '', '', '', '', '', '', ''];
-				var random = icomoon_arr[Math.floor((Math.random() * 10))];
-				$(".chatting_input_emoji_logo").text(random);
-			}
-		})
-		$(".chatting_input_emoji").bind("click", function () {
-			return false;
-		})
 	})
-	//Send message when click this button || 点击按钮发送消息
+
+
+
+	// Event part, 1. click
+
+	//Send message when clicking this button || 点击按钮发送消息
 	$(".chatting_input_submit").click(function () {
 		// 传递数据
 		//如果没登陆，那么不能发送信息
@@ -702,15 +686,17 @@
 		}
 		var absolu = initialWord(); //line 375, display the message just sent || 前端展示刚刚发送消息, 374行
 		$.ajax({
-			url: "ser03", //java文件名 ser03
+			url: "ser05", //java文件名 ser03
 			contentType: "application/x-www-form-urlencoded;charset:utf-8;",
 			type: "get", //post, send the parameter || post传递参数
 			data: { time: absolu[0], text: absolu[1], userName: User }, //send key:values data || 传递参数类型
 			async: false,
 			success: function (data) {
-				//get response from backend || 遍历数据 实现array
-				console.log("成功");
-				console.log(eval("(" + data + ")"));
+				console.log(data);
+				let messageArr = data.split("tbs010143fniwufwifnj+)4733&3uoghqgushvsjcvbjbke3bfb34uofuvhduvwb1=f");
+				new_post = form_post(messageArr,0);
+				console.log(new_post);
+				post_block.posts.unshift(new_post);
 			},
 			error: function (e) {
 				console.log("出现错误:" + e);
@@ -719,6 +705,82 @@
 		// Form emoji word 生成emoji
 
 	})
+
+	//Switch the chatting box when click this button || 点击切换版面
+	$("#switch_chatting_box").click(function () {
+		let user1 = $('#top');
+		let user2 = $('#bottom');
+		user1.attr("id", "bottom");
+		user2.attr("id", "top");
+		console.log("测试一下")
+		console.log(user1);
+		console.log(user2);
+	});
+
+	//Response to the click of the body element
+	$("body").click(function () {
+		if ($(".chatting_input_emoji_tab").attr('class') == "chatting_input_emoji_tab") {
+			$(".chatting_input_emoji_tab").attr("class", "chatting_input_emoji_tab hide_element");
+			var icomoon_arr = ['', '', '', '', '', '', '', '', '', ''];
+			var random = icomoon_arr[Math.floor((Math.random() * 10))];
+			$(".chatting_input_emoji_logo").text(random);
+		}
+	})
+	$(".chatting_input_emoji").bind("click", function () {
+		return false;
+	})
+
+	//clicking chatting_input_emoji show emoji tab
+	//点击emoji出现emoji提示库
+	//emoji提示词
+	$(".chatting_input_emoji").click(function () {
+		$(".chatting_input_emoji_tab").toggleClass("hide_element");
+		if ($(".chatting_input_emoji_logo").text() == '') {
+			$(".chatting_input_emoji_logo").text('')
+		}
+		else {
+			$(".chatting_input_emoji_logo").text('')
+		}
+		$("input").focus();
+	})
+	$(".chatting_input_emoji_tab").bind("click", function () {
+		return false
+	})
+	//input will add the emoji which clicked
+	//点击哪个emoji，就添加哪个emoji
+	$(".chatting_input_emoji_tab_body").delegate(".chatting_input_emoji_singleword", "click", function () {
+		if ($("input").val() != '') {
+			let input_text = $("input").val() + $(this).text();
+			$("input").val(input_text);
+		}
+		else {
+			$("input").val($(this).text());
+		}
+		$("input").focus();
+	})
+
+	//Click this button to switch the user || 切换用户测试
+	$("#switch").click(function () {
+		document.cookie = 'userName=tianxianbaobao;expires=Fri, 04 Nov 2022 17:59:51 GMT'
+		let User = prompt("请输入你想切换的NickName");
+		let r = /\W/;
+		while (User.search(r) != -1) {
+			User = prompt("NickName中不能出现数字和字母以外的符号!请重新输入");
+			document.cookie = "userName=" + User;
+		}
+		if ($.trim(User) == '') alert("登录失败,不能输入空白！");
+		document.cookie = 'userName=' + User;
+		location.reload();
+	})
+
+	//Click this button to exit from this user || 退出web
+	$("#logout").on("click", function () {
+		document.cookie = 'userName=tianxianbaobao;expires=Fri, 04 Nov 2022 17:59:51 GMT';
+		User = "";
+		location.reload();
+	})
+
+
 
 	//Function piece part, definition of the function
 
@@ -736,46 +798,8 @@
 				console.log(messageArr);
 				for (var i = 0; i <= messageArr.length - 2; i++) {
 					//Vue data
-					let list_of_post = {};
-					list_of_post["id"] = ''
-					list_of_post["message"] = '';
-					list_of_post["liked"] = [];
-					list_of_post["user"] = '';
-					list_of_post["userme"] = false;
-					list_of_post["time"] = '';
-					list_of_post["img"] = [];
-					list_of_post["reply"] = [];
-					list_of_post["user_pic"] = '';
-					// list_of_post = {id = string,message:string,liked:[],user:string,userme:'',time:string,img:[],reply:[],user_pic:string}
 
-					//turn each element in array to json type || 转化成json形式
-					let messageJson = eval("(" + messageArr[i] + ")");
-					//distinguish other user and "me" || 根据用户名生成，区别“其他用户”和“我”
-					let messageClass = 'other'
-					let userme = false;
-					//set the user name tag || 设置UserTag(姓名牌)
-					let userTag = messageJson.user_nickname;
-					//if this message is sent by "me" || 如果是user本人发送的信息
-					if (messageJson.user_nickname == User) {
-						messageClass = "userme";
-						userTag = "Me";
-						userme = true;
-					}
-
-					//Vue data bind
-					list_of_post.message = messageJson.content;
-					list_of_post.time = messageJson.created_on;
-					list_of_post.user = messageJson.user_nickname;
-					list_of_post.userme = userme;
-					list_of_post.id = messageJson._id;
-					list_of_post.reply = messageJson.replies;
-					// test
-					// console.log(list_of_post);
-					// console.log(messageJson.content);
-					// console.log(messageJson.created_on);
-					// console.log(messageJson._id)
-					// console.log(messageJson.replies);
-					list_of_all_posts[i] = list_of_post;
+					list_of_all_posts[i] = form_post(messageArr, i);
 
 					//This is just for fun || 一下纯属娱乐,vip + title标签测试
 					// if (messageJson.user_nickname == "tianxianbaobao") {
@@ -814,17 +838,6 @@
 			inpContent = "[空白文字no]"
 		}
 		//此处代码有耦合，注意优化
-		var messageBox = $("<div class='chatting_messageBox'></div>")
-		var content = $('<p class= "userme">' + inpContent + '</p>');
-		var content_time = $('<p class = "timeline userme">' + intime + '<span>(Me)</span></p>');
-		messageBox.append(content_time);
-		messageBox.append(content);
-		if (User == "tianxianbaobao") {
-			let vipTitle = "这是尊贵的VIP用户"
-			content_time.attr("title", vipTitle);
-			content_time.children("span").attr("class", "vip")
-		}
-		$("#top>.chatting_messageBox").eq(0).before(messageBox);
 		inppp.value = "";
 		// make scrollbar always bottom when sending message 让滚轮处于最底部
 		$("#top").scrollTop(0);
@@ -855,54 +868,56 @@
 			console.log(emoji_singleword);
 		}
 	}
-	//clicking chatting_input_emoji show emoji tab
-	//点击emoji出现emoji提示库
-	//emoji提示词
-	$(".chatting_input_emoji").click(function () {
-		$(".chatting_input_emoji_tab").toggleClass("hide_element");
-		if ($(".chatting_input_emoji_logo").text() == '') {
-			$(".chatting_input_emoji_logo").text('')
-		}
-		else {
-			$(".chatting_input_emoji_logo").text('')
-		}
-		$("input").focus();
-	})
-	$(".chatting_input_emoji_tab").bind("click", function () {
-		return false
-	})
-	//input will add the emoji which clicked
-	//点击哪个emoji，就添加哪个emoji
-	$(".chatting_input_emoji_tab_body").delegate(".chatting_input_emoji_singleword", "click", function () {
-		if ($("input").val() != '') {
-			let input_text = $("input").val() + $(this).text();
-			$("input").val(input_text);
-		}
-		else {
-			$("input").val($(this).text());
-		}
-		$("input").focus();
-	})
+	//Function_piece 5: Arrange the data to dictionary type
+	function form_post(messageArray, n){
+		let list_of_post = {};
+		list_of_post["id"] = ''
+		list_of_post["message"] = '';
+		list_of_post["liked"] = [];
+		list_of_post["user"] = '';
+		list_of_post["userme"] = false;
+		list_of_post["time"] = '';
+		list_of_post["img"] = [];
+		list_of_post["reply"] = [];
+		list_of_post["has_reply"] = false;
+		list_of_post["user_pic"] = '';
 
+		// should be like this: list_of_post = {id = string,message:string,liked:[],user:string,userme:'',time:string,img:[],reply:[],user_pic:string}
+
+		//turn each element in array to json type || 转化成json形式
+		let messageJson = eval("(" + messageArray[n] + ")");
+		//distinguish other user and "me" || 根据用户名生成，区别“其他用户”和“我”
+		let messageClass = 'other'
+		let userme = false;
+		//if this message is sent by "me" || 如果是user本人发送的信息
+		if (messageJson.user_nickname == User) {
+			userme = true;
+		}
+		if(messageJson.replies.length > 0){
+			list_of_post.has_reply = true;
+		}
+		else {
+			list_of_post.has_reply = false;
+		}
+
+		//Vue data bind
+		list_of_post.message = messageJson.content;
+		list_of_post.time = messageJson.created_on;
+		list_of_post.user = messageJson.user_nickname;
+		list_of_post.userme = userme;
+		list_of_post.id = messageJson._id;
+		list_of_post.reply = messageJson.replies;
+		// test
+		// console.log(list_of_post);
+		// console.log(messageJson.content);
+		// console.log(messageJson.created_on);
+		// console.log(messageJson._id)
+		// console.log(messageJson.replies);
+		return list_of_post;
+	}
 
 	//some funny extension || 趣味测试
-	//jump to another webpage || 网页转换测试
-	$("button").eq(1).click(function () {
-		window.open("163.html");
-	})
-	//switch the user || 切换用户测试
-	$("#switch").click(function () {
-		document.cookie = 'userName=tianxianbaobao;expires=Fri, 04 Nov 2022 17:59:51 GMT'
-		let User = prompt("请输入你想切换的NickName");
-		let r = /\W/;
-		while (User.search(r) != -1) {
-			User = prompt("NickName中不能出现数字和字母以外的符号!请重新输入");
-			document.cookie = "userName=" + User;
-		}
-		if ($.trim(User) == '') alert("登录失败,不能输入空白！");
-		document.cookie = 'userName=' + User;
-		location.reload();
-	})
+
 	//when user login, check if user spell right username || 检查用户拼写规范(还未使用)
 	function checkUser() {
 		let r = /\W/;
@@ -911,19 +926,32 @@
 			document.cookie = "userName=" + User;
 		}
 	}
-	//exit from this user || 退出web
-	$("#logout").on("click", function () {
-		document.cookie = 'userName=tianxianbaobao;expires=Fri, 04 Nov 2022 17:59:51 GMT';
-		User = "";
-		location.reload();
-	})
-	const x = new Vue({
+
+	const post_block = new Vue({
 		el: ".chatting_post_reach_out",
 		data: {
-			posts: display_message_history()
+			posts: display_message_history(),
+			post_shadow: false
+		},
+		methods: {
+			change_shadow: function(){
+				if(this.post_shadow){
+					this.post_shadow = false;
+				}
+				else{
+					this.post_shadow = true;
+				}
+			}
 		},
 		computed: {
-
+			check_replies: function (){
+				if (this.posts.replies.length > 0){
+					return true
+				}
+				else {
+					return false
+				}
+			}
 		}
 	})
 </script>
