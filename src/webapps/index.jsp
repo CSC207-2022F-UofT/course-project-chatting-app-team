@@ -11,6 +11,7 @@
 
 <head>
 	<meta charset="utf-8">
+	<meta name="google-site-verification" content="voj8Ol_S-ikM2atkCkB7B1yjKW-pDuJVGq2cMi403h0" />
 	<title></title>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://cdn.staticfile.org/vue/2.7.0/vue.min.js"></script>
@@ -509,6 +510,7 @@
 </head>
 
 <body>
+
 <!-- Five domain 五大板块 -->
 
 <!-- Header domain 头部栏 -->
@@ -534,7 +536,7 @@
 
 		<div class="chatting_post_reach_out">
 			<div v-for="post in posts" class="chatting_post">
-				<div :class='["chatting_post_body", {"chatting_post_shadow":post_shadow}]' :id="post._id" @mousedown="change_shadow" @mouseup="change_shadow">
+				<div :class='["chatting_post_body", {"chatting_post_shadow":post.post_shadow}]' :id="post.id" @mousedown="change_shadow($event)" @mouseup="change_shadow($event)">
 					<div class="chatting_post_body_para">
 						<div class="chatting_post_body_head">
 							<div class="chatting_post_user_pic">
@@ -654,22 +656,35 @@
 
 <!-- 代码部分(需要js文档与html分离) -->
 <script>
-	var User; //Prepare to request User information || 准备获取User信息
 	// jq framework language || jq语法: $(function(){}) || Immediately execute these function ||刷新时立即响应
 	$(function () {
-		//acquier the User information||获取用户信息
-		//get the cookie if user already login||cookie设置,因为安全问题之后需要清除重写
-		let cookieIndex = document.cookie.indexOf("userName");
-		User = document.cookie.substring(cookieIndex + 9);
-		if (User != '') $("#LoginUser").text(User);
-
-
-		//Function_piece 1: display the message history || loading界面时，获取并展示历史消息
-		display_message_history();
-
+		var User;
 		//Function_piece 4: Initialize the emoji tab\生成表情包库
 		initialize_emoji_tab();
+		console.log("this should be run first")
+	})
 
+	// Vue part, post box data
+	const post_block = new Vue({
+		el: ".chatting_post_reach_out",
+		data: {
+			posts: display_message_history()
+		},
+		methods: {
+			change_shadow: function(e){
+
+			}
+		},
+		computed: {
+			check_replies: function (){
+				if (this.posts.replies.length > 0){
+					return true
+				}
+				else {
+					return false
+				}
+			}
+		}
 	})
 
 
@@ -792,6 +807,7 @@
 			url: "Servlet04", //Servlet04
 			async: false,
 			success: function (data) {
+				User = acquire_user();
 				//turn data to array type || 将数据转换成数组
 				console.log(data);
 				let messageArr = data.split("tbs010143fniwufwifnj+)4733&3uoghqgushvsjcvbjbke3bfb34uofuvhduvwb1=f");
@@ -859,13 +875,13 @@
 	//Function_piece 4: Initialize the emoji tab\生成表情包库
 	function initialize_emoji_tab() {
 		var emoji = '😀😁😂😃😄😅😆😉😊😋😎😍😘😗😙😚😇😐😑😶😏😣😥😮😯😪😫😴😌😛😜😝😒😓😔😕😲😷😖😞😟😤😢😭😦😧😨😬😰😱😳😵😡😠😈👿👹👺💀👻👽👦👧👨👩👴👵👶👱👮👲👳👷👸💂🎅👰👼💆💇🙍🙎🙅🙆💁🙋🙇🙌🙏👤👥🚶🏃👯💃👫👬👭💏💑👪💪👈👉☝';
-		console.log("测试" + emoji.substring(0, 2))
-		console.log("测试" + '😃')
+		// console.log("测试" + emoji.substring(0, 2))
+		// console.log("测试" + '😃')
 		for (var i = 0; i < emoji.length; i += 2) {
 			let emoji_singleword = emoji.substring(i, i + 2);
 			let chatting_emoji_singleword = $("<div class='chatting_input_emoji_singleword'>" + emoji_singleword + "</div>");
 			$(".chatting_input_emoji_tab_body").append(chatting_emoji_singleword);
-			console.log(emoji_singleword);
+			// console.log(emoji_singleword);
 		}
 	}
 	//Function_piece 5: Arrange the data to dictionary type
@@ -881,6 +897,7 @@
 		list_of_post["reply"] = [];
 		list_of_post["has_reply"] = false;
 		list_of_post["user_pic"] = '';
+		list_of_post["post_shadow"] = false;
 
 		// should be like this: list_of_post = {id = string,message:string,liked:[],user:string,userme:'',time:string,img:[],reply:[],user_pic:string}
 
@@ -890,6 +907,8 @@
 		let messageClass = 'other'
 		let userme = false;
 		//if this message is sent by "me" || 如果是user本人发送的信息
+		console.log("测试"+User)
+		console.log("测试"+messageJson.user_nickname);
 		if (messageJson.user_nickname == User) {
 			userme = true;
 		}
@@ -899,12 +918,14 @@
 		else {
 			list_of_post.has_reply = false;
 		}
+		console.log("测试"+userme);
 
 		//Vue data bind
 		list_of_post.message = messageJson.content;
 		list_of_post.time = messageJson.created_on;
 		list_of_post.user = messageJson.user_nickname;
 		list_of_post.userme = userme;
+		console.log("测试"+list_of_post.userme);
 		list_of_post.id = messageJson._id;
 		list_of_post.reply = messageJson.replies;
 		// test
@@ -914,6 +935,25 @@
 		// console.log(messageJson._id)
 		// console.log(messageJson.replies);
 		return list_of_post;
+	}
+
+	//function piece 6 First to check the User
+	function acquire_user(){
+		let User;
+		//acquier the User information||获取用户信息
+		//get the cookie if user already login||cookie设置,因为安全问题之后需要清除重写
+		let cookieIndex = document.cookie.indexOf("userName");
+		let nextcookie = document.cookie.indexOf(";",cookieIndex + 9);
+		if (cookieIndex != -1)
+		{
+			if (nextcookie != -1) {User = document.cookie.substring(cookieIndex + 9, nextcookie);}
+			else {User = document.cookie.substring(cookieIndex + 9);}
+		}
+		else {
+			User = '';
+		}
+		if (User != '') $("#LoginUser").text(User);
+		return User;
 	}
 
 	//some funny extension || 趣味测试
@@ -927,33 +967,6 @@
 		}
 	}
 
-	const post_block = new Vue({
-		el: ".chatting_post_reach_out",
-		data: {
-			posts: display_message_history(),
-			post_shadow: false
-		},
-		methods: {
-			change_shadow: function(){
-				if(this.post_shadow){
-					this.post_shadow = false;
-				}
-				else{
-					this.post_shadow = true;
-				}
-			}
-		},
-		computed: {
-			check_replies: function (){
-				if (this.posts.replies.length > 0){
-					return true
-				}
-				else {
-					return false
-				}
-			}
-		}
-	})
 </script>
 </body>
 
