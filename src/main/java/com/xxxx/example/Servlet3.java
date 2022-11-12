@@ -33,7 +33,7 @@ public class Servlet3 extends HttpServlet {
 
 
         //上传到数据库 commit前请不要暴露地址
-        Database myDatabase = new Database("<connection string goes here>", "DatingAppStaging");
+        Database myDatabase = new Database("", "DatingAppStaging");
         myDatabase.insert_post(userName, get);
         List<Document> doc2 = myDatabase.find_latest_posts(1);
 

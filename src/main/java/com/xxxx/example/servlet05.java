@@ -17,8 +17,9 @@ public class servlet05 extends HttpServlet {
         String get = req.getParameter("text");
         String userName = req.getParameter("userName");
 
-        Database myDatabase = new Database("<connection string goes here>", "DatingAppStaging");
+        Database myDatabase = new Database("", "DatingAppStaging");
         myDatabase.insert_post(userName, get);
         req.getRequestDispatcher("/ser06").forward(req,resp);
     }
 }
+
