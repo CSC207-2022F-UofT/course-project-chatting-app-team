@@ -15,6 +15,7 @@
 	<title></title>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://cdn.staticfile.org/vue/2.7.0/vue.min.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<style>
 		/*Please take some time read this before writing CSS!
 		请用几分钟详细阅读后再书写CSS!
@@ -552,8 +553,8 @@
 						</div>
 						<div class="chatting_function_box">
 							<span class="chatting_post_time">21 小时前</span>
-							<div class="chatting_post_like"><span class="chatting_post_like_count">{{ post.liked.length }}</span></div>
-							<span v-if="post.userme" class="chatting_post_delete">删除</span>
+							<div class="chatting_post_like"><span class="chatting_post_like_count">{{ post.liked.length }}</span></div>
+							<span v-if="post.userme" class="chatting_post_delete" @click="deletePost">删除</span>
 						</div>
 						<div v-if="post.has_reply" class="chatting_post_reply_box">
 							<p v-for="reply in post.replies"><em>Tianxianbaobao:</em>{{ reply }}</p>
@@ -581,7 +582,7 @@
 					</div>
 					<div class="chatting_function_box">
 						<span class="chatting_post_time">21 小时前</span>
-						<div class="chatting_post_like"><span class="chatting_post_like_count">20</span></div>
+						<div class="chatting_post_like"><span class="chatting_post_like_count">20</span></div>
 						<span class="chatting_post_delete">删除</span>
 					</div>
 					<div class="chatting_post_reply_box">
@@ -672,6 +673,26 @@
 		},
 		methods: {
 			change_shadow: function(e){
+
+			},
+			deletePost: function(e){
+				let current_id = e.currentTarget.parentElement.parentElement.parentElement.getAttribute("id");
+				let status;
+				axios.get('listenDelete',{params: {current_user:User,delete_id:current_id}}).then(function(res){
+					status = res.data;
+					if(status =="success"){
+						for (let i = 0; i < post_block.posts.length; i++){
+							if (post_block.posts[i]["id"] == current_id) {
+								post_block.posts.splice(i,1);
+							}
+						}
+					}
+					else {
+						alert("fail to delete!!!");
+					}
+				});
+			},
+			post_liked: function(){
 
 			}
 		},
@@ -793,6 +814,11 @@
 		document.cookie = 'userName=tianxianbaobao;expires=Fri, 04 Nov 2022 17:59:51 GMT';
 		User = "";
 		location.reload();
+	})
+
+	//Click delete button to delete the post
+	$(".chatting_post_delete").click(function(){
+		console.log($(this).parent().parent().parent());
 	})
 
 
