@@ -64,5 +64,8 @@ public class database_usage_example {
 
         //test for unlike
         myDatabase.unlike("123asdf", "3f653fa3-45d6-45c6-9382-cf9272baad21");
+
+        //test for delete_post_by_id
+        myDatabase.delete_post_by_id("18596e9d-8b7e-4238-9948-c4e114cc9930");
     }
 }
