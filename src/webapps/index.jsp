@@ -692,8 +692,19 @@
 					}
 				});
 			},
-			post_liked: function(){
-
+			post_liked: function(e){
+				let current_id = e.currentTarget.parentElement.parentElement.parentElement.getAttribute("id");
+				let status;
+				axios.get('listenLiked',{params: {current_user:User,liked_id:current_id,liked_count:count}}).then(function(res){
+					status = res.data;
+					if(status =="success"){
+						// liked_count += 1
+					//	liked button toggle
+					}
+					else {
+						alert("fail to like!!!");
+					}
+				});
 			}
 		},
 		computed: {
