@@ -16,7 +16,7 @@ public class servlet06 extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
-        Database myDatabase = new Database("", "DatingAppStaging");
+        Database myDatabase = new Database("mongodb+srv://K125_member2:asdf8765@cluster0.gnzfm1q.mongodb.net/test", "DatingAppStaging");
         List<Document> doc2 = myDatabase.find_latest_posts(1);
         Document doc = doc2.get(0);
         resp.getWriter().append(doc.toJson() + "tbs010143fniwufwifnj+)4733&3uoghqgushvsjcvbjbke3bfb34uofuvhduvwb1=f");
