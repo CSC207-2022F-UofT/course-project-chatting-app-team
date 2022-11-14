@@ -18,7 +18,7 @@ public class Servlet04 extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
-        Database myDatabase = new Database("mongodb+srv://K125_member2:asdf8765@cluster0.gnzfm1q.mongodb.net/test", "DatingAppStaging");
+        Database myDatabase = new Database("", "DatingAppStaging");
         List<Document> doc2 = myDatabase.find_latest_posts(20);
 //          user this to query for a user.
         for(int i = 0; i < doc2.toArray().length; i++){
