@@ -26,6 +26,7 @@ public class database_usage_example {
 
     public static void main(String[] args) {
         // paste in connection string
+        // <connection string goes here>
         Database myDatabase = new Database("<connection string goes here>", "DatingAppStaging");
 
         //test for insert_post
@@ -35,12 +36,36 @@ public class database_usage_example {
         myDatabase.insert_reply("_id","input_username", "input_reply_content");
 
         //test for find_post_by_id
-        Document doc1 = myDatabase.find_post_by_id("_id");
+        Document doc1 = myDatabase.find_post_by_id("3f653fa3-45d6-45c6-9382-cf9272baad21");
         System.out.println(doc1);
 
         //test for find_latest_posts
         List<Document> doc2 = myDatabase.find_latest_posts(1);
         System.out.println(doc2);
+
+
+        // Use this function to insert a document into database.
+        myDatabase.insert_user (new Document()
+                .append("_id", new ObjectId())
+                .append("user_id", "a_new_user_id")
+                .append("your_own_property", "whatever value"));
+
+        // user this to query for a user.
+        Document doc3 = myDatabase.find_user_by_id("my_user_name_test");
+
+        System.out.println(doc3);
+
+        //test for find_latest_posts
+        List<Document> doc4 = myDatabase.find_latest_posts_by_user_id(32, "123asdf");
+        System.out.println(doc4);
+
+        //test for like
+        myDatabase.like("123asdf", "3f653fa3-45d6-45c6-9382-cf9272baad21");
+
+        //test for unlike
+        myDatabase.unlike("123asdf", "3f653fa3-45d6-45c6-9382-cf9272baad21");
+
+        //test for delete_post_by_id
+        myDatabase.delete_post_by_id("18596e9d-8b7e-4238-9948-c4e114cc9930");
     }
 }
-// <connection string goes here>
