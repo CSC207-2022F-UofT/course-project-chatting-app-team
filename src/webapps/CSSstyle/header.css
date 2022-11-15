@@ -1,0 +1,23 @@
+.chatting_app_header {
+    position: relative;
+    height: 8%;
+    background-color: pink;
+}
+#LoginUser {
+    float: right;
+    width: 15%;
+    height: 83%;
+    margin-right: 4%;
+    margin-top: 1%;
+    color: black;
+    font-family: 'icomoon';
+    text-align: center;
+    line-height: 321px;
+    background-color: darkslategrey;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 63%;
+}
+#LoginUser:after {
+    color: blueviolet;
+}
