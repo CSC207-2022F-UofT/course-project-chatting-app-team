@@ -1,15 +1,13 @@
 package register_use_case;
 
-import javax.swing.text.Document;
+import org.bson.Document;
 import java.util.List;
 
 public class UsernameCheck {
-    public boolean check(List<Document> allUsername, String username){
+    public static boolean check(Document returnedUsername){
         boolean valid = false;
-        for (Document e : allUsername){
-            if (username == e.toString()){ // 假设
-                valid = true;
-            }
+        if (returnedUsername == null){
+            valid = true;
         }
         return valid;
     }
