@@ -832,39 +832,18 @@
 			type: "get",
 			url: "Servlet04", //Servlet04
 			async: false,
-			success: function (data) {
+			success: function (data) { // data is in json format
 				User = acquire_user();
-				//turn data to array type || 将数据转换成数组
-				console.log(data);
-				let messageArr = data.split("tbs010143fniwufwifnj+)4733&3uoghqgushvsjcvbjbke3bfb34uofuvhduvwb1=f");
-				console.log(messageArr);
-				for (var i = 0; i <= messageArr.length - 2; i++) {
-					//Vue data
 
-					list_of_all_posts[i] = form_post(messageArr, i);
+                // call form_post to insert posts
+				list_of_all_posts = data.map((post, i)=>form_post(data, i));
 
-					//This is just for fun || 一下纯属娱乐,vip + title标签测试
-					// if (messageJson.user_nickname == "tianxianbaobao") {
-					// 	let vipTitle = "这是尊贵的VIP用户"
-					// 	time.attr("title", vipTitle);
-					// 	time.children("span").attr("class", "vip")
-					// }
-					// if (messageJson.user_nickname == "bruce_liu") {
-					// 	let descriptiveTitle = "这是个写不完论文的废物"
-					// 	time.attr("title", descriptiveTitle);
-					// }
-					// if (messageJson.user_nickname == "Dai") {
-					// 	let descriptiveTitle = "这是高级数据工程师 + shuaibi"
-					// 	time.attr("title", descriptiveTitle);
-					// }
-
-				}
-				//Make the scrollbar bottom || 让滚动条处于最底部(最底部展示最新消息)
+				// Make the scrollbar bottom || 让滚动条处于最底部(最底部展示最新消息)
 				$("#top").scrollTop(0);
-				console.log(list_of_all_posts);
+				// console.log(list_of_all_posts);
 			},
 			error: function (e) {
-				//If request history message fails, return error || 如果请求失败,返回错误问题
+				// If request history message fails, return error || 如果请求失败,返回错误问题
 				console.log(e);
 				console.log("Error occur!");
 			}
@@ -928,7 +907,7 @@
 		// should be like this: list_of_post = {id = string,message:string,liked:[],user:string,userme:'',time:string,img:[],reply:[],user_pic:string}
 
 		//turn each element in array to json type || 转化成json形式
-		let messageJson = eval("(" + messageArray[n] + ")");
+		let messageJson = messageArray[n];
 		//distinguish other user and "me" || 根据用户名生成，区别“其他用户”和“我”
 		let messageClass = 'other'
 		let userme = false;
