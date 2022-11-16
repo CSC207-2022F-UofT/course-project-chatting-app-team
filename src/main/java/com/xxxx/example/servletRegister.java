@@ -21,7 +21,7 @@ public class servletRegister extends HttpServlet {
             req.getRequestDispatcher("/registerGateway").forward(req,resp);
         }
         else {
-            resp.getWriter().append("password not match");
+            req.getRequestDispatcher("/registerResponsePasswordInvalid").forward(req,resp);
         }
     }
 }
