@@ -20,7 +20,7 @@ public class servletRegisterGateway extends HttpServlet {
         Database myDatabase = new Database("", "DatingAppStaging");
         String username = req.getParameter("username");
         Document returnedUsername = myDatabase.find_user_by_id(username);
-        String password = req.getParameter("/password");
+        String password = req.getParameter("password");
         boolean check = UsernameCheck.check(returnedUsername);
         if (check) {
             myDatabase.insert_user(new Document()

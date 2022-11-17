@@ -15,7 +15,6 @@ public class servletLikeReply extends HttpServlet {
         String replyID = req.getParameter("replyID");
         String status = "success";
         Database myDatabase = new Database("", "DatingAppStaging");
-        // 是否需要Gateway？
 
         req.setAttribute("status", status);
         req.getRequestDispatcher("/likeReplyResponse").forward(req,resp);

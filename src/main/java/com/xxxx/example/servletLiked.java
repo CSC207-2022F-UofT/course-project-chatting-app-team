@@ -16,7 +16,7 @@ public class servletLiked extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
-        Database myDatabase = new Database("mongodb+srv://K125_member2:asdf8765@cluster0.gnzfm1q.mongodb.net/test", "DatingAppStaging");
+        Database myDatabase = new Database("", "DatingAppStaging");
 //        List<Document> doc2 = myDatabase.get_liked_count
 //       post liked count
     }
