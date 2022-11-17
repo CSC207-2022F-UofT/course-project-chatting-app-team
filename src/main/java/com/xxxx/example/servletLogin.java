@@ -11,6 +11,10 @@ import java.io.IOException;
 public class servletLogin extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/logout").forward(req,resp);
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        req.setAttribute("username",username);
+        req.setAttribute("password",password);
+        req.getRequestDispatcher("/loginGateway").forward(req,resp);
     }
 }

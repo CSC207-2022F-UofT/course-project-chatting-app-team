@@ -305,7 +305,7 @@
 <div id="background" class="back">
 	<div id="div1" class="content">
 		<div id="close">
-			<span id="close-button"></span>
+			<span id="close-button" @click="close_login"></span>
 			<h2>Login / Sign Up</h2>
 		</div>
 		<div id="div2">
@@ -317,6 +317,7 @@
 							class="account"
 							type="text"
 							placeholder="Please input your account number"
+							v-model="nickname"
 					/>
 				</label>
 				<label class="password__label"
@@ -325,14 +326,25 @@
 							class="password"
 							type="password"
 							placeholder="Please input your password"
+							v-model="first_password"
+					/>
+				</label>
+				<label class="password__label password__label__repeat" :style="{'display':display_confirm}"
+				>confirm password
+					<input
+							class="password"
+							type="password"
+							placeholder="Please input your password"
+							v-model="confirm_password"
 					/>
 				</label>
 			</form>
 			<div class="buttons">
-				<button class="button">LOGIN</button>
-				<button class="button button--register">REGISTER</button>
+				<button id="user_login" class="button" @click="login" :style="{'display':display_login}">LOGIN</button>
+				<button class="button button--register" @click="register" :style="{'display':display_confirm}">REGISTER</button>
 			</div>
 		</div>
+		<div class="switch_login" @click="switch_login">click here to {{ do_what }}</div>
 		<div class="footer" font-family="icomoon">
 			<span></span>
 			<span></span>
@@ -382,7 +394,7 @@
 						</div>
 						<div class="chatting_function_box">
 							<span class="chatting_post_time">21 小时前</span>
-							<div class="chatting_post_like"><span class="chatting_post_like_count">{{ post.liked.length }}</span></div>
+							<div class="chatting_post_like" @click="post_liked">{{ post.has_liked }}<span class="chatting_post_like_count">{{ post.liked.length }}</span></div>
 							<span v-if="post.userme" class="chatting_post_delete" @click="deletePost">删除</span>
 						</div>
 						<div v-if="post.has_reply" class="chatting_post_reply_box">
@@ -483,7 +495,12 @@
 <!-- bottom side domain 底部边栏 -->
 <div class="chatting_app_bottom">
 </div>
-
+<script src="https://o.alicdn.com/mecloud/shell/dialog.js"></script>
+<script>
+	window.AlimeDialog({
+		from: 'u7OcXcfF8L'
+	});
+</script>
 <!-- 代码部分(需要js文档与html分离) -->
 <script>
 	// jq framework language || jq语法: $(function(){}) || Immediately execute these function ||刷新时立即响应
@@ -493,6 +510,55 @@
 		initialize_emoji_tab();
 		console.log("this should be run first")
 	})
+	// Vue part, user register and login
+	const register_block = new Vue({
+		el: "#div1",
+		data: {
+			display_confirm: 'none',
+			display_login:'display',
+			do_what:'register',
+			nickname:'',
+			first_password:'',
+			confirm_password:''
+		},
+		methods: {
+			switch_login: function(){
+				if (this.do_what == "login"){
+					this.do_what = 'register'
+					this.display_confirm = "none"
+					this.display_login = 'block'
+				}
+				else {
+					this.do_what = 'login'
+					this.display_confirm = "block"
+					this.display_login = "none"
+				}
+			},
+			close_login: function(){
+				div.style.display = "none";
+			},
+			login: function(){
+
+			},
+			register: function(){
+				axios.get('listenregister',{
+					params:{username:this.nickname,password:this.first_password,reEnterPassword:this.confirm_password}})
+						.then(function(res){
+							if(res.data == 'success'){
+								console.log(res.data)
+								register_block.do_what = 'register'
+								register_block.display_confirm = "none"
+								register_block.display_login = 'block'
+							}
+							else {
+								alert(res.data);
+							}
+						}
+				).catch(error=>alert(error));
+			}
+		}
+	})
+
 	// Vue part, post box data
 	const post_block = new Vue({
 		el: ".chatting_post_reach_out",
@@ -515,11 +581,30 @@
 						}
 					}
 					else {
+						console.log(res.data);
 						alert("fail to delete!!!");
 					}
-				});
+				}).catch(error=>alert("fail to delete"));
 			},
-			post_liked: function(){
+			post_liked: function(e){
+				if (User ==''){
+					alert("请先登录");
+					return;
+				}
+				let current_id = e.currentTarget.parentElement.parentElement.parentElement.getAttribute("id");
+				for (let i = 0; i < post_block.posts.length; i++){
+					if (post_block.posts[i]["id"] == current_id) {
+						if(post_block.posts[i].has_liked == ''){
+							post_block.posts[i].has_liked = '';
+							post_block.posts[i].liked.push(User);
+						}
+						else{
+							post_block.posts[i].has_liked = '';
+							let record_position = post_block.posts[i].liked.indexOf(User);
+							post_block.posts[i].liked.splice(record_position,1);
+						}
+					}
+				}
 			}
 		},
 		computed: {
@@ -613,7 +698,7 @@
 		$(".chatting_input_text").focus();
 	})
 	//Click this button to switch the user || 切换用户测试
-	$(".button").click(function () {
+	$("#user_login").click(function () {
 		document.cookie = 'userName=tianxianbaobao;expires=Fri, 04 Nov 2022 17:59:51 GMT'
 		let User = document.getElementsByClassName("account")[0].value;
 		let r = /\W/;
@@ -736,6 +821,7 @@
 		list_of_post["has_reply"] = false;
 		list_of_post["user_pic"] = '';
 		list_of_post["post_shadow"] = false;
+		list_of_post["has_liked"] = false
 		// should be like this: list_of_post = {id = string,message:string,liked:[],user:string,userme:'',time:string,img:[],reply:[],user_pic:string}
 		//turn each element in array to json type || 转化成json形式
 		let messageJson = eval("(" + messageArray[n] + ")");
@@ -753,6 +839,12 @@
 		}
 		else {
 			list_of_post.has_reply = false;
+		}
+		if(User in list_of_post.liked){
+			list_of_post.has_liked = '';
+		}
+		else {
+			list_of_post.has_liked = '';
 		}
 		let random_num = Math.floor(Math.random()*10+1)
 		let picture_path = 'url(images/UserPhoto/randomPhoto/randompic'+random_num+'.jpg)'
@@ -794,7 +886,7 @@
 		}
 		if (User != '') $("#LoginUser").text(User);
 		let random_num = Math.floor(Math.random()*10+1);
-		let picture_path = 'url(images/UserPhoto/randomPhoto/randompic'+random_num+'.jpg)'
+		let picture_path = 'url(images/UserPhoto/randomPhoto/randompic3.jpg)'
 		$('#LoginUser').css("background-image",picture_path);
 		return User;
 	}
@@ -817,9 +909,6 @@
 		div.style.zIndex = 10;
 	};
 
-	close.onclick = function close() {
-		div.style.display = "none";
-	};
 
 	window.onclick = function close(e) {
 		if (e.target == div) {
