@@ -576,7 +576,6 @@
 		var User;
 		//Function_piece 4: Initialize the emoji tab\生成表情包库
 		initialize_emoji_tab();
-		console.log("this should be run first")
 	})
 	// Vue part, user register and login
 	const register_block = new Vue({
@@ -613,7 +612,6 @@
 					params:{username:this.nickname,password:this.first_password,reEnterPassword:this.confirm_password}})
 						.then(function(res){
 							if(res.data == 'success'){
-								console.log(res.data)
 								register_block.do_what = 'register'
 								register_block.display_confirm = "none"
 								register_block.display_login = 'block'
@@ -649,7 +647,6 @@
 						}
 					}
 					else {
-						console.log(res.data);
 						alert("fail to delete!!!");
 					}
 				}).catch(error=>alert("fail to delete"));
@@ -727,10 +724,8 @@
 			data: { time: absolu[0], text: absolu[1], userName: User }, //send key:values data || 传递参数类型
 			async: false,
 			success: function (data) {
-				console.log(data);
 				let messageArr = data.split("tbs010143fniwufwifnj+)4733&3uoghqgushvsjcvbjbke3bfb34uofuvhduvwb1=f");
 				new_post = form_post(messageArr,0);
-				console.log(new_post);
 				post_block.posts.unshift(new_post);
 			},
 			error: function (e) {
@@ -745,9 +740,6 @@
 		let user2 = $('#bottom');
 		user1.attr("id", "bottom");
 		user2.attr("id", "top");
-		console.log("测试一下")
-		console.log(user1);
-		console.log(user2);
 	});
 	//Response to the click of the body element
 	$("body").click(function () {
@@ -791,7 +783,7 @@
 	})
 	//Click this button to switch the user || 切换用户测试
 	$("#user_login").click(function () {
-		document.cookie = 'userName=tianxianbaobao;expires=Fri, 04 Nov 2022 17:59:51 GMT'
+		document.cookie = 'userName=;expires=Fri, 04 Nov 2022 17:59:51 GMT'
 		let User = document.getElementsByClassName("account")[0].value;
 		let r = /\W/;
 		if (User.search(r) != -1) {
@@ -811,10 +803,8 @@
 		User = "";
 		location.reload();
 	})
-	//Click delete button to delete the post
-	$(".chatting_post_delete").click(function(){
-		console.log($(this).parent().parent().parent());
-	})
+
+
 	//Function piece part, definition of the function
 	//Function_piece 1: Function that show message history\此处function为展示历史记录
 	function display_message_history() {
@@ -828,35 +818,18 @@
 			success: function (data) {
 				User = acquire_user();
 				//turn data to array type || 将数据转换成数组
-				console.log(data);
 				let messageArr = data.split("tbs010143fniwufwifnj+)4733&3uoghqgushvsjcvbjbke3bfb34uofuvhduvwb1=f");
-				console.log(messageArr);
 				for (var i = 0; i <= messageArr.length - 2; i++) {
 					//Vue data
 					list_of_all_posts[i] = form_post(messageArr, i);
-					//This is just for fun || 一下纯属娱乐,vip + title标签测试
-					// if (messageJson.user_nickname == "tianxianbaobao") {
-					// 	let vipTitle = "这是尊贵的VIP用户"
-					// 	time.attr("title", vipTitle);
-					// 	time.children("span").attr("class", "vip")
-					// }
-					// if (messageJson.user_nickname == "bruce_liu") {
-					// 	let descriptiveTitle = "这是个写不完论文的废物"
-					// 	time.attr("title", descriptiveTitle);
-					// }
-					// if (messageJson.user_nickname == "Dai") {
-					// 	let descriptiveTitle = "这是高级数据工程师 + shuaibi"
-					// 	time.attr("title", descriptiveTitle);
-					// }
 				}
-				//Make the scrollbar bottom || 让滚动条处于最底部(最底部展示最新消息)
+				//Make the scrollbar top || 让滚动条处于最顶部(最顶部展示最新消息)
 				$("#top").scrollTop(0);
 				console.log(list_of_all_posts);
 			},
 			error: function (e) {
 				//If request history message fails, return error || 如果请求失败,返回错误问题
 				console.log(e);
-				console.log("Error occur!");
 			}
 		});
 		return list_of_all_posts;
@@ -890,13 +863,10 @@
 	//Function_piece 4: Initialize the emoji tab\生成表情包库
 	function initialize_emoji_tab() {
 		var emoji = '😀😁😂😃😄😅😆😉😊😋😎😍😘😗😙😚😇😐😑😶😏😣😥😮😯😪😫😴😌😛😜😝😒😓😔😕😲😷😖😞😟😤😢😭😦😧😨😬😰😱😳😵😡😠😈👿👹👺💀👻👽👦👧👨👩👴👵👶👱👮👲👳👷👸💂🎅👰👼💆💇🙍🙎🙅🙆💁🙋🙇🙌🙏👤👥🚶🏃👯💃👫👬👭💏💑👪💪👈👉☝';
-		// console.log("测试" + emoji.substring(0, 2))
-		// console.log("测试" + '😃')
 		for (var i = 0; i < emoji.length; i += 2) {
 			let emoji_singleword = emoji.substring(i, i + 2);
 			let chatting_emoji_singleword = $("<div class='chatting_input_emoji_singleword'>" + emoji_singleword + "</div>");
 			$(".chatting_input_emoji_tab_body").append(chatting_emoji_singleword);
-			// console.log(emoji_singleword);
 		}
 	}
 	//Function_piece 5: Arrange the data to dictionary type
@@ -921,8 +891,6 @@
 		let messageClass = 'other'
 		let userme = false;
 		//if this message is sent by "me" || 如果是user本人发送的信息
-		console.log("测试"+User)
-		console.log("测试"+messageJson.user_nickname);
 		if (messageJson.user_nickname == User) {
 			userme = true;
 		}
@@ -937,9 +905,7 @@
 		if (list_of_post.liked == null){
 			list_of_post.liked = [];
 		}
-		console.log(list_of_post.liked)
-		console.log(User)
-		console.log(list_of_post.liked.indexOf(User))
+
 		if(list_of_post.liked.indexOf(User) != -1){
 			list_of_post.has_liked = '';
 		}
@@ -953,21 +919,14 @@
 		if (messageJson.user_nickname == "tianxianbaobao"){
 			list_of_post.user_pic = 'url(images/UserPhoto/tianxianbaobao/headpic.jpg)'
 		}
-		console.log("测试"+userme);
+
 		//Vue data bind
 		list_of_post.message = messageJson.content;
 		list_of_post.time = messageJson.created_on;
 		list_of_post.user = messageJson.user_nickname;
 		list_of_post.userme = userme;
-		console.log("测试"+list_of_post.userme);
 		list_of_post.id = messageJson._id;
 		list_of_post.reply = messageJson.replies;
-		// test
-		// console.log(list_of_post);
-		// console.log(messageJson.content);
-		// console.log(messageJson.created_on);
-		// console.log(messageJson._id)
-		// console.log(messageJson.replies);
 		return list_of_post;
 	}
 	//function piece 6 First to check the User
