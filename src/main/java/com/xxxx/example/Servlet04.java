@@ -2,6 +2,7 @@ package com.xxxx.example;
 
 import database_connection.Database;
 import org.bson.Document;
+import org.bson.BsonArray;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,24 +12,26 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-//这个是project文件
 @WebServlet("/Servlet04")
 public class Servlet04 extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+
         Database myDatabase = new Database("", "DatingAppStaging");
-        List<Document> doc2 = myDatabase.find_latest_posts(20);
-//          user this to query for a user.
-        for(int i = 0; i < doc2.toArray().length; i++){
-            Document doc = doc2.get(i);
-            resp.getWriter().append(doc.toJson() + "tbs010143fniwufwifnj+)4733&3uoghqgushvsjcvbjbke3bfb34uofuvhduvwb1=f");
+
+        // Should probably move off this hardcoded 20 at some point
+        List<Document> postDocs = myDatabase.find_latest_posts(20);
+
+        // convert to a BsonArray
+        BsonArray postStrArray = new BsonArray();
+        for (Document post: postDocs) {
+            postStrArray.add(post.toBsonDocument());
         }
-//        resp.getWriter().append(doc2.toString());
 
-
-        System.out.println(doc2);
+        // System.out.print(postStrArray.getValues());
+        resp.getWriter().append(postStrArray.getValues().toString());
     }
 }
-// <connection string goes here>
