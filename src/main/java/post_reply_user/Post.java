@@ -2,20 +2,18 @@ package post_reply_user;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Random;
 
 public class Post {
-    User.random_User auther;
+    common_User auther;
     String content;
     int likes;
     String time;
-    ArrayList<User.random_User> replyed_by;
-    ArrayList<Reply> all_Reply;
-    ArrayList<User.random_User> liked_by;
+    ArrayList<common_User> replyedBy;
+    ArrayList<Reply> totalReply;
+    ArrayList<common_User> likedBy;
 
-    public void setAuther(User.random_User auther) {
+    public void setAuther(common_User auther) {
         this.auther = auther;
     }
 
@@ -30,22 +28,22 @@ public class Post {
     }
 
     public void setReply_by(){
-        this.replyed_by = null;
-        this.all_Reply = null;
+        this.replyedBy = new ArrayList<common_User>();
+        this.totalReply = new ArrayList<Reply>();
 
     }
 
-    public void like_this(User.random_User user){
-        this.liked_by.add(user);
+    public void like_this(common_User user){
+        this.likedBy.add(user);
         this.likes += 1;
 
     }
 
-    public ArrayList<User.random_User> getLike_by() {
-        return liked_by;
+    public ArrayList<common_User> getLike_by() {
+        return likedBy;
     }
 
-    public User.random_User getAuther(){
+    public common_User getAuther(){
         return auther;
     }
 
@@ -57,34 +55,34 @@ public class Post {
         return time;
     }
 
-    public ArrayList<Reply> getAll_Reply() {
-        return all_Reply;
+    public ArrayList<Reply> gettotalReply() {
+        return this.totalReply;
     }
 
-    public void like_post(User.random_User user_2){
-        if (this.liked_by.contains(user_2)){
-            this.liked_by.remove(user_2);
+    public void like_post(common_User user_2){
+        if (this.likedBy.contains(user_2)){
+            this.likedBy.remove(user_2);
         }
         else {
-            this.liked_by.add(user_2);
+            this.likedBy.add(user_2);
         }
     }
 
     public void add_Reply(Reply reply){
-        this.all_Reply.add(reply);
+        this.totalReply.add(reply);
     }
 
     public void delete_Reply(Reply reply){
-        this.all_Reply.remove(reply);
+        this.totalReply.remove(reply);
     }
 
     public ArrayList<Reply> top_three(){
         ArrayList<Reply> result = new ArrayList<Reply>();
-        result.add(this.all_Reply.get(0));
-        for (int i = 1; i < this.all_Reply.size(); i ++){
+        result.add(this.totalReply.get(0));
+        for (int i = 1; i < this.totalReply.size(); i ++){
             for (int j = 0; j <= result.size(); j ++){
-                if (this.all_Reply.get(i).likes <= result.get(j).likes){
-                    result.add(j+1, this.all_Reply.get(i));
+                if (this.totalReply.get(i).likes <= result.get(j).likes){
+                    result.add(j+1, this.totalReply.get(i));
                     break;
                 }
             }
@@ -93,17 +91,13 @@ public class Post {
     }
 
     public ArrayList<Reply> other_than_top_three(){
-        ArrayList<Reply> result = new ArrayList<Reply>();
-        result.add(this.all_Reply.get(0));
-        for (int i = 1; i < this.all_Reply.size(); i ++){
-            for (int j = 0; j <= result.size(); j ++){
-                if (this.all_Reply.get(i).likes <= result.get(j).likes){
-                    result.add(j+1, this.all_Reply.get(i));
-                    break;
-                }
+        ArrayList<Reply> lst = this.totalReply;
+        for (Reply reply : this.totalReply) {
+            if (top_three().contains(reply)) {
+                lst.remove(reply);
             }
         }
-        return (ArrayList<Reply>) result.subList(3, result.size());
+        return lst;
     }
 
 
