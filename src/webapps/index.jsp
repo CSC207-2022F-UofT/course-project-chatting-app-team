@@ -19,7 +19,6 @@
 	<link rel="stylesheet" href="CSSstyle/popupwindow.css" />
 	<link rel="stylesheet" href="CSSstyle/header.css" />
 	<link rel="stylesheet" href="CSSstyle/chattingpost.css" />
-	<link rel="stylesheet" href="CSSstyle/chattinginput.css" />
 	<style>
 		/*Please take some time read this before writing CSS!
 		请用几分钟详细阅读后再书写CSS!
@@ -86,6 +85,21 @@
 			display: none;
 		}
 		/* Five domain CSS design 五大板块 */
+		#catKnows {
+			float: left;
+			width: 30%;
+			height: 50%;
+			color: black;
+			margin-left: 4%;
+			font-family: 'icomoon';
+			text-align: center;
+			line-height: 265px;
+			background-color: darkslategrey;
+			background-image: url("images/catlink/servercat.jpg");
+			background-repeat: no-repeat;
+			background-size: cover;
+			border-radius: 63%;
+		}
 		/* 大类: header domain design 头部设计*/
 		/* 大类: left side domain design 左侧栏目设计 */
 		.chatting_app_left_side {
@@ -175,6 +189,11 @@
 			100% {
 				color: aliceblue;
 			}
+		}
+		#creater_photo {
+			background-image: url("images/creator_photo/creatorphoto.jpeg");
+			background-repeat: no-repeat;
+			background-size: cover;
 		}
 		.vip {
 			animation-name: vipSpecial;
@@ -296,6 +315,31 @@
 				display: none;
 				background-color: black;
 			}
+			#catKnows {
+				float: left;
+				width: 14%;
+				height: 83%;
+				margin-top: 1%;
+				margin-left: 4%;
+				color: black;
+				font-family: 'icomoon';
+				text-align: center;
+				line-height: 265px;
+				background-color: darkslategrey;
+				background-image: url("images/catlink/servercat.jpg");
+				background-repeat: no-repeat;
+				background-size: cover;
+				border-radius: 63%;
+			}
+			#catKnowsWhatSay{
+				float: left;
+				width: 52%;
+				margin-top: 4%;
+				margin-left:1%;
+				font-size: 25px;
+				word-break: break-word;
+				font-family: "icomoon";
+			}
 		}
 	</style>
 </head>
@@ -357,13 +401,14 @@
 </div>
 <!-- Header domain 头部栏 -->
 <div class="chatting_app_header">
-	<div class="night"></div>
 <%--	<button id="switch_chatting_box">点击切换版面(测试中)</button>--%>
 <%--	<button>点击切换网页(未创建)</button>--%>
 <%--	<button id="switch">登录/切换用户(测试中)</button>--%>
 <%--	<button id="logout">退出(测试中)</button>--%>
 <%--	<button>点击切换天气(筹备中)</button>--%>
 <%--	<button id="apply_Vip">点击申请vip,彩虹狗牌(筹备中)</button>--%>
+	<div id="catKnows">你好猫</div>
+	<div id="catKnowsWhatSay">(测试中){{ catWord }}</div>
 	<div id="LoginUser">请登录</div>
 </div>
 
@@ -375,7 +420,30 @@
 <!-- middle domain:chatting room 聊天室 -->
 <div class="chatting_app_chatting_room">
 	<div class="chatting_box" id="top">
-
+<%--		//One example of the post style --%>
+		<div class="chatting_post">
+			<div class="chatting_post_body">
+				<div class="chatting_post_body_para">
+					<div class="chatting_post_body_head">
+						<div class="chatting_post_user_pic">
+							<div class="user_photo" id="creater_photo"></div>
+						</div>
+						<span class="chatting_post_user_name">创作者</span>
+					</div>
+					<div class="chatting_post_body_content">
+						<p>公告: 如有任何侵犯您产权行为,请联系右下角,发送转人工客服,谢谢!</p>
+						<p>Annoucement: If there's any offend to your property right, please click right bottom button and sending this message: "转人工客服"(this means to contact our representative) Thank you</p>
+					</div>
+					<div class="chatting_post_body_pictures">
+					</div>
+					<div class="chatting_function_box">
+						<span class="chatting_post_time">刚刚</span>
+						<div class="chatting_post_like"><span class="chatting_post_like_count">0</span></div>
+					</div>
+				</div>
+			</div>
+		</div>
+<%--	Here is what Vue need to initialize--%>
 		<div class="chatting_post_reach_out">
 			<div v-for="post in posts" class="chatting_post">
 				<div :class='["chatting_post_body", {"chatting_post_shadow":post.post_shadow}]' :id="post.id" @mousedown="change_shadow($event)" @mouseup="change_shadow($event)">
@@ -592,17 +660,25 @@
 					return;
 				}
 				let current_id = e.currentTarget.parentElement.parentElement.parentElement.getAttribute("id");
+				let status;
 				for (let i = 0; i < post_block.posts.length; i++){
 					if (post_block.posts[i]["id"] == current_id) {
 						if(post_block.posts[i].has_liked == ''){
 							post_block.posts[i].has_liked = '';
 							post_block.posts[i].liked.push(User);
+							status = 'liked'
 						}
 						else{
+							status = 'unliked'
 							post_block.posts[i].has_liked = '';
 							let record_position = post_block.posts[i].liked.indexOf(User);
 							post_block.posts[i].liked.splice(record_position,1);
 						}
+						// setTimeout(function(){
+							axios.get('listenLiked',{params:{current_user:User,post_id:current_id,event_type:status}}).then({
+								function(res){alert(res.data)}
+							}).catch(error=>alert(error))
+						// },3000)
 					}
 				}
 			}
@@ -614,6 +690,22 @@
 				}
 				else {
 					return false
+				}
+			}
+		}
+	})
+	const headerView = new Vue({
+		el: ".chatting_app_header",
+		data: {
+			catmessage:"hello!",
+		},
+		computed: {
+			catWord: function(){
+				if(User == ''){
+					return '喵~啦啦啦,检测到你还没登录，除了浏览功能之外你可能做不了什么欧,要不点一下右侧头像框登录或者注册一下?'
+				}
+				else {
+					return  '喵~你好啊' + User + '欢迎来找我,你现在有'+ post_block.posts[0]["liked"].length + '条点赞消息'+post_block.posts[0]["reply"].length + '条回复消息'
 				}
 			}
 		}
@@ -727,7 +819,7 @@
 	//Function_piece 1: Function that show message history\此处function为展示历史记录
 	function display_message_history() {
 		let list_of_all_posts = [];
-		let picture_path = 'url(images/UserPhoto/randomPhoto/randompic4.jpg)'
+		let picture_path = 'url(images/UserPhoto/randomPhoto/randompic8.jpg)'
 		$('#LoginUser').css("background-image",picture_path);
 		$.ajax({
 			type: "get",
@@ -840,12 +932,21 @@
 		else {
 			list_of_post.has_reply = false;
 		}
-		if(User in list_of_post.liked){
+		// get the liked information
+		list_of_post.liked = messageJson.likes;
+		if (list_of_post.liked == null){
+			list_of_post.liked = [];
+		}
+		console.log(list_of_post.liked)
+		console.log(User)
+		console.log(list_of_post.liked.indexOf(User))
+		if(list_of_post.liked.indexOf(User) != -1){
 			list_of_post.has_liked = '';
 		}
 		else {
 			list_of_post.has_liked = '';
 		}
+
 		let random_num = Math.floor(Math.random()*10+1)
 		let picture_path = 'url(images/UserPhoto/randomPhoto/randompic'+random_num+'.jpg)'
 		list_of_post.user_pic = picture_path;
@@ -886,7 +987,7 @@
 		}
 		if (User != '') $("#LoginUser").text(User);
 		let random_num = Math.floor(Math.random()*10+1);
-		let picture_path = 'url(images/UserPhoto/randomPhoto/randompic3.jpg)'
+		let picture_path = 'url(images/UserPhoto/randomPhoto/randompic8.jpg)'
 		$('#LoginUser').css("background-image",picture_path);
 		return User;
 	}
