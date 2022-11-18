@@ -72,6 +72,7 @@
     background-color: transparent;
 }
 .chatting_post_body_content>p {
+    word-break: break-word;
     font-size: 2.3em;
 }
 .chatting_post_body_pictures {
