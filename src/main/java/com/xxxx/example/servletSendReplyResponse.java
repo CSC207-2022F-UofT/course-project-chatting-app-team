@@ -11,8 +11,6 @@ import java.io.IOException;
 public class servletSendReplyResponse extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setCharacterEncoding("UTF-8");
 
-        resp.getWriter().append("success");
     }
 }
