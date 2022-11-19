@@ -44,10 +44,6 @@ public class Post {
         this.body = body;
     }
 
-    public void addReply(String reply){
-
-    }
-
     // toString (needed??)
     @Override
     public String toString(){
