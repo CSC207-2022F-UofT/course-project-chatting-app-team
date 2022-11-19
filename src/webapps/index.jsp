@@ -195,6 +195,30 @@
 			background-repeat: no-repeat;
 			background-size: cover;
 		}
+		.chatting_reply_function_box {
+			margin-top: 10%;
+			width: 100%;
+			background-color: grey;
+		}
+		.chatting_reply_main {
+			float: left;
+			margin-bottom: 8%;
+			width: 85%;
+			max-height: 175px;
+			padding-left: 1%;
+			font-size: 2.1em;
+			border-radius: 5%;
+			background: rgba(211, 211, 211, 0.6);
+			overflow: scroll;
+		}
+		.chatting_reply_send {
+			float: left;
+			margin-left: 1%;
+			width: 12%;
+			color: dodgerblue;
+			font-size: 2em;
+			text-align: center;
+		}
 		.vip {
 			animation-name: vipSpecial;
 			animation-iteration-count: infinite;
@@ -440,21 +464,25 @@
 						<span class="chatting_post_time">刚刚</span>
 						<div class="chatting_post_like"><span class="chatting_post_like_count">0</span></div>
 					</div>
+					<div class="chatting_reply_function_box">
+						<div class="chatting_reply_main" contenteditable="true">你好啊</div><div class="chatting_reply_send">发送</div>
+						<div class="chatting_reply_other_function"></div>
+					</div>
 				</div>
 			</div>
 		</div>
 <%--	Here is what Vue need to initialize--%>
 		<div class="chatting_post_reach_out">
-			<div v-for="post in posts" class="chatting_post">
+			<div v-for="(post,index) in posts" class="chatting_post">
 				<div :class='["chatting_post_body", {"chatting_post_shadow":post.post_shadow}]' :id="post.id" @mousedown="change_shadow($event)" @mouseup="change_shadow($event)">
-					<div class="chatting_post_body_para">
-						<div class="chatting_post_body_head">
+					<div class="chatting_post_body_para" >
+						<div class="chatting_post_body_head" @click="reply(index)">
 							<div class="chatting_post_user_pic">
 								<div class="user_photo" :style="{'background-image': post.user_pic}"></div>
 							</div>
 							<span class="chatting_post_user_name">{{ post.user }}</span>
 						</div>
-						<div class="chatting_post_body_content">
+						<div class="chatting_post_body_content" @click="reply(index)">
 							<p>{{ post.message }}</p>
 						</div>
 						<div class="chatting_post_body_pictures">
@@ -466,8 +494,12 @@
 							<span v-if="post.userme" class="chatting_post_delete" @click="deletePost">删除</span>
 						</div>
 						<div v-if="post.has_reply" class="chatting_post_reply_box">
-							<p v-for="reply in post.replies"><em>Tianxianbaobao:</em>{{ reply }}</p>
-							<div class="chatting_post_reply_history">--查看历史记录<span>{{ post.replies.length }}</span>条--</div>
+							<p v-for="reply in post.reply.slice(0,3)"><em>{{ reply.user_nickname }}:</em>{{ reply.content }}</p>
+							<div class="chatting_post_reply_history">--查看历史记录<span>{{ post.reply.length }}</span>条--</div>
+						</div>
+						<div class="chatting_reply_function_box" v-if="index==reply_index&&User!=''">
+							<div class="chatting_reply_main" contenteditable="true"></div><div class="chatting_reply_send" @click="getReplyMessage(index)">发送</div>
+							<div class="chatting_reply_other_function"></div>
 						</div>
 					</div>
 				</div>
@@ -629,7 +661,8 @@
 	const post_block = new Vue({
 		el: ".chatting_post_reach_out",
 		data: {
-			posts: display_message_history()
+			posts: display_message_history(),
+			reply_index: -1
 		},
 		methods: {
 			change_shadow: function(e){
@@ -672,12 +705,32 @@
 							post_block.posts[i].liked.splice(record_position,1);
 						}
 						// setTimeout(function(){
-							axios.get('listenLiked',{params:{current_user:User,post_id:current_id,event_type:status}}).then({
-								function(res){alert(res.data)}
-							}).catch(error=>alert(error))
+							axios.get('listenLiked',{params:{current_user:User,post_id:current_id,event_type:status}}).then(
+								function(res){}
+							).catch(error=>alert(error))
 						// },3000)
 					}
 				}
+			},
+			reply: function(index){
+				if(index != post_block.reply_index){
+					post_block.reply_index = index;
+				}
+				else {
+					post_block.reply_index = -1;
+				}
+			},
+			getReplyMessage: function(index){
+				contents = document.getElementsByClassName("chatting_reply_main")[1].innerHTML;
+				document.getElementsByClassName("chatting_reply_main")[1].innerHTML = '';
+				current_id = post_block.posts[index]["id"];
+				axios.get('listenReply',{params:{username:User,post_id:current_id,text:contents}}).then(
+					function(res){
+						post_block.posts[index]["has_reply"] = true
+						post_block.posts[index]["reply"].push({content:contents,user_nickname:User});
+						console.log(res.data)
+					}
+				).catch(error=>{alert(error)})
 			}
 		},
 		computed: {
@@ -926,7 +979,10 @@
 		list_of_post.user = messageJson.user_nickname;
 		list_of_post.userme = userme;
 		list_of_post.id = messageJson._id;
-		list_of_post.reply = messageJson.replies;
+		if(messageJson.replies!=null){
+			list_of_post.reply = messageJson.replies;
+		}
+		console.log(list_of_post.reply)
 		return list_of_post;
 	}
 	//function piece 6 First to check the User

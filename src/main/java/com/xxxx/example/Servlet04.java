@@ -13,7 +13,7 @@ import java.util.List;
 
 //这个是project文件
 @WebServlet("/Servlet04")
-public class Servlet04 extends HttpServlet {
+public class Servlet04 extends HttpServlet{
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
@@ -28,7 +28,7 @@ public class Servlet04 extends HttpServlet {
 //        resp.getWriter().append(doc2.toString());
 
 
-        System.out.println(doc2);
+
     }
 }
 // <connection string goes here>
