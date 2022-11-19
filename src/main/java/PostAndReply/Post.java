@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class Post {
     // Attributes
-    String ID;
+    String id;
     String body;
     ArrayList<Reply> replies;
     ArrayList<User> whoLiked;
@@ -18,7 +18,7 @@ public class Post {
 
     // Constructors
     public Post(User user, String body){
-        this.ID = user.getID();
+        this.id = user.getId();
         this.body = body;
         this.replies = new ArrayList<>();
         this.whoLiked = new ArrayList<>();
@@ -118,8 +118,4 @@ public class Post {
         return newReplies;
     }
 
-    public static void main(String[] args) {
-
-    }
-}
 
