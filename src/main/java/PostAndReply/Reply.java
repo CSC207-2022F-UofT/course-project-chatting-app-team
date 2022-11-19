@@ -13,39 +13,39 @@ public class Reply {
     int likes;
 
     // Constructors
-    public Reply(User user, String body, Post post){
+    public Reply(User user, String body, Post post) {
         this.id = user.getId();
         this.body = body;
         this.post = post;
         this.whoLiked = new ArrayList<>();
-        this.time  = LocalDateTime.now();
+        this.time = LocalDateTime.now();
         this.likes = 0;
     }
 
     // getter methods
-    public String getBody(){
+    public String getBody() {
         return this.body;
     }
 
-    public LocalDateTime getTime(){
+    public LocalDateTime getTime() {
         return this.time;
     }
 
-    public int getLikes(){
+    public int getLikes() {
         return this.likes;
     }
 
-    public void likeReply(User user){
+    public void likeReply(User user) {
         // Check if the user clicking the like button is in the whoLiked
         // if yes, remove user from the whoLiked list and likes -1
         // if no, add user into the whoLiked list and likes + 1
-        if (this.whoLiked.contains(user)){
+        if (this.whoLiked.contains(user)) {
             this.whoLiked.remove(user);
             this.likes -= 1;
-        }
-        else{
+        } else {
             this.whoLiked.add(user);
             this.likes += 1;
         }
     }
+}
 

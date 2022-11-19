@@ -1,6 +1,4 @@
 package PostAndReply;
-import com.mongodb.internal.connection.DefaultDnsSrvRecordMonitorFactory;
-import sun.jvm.hotspot.utilities.Hashtable;
 
 import java.time.LocalDateTime; // Import the LocalDateTime class
 import java.util.ArrayList;
@@ -17,25 +15,25 @@ public class Post {
     int likes;
 
     // Constructors
-    public Post(User user, String body){
+    public Post(User user, String body) {
         this.id = user.getId();
         this.body = body;
         this.replies = new ArrayList<>();
         this.whoLiked = new ArrayList<>();
-        this.time  = LocalDateTime.now();
+        this.time = LocalDateTime.now();
         this.likes = 0;
     }
 
     // getter methods
-    public String getBody(){
+    public String getBody() {
         return this.body;
     }
 
-    public LocalDateTime getTime(){
+    public LocalDateTime getTime() {
         return this.time;
     }
 
-    public int getLikes(){
+    public int getLikes() {
         return this.likes;
     }
 
@@ -46,29 +44,28 @@ public class Post {
 
     // toString (needed??)
     @Override
-    public String toString(){
+    public String toString() {
         return this.body;
     }
 
-    public void likePost(User user){
+    public void likePost(User user) {
         // Check if the user clicking the like button is in the whoLiked
         // if yes, remove user from the whoLiked list and likes -1
         // if no, add user into the whoLiked list and likes + 1
-        if (this.whoLiked.contains(user)){
+        if (this.whoLiked.contains(user)) {
             this.whoLiked.remove(user);
             this.likes -= 1;
-        }
-        else{
+        } else {
             this.whoLiked.add(user);
             this.likes += 1;
         }
     }
 
-    public void addReply(Reply reply){
+    public void addReply(Reply reply) {
         this.replies.add(reply);
     }
 
-    public void deleteReply(Reply reply){
+    public void deleteReply(Reply reply) {
         this.replies.remove(reply);
     }
 
@@ -78,7 +75,7 @@ public class Post {
         HashMap<Integer, Reply> likesToReply = new HashMap<Integer, Reply>();
         // dictionary for storing replies and likes
         // appending to the dictionary, let likes be the key and reply be the value
-        for (int i = 0; i < this.replies.size(); i += 1){
+        for (int i = 0; i < this.replies.size(); i += 1) {
             int replyLikes = this.replies.get(i).getLikes();
             Reply reply = this.replies.get(i);
             likesToReply.put(replyLikes, reply);
@@ -92,7 +89,7 @@ public class Post {
         allLikes.sort(Collections.reverseOrder());
 
         // add top three to topThreeList
-        for(int i = 0; i < 3; i +=1){
+        for (int i = 0; i < 3; i += 1) {
             likes = allLikes.get(i);
             Reply reply = likesToReply.get(likes);
             topThreeList.add(reply);
@@ -101,7 +98,7 @@ public class Post {
         return topThreeList;
     }
 
-    public ArrayList<Reply> otherThanTopThree(){
+    public ArrayList<Reply> otherThanTopThree() {
         ArrayList<Reply> topThreeReplies = this.topThreeReplies();
         // get a copy of this.replies
         ArrayList<Reply> newReplies = new ArrayList<>(this.replies);
@@ -113,5 +110,7 @@ public class Post {
         }
         return newReplies;
     }
+}
+
 
 
