@@ -2,5 +2,5 @@ package PostAndReply;
 
 public interface User {
 
-    String getID();
+    String getId();
 }
