@@ -48,4 +48,5 @@ public class Reply {
             this.likes += 1;
         }
     }
+}
 
