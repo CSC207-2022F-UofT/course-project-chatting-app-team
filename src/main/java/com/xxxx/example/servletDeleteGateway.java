@@ -22,11 +22,6 @@ public class servletDeleteGateway extends HttpServlet {
         Document post_sender = myDatabase.find_post_by_id(delete_id);
 
         String sender = post_sender.getString("user_nickname");
-        System.out.println(sender+"hello");
-        System.out.println(Username+"hello");
-        //check whether user who delete matches user who send
-        //Alert: here if you define sender == Username, it will return false anyway though they may equal in content
-        System.out.println(sender==Username);
         if(sender.equals(Username)){
             status = "success";
             myDatabase.delete_post_by_id(delete_id);

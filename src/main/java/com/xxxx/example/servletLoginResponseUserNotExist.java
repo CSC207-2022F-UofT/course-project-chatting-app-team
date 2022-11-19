@@ -7,10 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/logout")
-public class servletLoginResponse extends HttpServlet {
+@WebServlet("/loginResponseUserNotExist")
+public class servletLoginResponseUserNotExist extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        resp.getWriter().append("user do not exist");
     }
 }
