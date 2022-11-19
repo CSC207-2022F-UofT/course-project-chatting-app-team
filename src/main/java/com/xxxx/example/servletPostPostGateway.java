@@ -9,9 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/postPostResponse")
-public class servletPostPostResponse extends HttpServlet {
+@WebServlet("/postPostGateway")
+public class servletPostPostGateway extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().append("success");
+        String text = (String) req.getParameter("text");
+        String userName = (String) req.getParameter("userName");
+        Database myDatabase = new Database("", "DatingAppStaging");
+        myDatabase.insert_post(userName, text);
+        req.getRequestDispatcher("/postPostResponse").forward(req,resp);
     }
 }

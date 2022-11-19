@@ -1,12 +1,11 @@
 package register_use_case;
 
 import org.bson.Document;
-import java.util.List;
 
-public class UsernameCheck {
-    public static boolean check(Document returnedUsername){
+public class RegisterUsernameCheck {
+    public static boolean check(Document returnedUser){
         boolean valid = false;
-        if (returnedUsername == null){
+        if (returnedUser == null){
             valid = true;
         }
         return valid;
