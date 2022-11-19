@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Reply {
     // Attributes
-    String ID;
+    String id;
     String body;
     Post post;
     ArrayList<User> whoLiked;
@@ -14,7 +14,7 @@ public class Reply {
 
     // Constructors
     public Reply(User user, String body, Post post){
-        this.ID = user.getID();
+        this.id = user.getId();
         this.body = body;
         this.post = post;
         this.whoLiked = new ArrayList<>();
@@ -49,10 +49,3 @@ public class Reply {
         }
     }
 
-
-
-    public static void main(String[] args) {
-
-
-    }
-}
