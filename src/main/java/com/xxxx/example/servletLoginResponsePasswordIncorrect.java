@@ -11,6 +11,6 @@ import java.io.IOException;
 public class servletLoginResponsePasswordIncorrect extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().append("password incorrect");
+        resp.getWriter().append("incorrect");
     }
 }

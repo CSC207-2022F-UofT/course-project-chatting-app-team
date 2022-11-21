@@ -16,7 +16,7 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://cdn.staticfile.org/vue/2.7.0/vue.min.js"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<script src="jsfile/post.js"></script>
+	<script src="jsfile/poster.js"></script>
 	<script src="jsfile/user.js"></script>
 	<script src="jsfile/allpost.js" type="text/javascript"></script>
 	<link rel="stylesheet" href="CSSstyle/popupwindow.css" />
@@ -497,8 +497,8 @@
 							<span v-if="post.userme" class="chatting_post_delete" @click="deletePost(index)">删除</span>
 						</div>
 						<div v-if="post.has_reply" class="chatting_post_reply_box">
-							<p v-for="reply in post.reply.slice(0,3)"><em>{{ reply.user_nickname }}:</em>{{ reply.content }}</p>
-							<div class="chatting_post_reply_history">--查看历史记录<span>{{ post.reply.length }}</span>条--</div>
+							<p v-for="reply in post.display_reply"><em>{{ reply.user_nickname }}:</em>{{ reply.content }}</p>
+							<div v-if="post.display_reply.length <= 3" class="chatting_post_reply_history">--查看历史记录<span>{{ post.reply.length }}</span>条--</div>
 						</div>
 						<div class="chatting_reply_function_box" v-if="index==reply_index&&User!=''">
 							<div class="chatting_reply_main" contenteditable="true"></div><div class="chatting_reply_send" @click="getReplyMessage(index)">发送</div>
@@ -617,7 +617,7 @@
 	display_message_history();
 
 
-	// Vue part, user register and login
+	// Vue part, user register and login block
 	const register_block = new Vue({
 		el: "#div1",
 		data: {
@@ -629,6 +629,7 @@
 			confirm_password:''
 		},
 		methods: {
+			// User choose to login or register
 			switch_login: function(){
 				if (this.do_what == "login"){
 					this.do_what = 'register'
@@ -641,20 +642,37 @@
 					this.display_login = "none"
 				}
 			},
+			// close login block
 			close_login: function(){
 				div.style.display = "none";
 			},
 			login: function(){
-
+				axios.get('login',{params:{username:this.nickname,password:this.first_password}}).
+				then(function(res){
+					if(res.data == 'success'){
+						document.cookie = 'userName=;expires=Fri, 04 Nov 2022 17:59:51 GMT';
+						document.cookie = 'password=;expires=Fri, 04 Nov 2022 17:59:51 GMT'
+						document.cookie = 'userName=' + register_block.nickname;
+						document.cookie = 'password=' + register_block.first_password;
+						location.reload();
+					}
+					else if(res.data=='incorrect'){
+						alert('incorrect password, please login again!!!')
+					}
+					else {
+						alert('username does not exist!!!')
+					}
+				})
 			},
 			register: function(){
-				axios.get('listenregister',{
+				axios.get('listenRegister',{
 					params:{username:this.nickname,password:this.first_password,reEnterPassword:this.confirm_password}})
 						.then(function(res){
 							if(res.data == 'success'){
 								register_block.do_what = 'register'
 								register_block.display_confirm = "none"
 								register_block.display_login = 'block'
+								alert("注册成功！！！");
 							}
 							else {
 								alert(res.data);
@@ -665,7 +683,7 @@
 		}
 	})
 
-	// Vue part, post box data
+	// Display all the post message and its associated method
 	const post_block = new Vue({
 		el: ".chatting_post_reach_out",
 		data: {
@@ -673,14 +691,13 @@
 			reply_index: -1
 		},
 		methods: {
-			change_shadow: function(e){
-			},
 			deletePost: function(index){
 				console.log(index);
-				axios.get('listenDelete',{params: {current_user:user.username,delete_id:post_block.posts[index]["id"]}}).then(
-					res=>{res.data=="success"? post_block.posts.splice(index,1) : alert("fail to delete")
+				axios.get('listenDelete',{params: {username:user.username,id:post_block.posts[index]["id"]}}).then(
+					res=>{res.data=="success"? post_block.posts.splice(index,1) : alert("fail to delete this")
 				}).catch(error=>alert("fail to delete"));
 			},
+			// like the post
 			post_liked: function(e){
 				if (user.username ==''){
 					alert("请先登录");
@@ -702,16 +719,24 @@
 							post_block.posts[i].liked.splice(record_position,1);
 						}
 						// setTimeout(function(){
-							axios.get('listenLiked',{params:{current_user:user.username,post_id:current_id,event_type:status}}).then(
+							axios.get('listenLikedEvent',{params:{current_user:user.username,post_id:current_id,event_type:status}}).then(
 								function(res){}
 							).catch(error=>alert(error))
 						// },3000)
 					}
 				}
 			},
+			// prepare for reply ( not really send the reply)
 			reply: function(index){
-				index == post_block.reply_index? post_block.reply_index = -1 : post_block.reply_index = index;
+				post_block.posts[index].display_replies();
+				if(index == post_block.reply_index){
+					post_block.reply_index = -1;
+				}
+				else {
+				    post_block.reply_index = index;
+				}
 			},
+			// this send the reply message
 			getReplyMessage: function(index){
 				if (user.username == ''){
 					alert('please login');
@@ -720,7 +745,7 @@
 				contents = document.getElementsByClassName("chatting_reply_main")[1].innerHTML;
 				document.getElementsByClassName("chatting_reply_main")[1].innerHTML = '';
 				current_id = post_block.posts[index]["id"];
-				axios.get('listenReply',{params:{username:user.username,post_id:current_id,text:contents}}).then(
+				axios.get('listenSendReply',{params:{username:user.username,id:current_id,text:contents}}).then(
 					function(res){
 						post_block.posts[index]["has_reply"] = true
 						post_block.posts[index]["reply"].push({content:contents,user_nickname:user.username});
@@ -730,12 +755,14 @@
 			}
 		}
 	})
+	// This is the block for the nav bar
 	const headerView = new Vue({
 		el: ".chatting_app_header",
 		data: {
 			catmessage:"hello!",
 		},
 		computed: {
+			// How the cat response to the login
 			catWord: function(){
 				if(user.username == ''){
 					return '喵~啦啦啦,检测到你还没登录，除了浏览功能之外你可能做不了什么欧,要不点一下右侧头像框登录或者注册一下?'
@@ -807,22 +834,6 @@
 			$(".chatting_input_text").val($(this).text());
 		}
 		$(".chatting_input_text").focus();
-	})
-	//Click this button to switch the user || 切换用户测试
-	$("#user_login").click(function () {
-		document.cookie = 'userName=;expires=Fri, 04 Nov 2022 17:59:51 GMT'
-		let User = document.getElementsByClassName("account")[0].value;
-		let r = /\W/;
-		if (User.search(r) != -1) {
-			alert("NickName中不能出现数字和字母以外的符号!请重新输入");
-			return;
-		}
-		if ($.trim(User) == '') {
-			alert("登录失败,不能输入空白！");
-			return;
-		}
-		document.cookie = 'userName=' + User;
-		location.reload();
 	})
 	//Click this button to exit from this user || 退出web
 	$("#logout").on("click", function () {

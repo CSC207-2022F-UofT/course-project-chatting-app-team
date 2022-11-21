@@ -1,3 +1,4 @@
+// This class initialize the object contain list of post (a post controller)
 (function(window){
     function PostManage(){
         return new PostManage.prototype.init()
@@ -23,12 +24,9 @@
                 async: false,
                 success: function (data) {
                     //turn data to array type || 将数据转换成数组
-                    console.log(data);
-                    let messageArr = data.split("tbs010143fniwufwifnj+)4733&3uoghqgushvsjcvbjbke3bfb34uofuvhduvwb1=f");
-                    for (var i = 0; i <= messageArr.length - 2; i++) {
-                        //Vue data
-                        this_pointer.postlist[i] = new Post(messageArr, i);
-                    }
+                    data.forEach(function(element,index){
+                        this_pointer.postlist[index] = new Post(element);
+                    })
                     //Make the scrollbar top || 让滚动条处于最顶部(最顶部展示最新消息)
                     $("#top").scrollTop(0);
                 },
@@ -47,9 +45,8 @@
                 data: { time: timeline, text: content, userName: username }, //send key:values data || 传递参数类型
                 async: false,
                 success: function (data) {
-                    let messageArr = data.split("tbs010143fniwufwifnj+)4733&3uoghqgushvsjcvbjbke3bfb34uofuvhduvwb1=f");
-                    console.log(messageArr)
-                    new_post = new Post(messageArr,0);
+                    console.log(data[0])
+                    new_post = new Post(data[0]);
                     this_pointer.append(new_post);
                 },
                 error: function (e) {
