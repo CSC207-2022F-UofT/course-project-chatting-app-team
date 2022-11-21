@@ -3,44 +3,37 @@ package post_reply_user;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.UUID;
 
 
 public class Reply {
-    CommonUser author;
+    String userId;
     String content;
-    String time;
-    Post post;
+    String created_on;
+    String postId;
     String id;
 //    ArrayList<CommonUser> liked_by;
 
-    public Reply(CommonUser author, String content, String id, String time, Post post){
-        this.time = time;
-        this.post = post;
-        this.author = author;
-        this.content = content;
+    public Reply( String id, String userId, String postId, String content, String created_on){
+
         this.id = id;
+        this.userId = userId;
+        this.postId = postId;
+        this.content = content;
+        this.created_on = created_on;
 //        setLiked_by(liked_by);
         //not used at the moment
 
     }
     //constructor
 
-    public Reply(CommonUser author, String content, String id, Post post){
-        this.time = Instant.now().toString();
-        this.post = post;
-        this.author = author;
-        this.content = content;
-        this.id = id;
-//        setLiked_by(liked_by);
-        //not used at the moment
-
+    public Reply(String userId, String postId, String content){
+        this(UUID.randomUUID().toString(), userId, postId, content, Instant.now().toString());
     }
 
-
-
-    //setter
-    public Post getPost() {
-        this.post = post;
+    // getter
+    public String getPostId() {
+        return postId;
     }
 
 //    public void setLiked_by(ArrayList<CommonUser> liked_by) {
@@ -48,8 +41,8 @@ public class Reply {
 //    }
 
 
-    public String getAuthor() {
-        this.author = author;
+    public String getUserId() {
+        return userId;
     }
 
     public String getId() {
@@ -57,12 +50,12 @@ public class Reply {
     }
 
     public String getTime() {
-        return time;
+        return created_on;
     }
 
 
     public String getContent() {
-        this.content = content;
+        return content;
     }
 
 

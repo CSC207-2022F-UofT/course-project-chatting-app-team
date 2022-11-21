@@ -3,35 +3,35 @@ package post_reply_user;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Post {
-    CommonUser author;
-    String content;
-    String time;
     String id;
+    String userId;
+    String content;
     ArrayList<Reply> totalReply;
-    ArrayList<CommonUser> likedBy;
+    ArrayList<String> likedBy;
+    String createdOn;
 
-    //constructor
-    public Post(CommonUser author, String content, String id, ArrayList<Reply> replies){
-        this.time = Instant.now().toString();
-        this.id = id;
-        this.author = author;
-        this.content = content;
-        this.totalReply = replies;
-
+    // constructors
+    // most default/barebone constructor, use as many default value as possible. Good for initializing a brand-new post
+    public Post(String userId, String content) {
+        this(UUID.randomUUID().toString(), userId, content, new ArrayList<>(), new ArrayList<>());
+    }
+    public Post(String id, String userId, String content, ArrayList<Reply> replies, ArrayList<String> likedBy){
+        this(id, userId, content, replies, likedBy, Instant.now().toString());
     }
 
-    public Post(CommonUser author, String content, String id, String time, ArrayList<Reply> replies){
-        this.time = time;
+    public Post(String id, String userId, String content, ArrayList<Reply> replies, ArrayList<String> likedBy, String createdOn){
         this.id = id;
-        this.author = author;
+        this.userId = userId;
         this.content = content;
         this.totalReply = replies;
-
+        this.likedBy = likedBy;
+        this.createdOn = createdOn;
     }
 
-    //setter
+//    // setter
 //    public void setAuthor(CommonUser author) {
 //        this.author = author;
 //    }
@@ -47,12 +47,12 @@ public class Post {
 
 
     //getter
-    public ArrayList<CommonUser> getLikedBy() {
+    public ArrayList<String> getLikedBy() {
         return likedBy;
     }
 
-    public CommonUser getAuthor(){
-        return author;
+    public String getUserId(){
+        return userId;
     }
 
     public String getContent() {
@@ -64,7 +64,7 @@ public class Post {
     }
 
     public String getTime() {
-        return time;
+        return createdOn;
     }
 
     public ArrayList<Reply> getTotalReply() {
@@ -93,20 +93,20 @@ public class Post {
 //    }
 
     //find the top three replies to this post (in order of number of likes)
-    public ArrayList<Reply> getRepliesOrderByLikes(){
-        ArrayList<Reply> result = new ArrayList<Reply>();
-        result.add(this.totalReply.get(0));
-        for (int i = 1; i < this.totalReply.size(); i ++){
-            int j;
-            for (j = 0; j <= result.size(); j ++){
-                if (this.totalReply.get(i).liked_by.size() > result.get(j).liked_by.size()){
-                    break;
-                }
-            }
-            result.add(j, this.totalReply.get(i));
-        }
-        return result;
-    }
+//    public ArrayList<Reply> getRepliesOrderByLikes(){
+//        ArrayList<Reply> result = new ArrayList<Reply>();
+//        result.add(this.totalReply.get(0));
+//        for (int i = 1; i < this.totalReply.size(); i ++){
+//            int j;
+//            for (j = 0; j <= result.size(); j ++){
+//                if (this.totalReply.get(i).liked_by.size() > result.get(j).liked_by.size()){
+//                    break;
+//                }
+//            }
+//            result.add(j, this.totalReply.get(i));
+//        }
+//        return result;
+//    }
 
 //    //find the rest of the replies other than the top three replies
 //    public ArrayList<Reply> other_than_top_three(){

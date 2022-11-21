@@ -1,10 +1,13 @@
 package post_reply_user;
 
 import java.util.ArrayList;
-class CommonUser extends User{
+public class CommonUser extends User{
 
     ArrayList<Post> allPost;
 
+    public CommonUser(String nickname, String password, String avatar) {
+        this(nickname, password, avatar, new ArrayList<>());
+    }
     public CommonUser(String nickname, String password, String avatar, ArrayList<Post> posts){
         super(nickname, password, avatar);
         this.allPost = posts;
@@ -12,25 +15,19 @@ class CommonUser extends User{
         // constructor for CommonUser
 
     }
-
-
-    public String get_nickname(){
-        return super.nickname;
+    public String getNickname(){
+        return super.getNickname();
     }
-    //get the nickname of this user
 
-    public String get_password(){
-        return super.password;
+    public String getPassword() {
+        return super.getPassword();
     }
-    //get the password
 
-    public String get_avatar(){
-        return super.avatar;
+    public String getAvatar() {
+        return super.getAvatar();
     }
-    //get the avatar
 
-
-    public ArrayList<Post> get_allPost(){
+    public ArrayList<Post> getAllPost(){
         return this.allPost;
     }
     //get the list of all posts of this user
