@@ -201,4 +201,8 @@ public class Database {
         reply_collection.deleteMany(Filters.eq("parent_post_id", post_id));
 
     }
+
+    public void close() {
+        mongoClient.close();
+    }
 }
