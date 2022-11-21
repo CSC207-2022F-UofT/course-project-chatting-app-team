@@ -19,6 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import post_reply_user.*;
+
 public class Database {
 
     String connection_uri = "";
@@ -32,33 +34,28 @@ public class Database {
 
     }
 
-    public void insert_post(String user_nickname, String post_content) {
+    public void insert_post(Post post) {
         MongoCollection<Document> post_collection = mongo_database.getCollection("post");
-        String uuid = UUID.randomUUID().toString();
-        Document post = new Document();
-        String UTC_time = Instant.now().toString();
-        post.append("_id", uuid)
-            .append("user_nickname", user_nickname)
-            .append("content", post_content)
-            .append("created_on", UTC_time);
-        post_collection.insertOne(post);
+        Document post_doc = new Document();
+        post_doc.append("_id", post.getId())
+            .append("user_nickname", ((User)post.getAuthor()).getNickname())
+            .append("content", post.getContent())
+            .append("created_on", post.getTime());
+        post_collection.insertOne(post_doc);
     }
 
-    public void insert_reply(String parent_post_id, String user_nickname, String reply_content){
+    public void insert_reply(Post post, Reply reply){
         MongoCollection<Document> reply_collection = mongo_database.getCollection("reply");
-        String uuid = UUID.randomUUID().toString();
-
-        Document reply = new Document();
-        String UTC_time = Instant.now().toString();
-        reply.append("_id", uuid)
-            .append("parent_post_id", parent_post_id)
-            .append("user_nickname", user_nickname)
-            .append("content", reply_content)
-            .append("created_on", UTC_time);
-        reply_collection.insertOne(reply);
+        Document reply_doc = new Document();
+        reply_doc.append("_id", reply.getId())
+            .append("parent_post_id", post.getId())
+            .append("user_nickname", ((User)post.getAuthor()).getNickname())
+            .append("content", reply.getContent())
+            .append("created_on", reply.getTime());
+        reply_collection.insertOne(reply_doc);
     }
 
-    public Document find_post_by_id(String post_id) {
+    public Post find_post_by_id(String post_id) {
         MongoCollection<Document> post_collection = mongo_database.getCollection("post");
 
         Document doc = post_collection.aggregate(
@@ -68,6 +65,7 @@ public class Database {
                 )
         ).first();
 
+        Post post = new Post(doc.get());
         return doc;
     }
 

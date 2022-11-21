@@ -17,6 +17,19 @@ public abstract class User {
     }
     // constructor of the abstract class User
 
+    public String getNickname(){
+        return nickname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+
 
 
 }
