@@ -7,11 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/sendReplyResponse")
-public class servletSendReplyResponse extends HttpServlet {
+@WebServlet("/loginResponsePasswordIncorrect")
+public class servletLoginResponsePasswordIncorrect extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setCharacterEncoding("UTF-8");
-        resp.getWriter().append("success");
+        resp.getWriter().append("password incorrect");
     }
 }

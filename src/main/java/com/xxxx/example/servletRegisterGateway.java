@@ -2,7 +2,7 @@ package com.xxxx.example;
 
 import database_connection.Database;
 import org.bson.types.ObjectId;
-import register_use_case.UsernameCheck;
+import register_use_case.RegisterUsernameCheck;
 import org.bson.Document;
 
 import javax.servlet.ServletException;
@@ -21,7 +21,7 @@ public class servletRegisterGateway extends HttpServlet {
         String username = req.getParameter("username");
         Document returnedUsername = myDatabase.find_user_by_id(username);
         String password = req.getParameter("password");
-        boolean check = UsernameCheck.check(returnedUsername);
+        boolean check = RegisterUsernameCheck.check(returnedUsername);
         if (check) {
             myDatabase.insert_user(new Document()
                     .append("_id", new ObjectId())
