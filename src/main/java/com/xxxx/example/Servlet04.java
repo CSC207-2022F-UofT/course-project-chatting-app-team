@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/Servlet04")
-public class Servlet04 extends HttpServlet {
+public class Servlet04 extends HttpServlet{
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
@@ -30,6 +30,7 @@ public class Servlet04 extends HttpServlet {
         for (Document post: postDocs) {
             postStrArray.add(post.toBsonDocument());
         }
+
 
         // System.out.print(postStrArray.getValues());
         resp.getWriter().append(postStrArray.getValues().toString());
