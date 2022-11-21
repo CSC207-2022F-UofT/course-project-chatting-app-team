@@ -36,6 +36,7 @@
     width: 100%;
     margin-top: 1%;
     line-height: 136px;
+    overflow:hidden;
     background-color: transparent;
 }
 .chatting_post_user_pic {
@@ -123,7 +124,6 @@
 .chatting_post_reply_box {
     margin-bottom: 58px;
     border: 1px solid white;
-    background-color: rgb(168, 158, 158);
 }
 .chatting_post_reply_box>p {
     font-size: 1.8em;

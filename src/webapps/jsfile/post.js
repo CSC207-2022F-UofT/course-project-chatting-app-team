@@ -61,8 +61,8 @@
             messageJson.user_nickname == user.username? this.userme = true : this.userme = false
         },
         // choose how many replies to display
-        display_replies: function(){
-            if(this.display_reply.length==3){
+        display_replies: function(index){
+            if(this.display_reply.length==3 || index == 1){
                 this.display_reply = this.reply
             }
             else if (this.display_reply.length == this.reply.length){
