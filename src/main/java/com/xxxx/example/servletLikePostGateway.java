@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+// The servletLikePostGateway class works as a gateway and pass variables to presenter.
 @WebServlet("/listenLiked")
 public class servletLikePostGateway extends HttpServlet {
     @Override

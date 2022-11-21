@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+// The servletLoginGateway class works as a gateway and pass variables to presenter.
 @WebServlet("/loginGateway")
 public class servletLoginGateway extends HttpServlet {
     @Override

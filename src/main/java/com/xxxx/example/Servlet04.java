@@ -31,7 +31,6 @@ public class Servlet04 extends HttpServlet {
             postStrArray.add(post.toBsonDocument());
         }
 
-        // System.out.print(postStrArray.getValues());
         resp.getWriter().append(postStrArray.getValues().toString());
     }
 }
