@@ -1,12 +1,11 @@
-
+// This class initialize the Post object
 (function(window){
-    function Post(messageArray, n){
-        return new Post.prototype.init(messageArray,n)
+    function Post(messageJson){
+        return new Post.prototype.init(messageJson)
     }
     Post.prototype = {
         constructor: Post,
-        init: function(messageArray,n){
-            let messageJson = eval("(" + messageArray[n] + ")");
+        init: function(messageJson){
             this.init_id(messageJson);
             this.init_nickname(messageJson);
             this.init_has_liked(messageJson);
@@ -16,6 +15,8 @@
             this.init_post_img(messageJson);
             this.time = messageJson.created_on;
             this.message = messageJson.content
+            // How many replies need to be displayed
+            this.display_reply = this.reply.slice(0,3)
         },
         init_id: function(messageJson){
             Object.defineProperty(this,'id',{value:messageJson._id,writable:false,configurable:false})
@@ -40,7 +41,7 @@
             }
             else {
                 this.liked = messageJson.likes;
-                this.has_liked = '';
+                messageJson.likes.indexOf(user.username)!=-1?  this.has_liked = '': this.has_liked = '';
             }
         },
         init_user_pictures: function(messageJson){
@@ -58,7 +59,20 @@
         },
         determine_user: function(messageJson){
             messageJson.user_nickname == user.username? this.userme = true : this.userme = false
+        },
+        // choose how many replies to display
+        display_replies: function(){
+            if(this.display_reply.length==3){
+                this.display_reply = this.reply
+            }
+            else if (this.display_reply.length == this.reply.length){
+                this.display_reply = this.reply.slice(0,3)
+            }
+            else{
+
+            }
         }
+
 
     }
     Post.prototype.init.prototype = Post.prototype;
@@ -66,4 +80,3 @@
 
 
 })(window);
-

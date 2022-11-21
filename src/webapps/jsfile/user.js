@@ -1,4 +1,5 @@
 //(function(window))(window): execute this code immediately after window access this page
+// This class initialize the user object
 (function(window) {
     //define an object User (can be seen as a class)
     function User(pic_path){
@@ -30,6 +31,7 @@
             let password = this.check_cookie_word('password');
             Object.defineProperty(this,'password',{value:password,writable:false,configurable:false});
         },
+        // check the username by checking the cookies to see if user already login
         check_cookie_word: function(word){
             // input a string key, get the value of this string in cookie
             let value_want = ''

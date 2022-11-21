@@ -13,11 +13,11 @@ import java.io.IOException;
 public class servletSendReplyGateway extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String text = (String) req.getParameter("text");
-        String userName = (String) req.getParameter("userName");
-        String id = (String) req.getParameter("id");
+        String text = req.getParameter("text");
+        String username = req.getParameter("username");
+        String id = req.getParameter("id");
         Database myDatabase = new Database("", "DatingAppStaging");
-        myDatabase.insert_reply(id, userName, text);
+        myDatabase.insert_reply(id, username, text);
         req.getRequestDispatcher("/sendReplyResponse").forward(req,resp);
     }
 }
