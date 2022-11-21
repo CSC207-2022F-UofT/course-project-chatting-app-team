@@ -15,6 +15,7 @@ public abstract class User {
         this.password = password;
         this.avatar = avatar;
     }
+    // constructor of the abstract class User
 
 
 
