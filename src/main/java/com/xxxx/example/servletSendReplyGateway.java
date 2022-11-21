@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+// The servletSendReplyGateway class works as a gateway and pass variables to presenter.
 @WebServlet("/sendReplyGateway")
 public class servletSendReplyGateway extends HttpServlet {
     @Override

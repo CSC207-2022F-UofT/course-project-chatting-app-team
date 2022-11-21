@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+// The servletDeleteResponse class works as a presenter and pass message back to front-end.
 @WebServlet("/deleteResponse")
 public class servletDeleteResponse extends HttpServlet {
     @Override

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+// The servletDeleteGateway class works as a gateway and pass variables to presenter.
 @WebServlet("/deleteGateway")
 public class servletDeleteGateway extends HttpServlet {
     @Override
@@ -20,7 +21,6 @@ public class servletDeleteGateway extends HttpServlet {
         String status;
 
         Document post_sender = myDatabase.find_post_by_id(delete_id);
-
         String sender = post_sender.getString("user_nickname");
         if(sender.equals(Username)){
             status = "success";

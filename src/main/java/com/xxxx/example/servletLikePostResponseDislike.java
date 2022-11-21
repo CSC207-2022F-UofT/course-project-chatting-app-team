@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+// The servletLikePostResponseDislike class works as a presenter and pass dislike message back to front-end.
 @WebServlet("/likePostResponseDislike")
 public class servletLikePostResponseDislike extends HttpServlet {
     @Override

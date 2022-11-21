@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+// The servletDelete class works as a controller and pass variables to gateway.
 @WebServlet("/listenDelete")
 public class servletDelete extends HttpServlet {
     @Override

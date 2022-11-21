@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+// The servletLoginResponseUserNotExist class works as a presenter and pass user not exist message back to front-end.
 @WebServlet("/loginResponseUserNotExist")
 public class servletLoginResponseUserNotExist extends HttpServlet {
     @Override
