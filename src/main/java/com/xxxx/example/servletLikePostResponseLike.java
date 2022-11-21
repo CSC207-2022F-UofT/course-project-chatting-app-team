@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+// The servletLikePostResponseLike class works as a presenter and pass like message back to front-end.
 @WebServlet("/likePostResponseLike")
 public class servletLikePostResponseLike extends HttpServlet {
     @Override

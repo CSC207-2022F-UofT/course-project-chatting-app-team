@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 
+// The servletRegisterGateway class works as a gateway and pass variables to presenter.
 @WebServlet("/registerGateway")
 public class servletRegisterGateway extends HttpServlet {
     private boolean check;

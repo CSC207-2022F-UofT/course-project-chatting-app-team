@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+// The servletLoginResponsePasswordIncorrect class works as a presenter and pass incorrect message back to front-end.
 @WebServlet("/loginResponsePasswordIncorrect")
 public class servletLoginResponsePasswordIncorrect extends HttpServlet {
     @Override

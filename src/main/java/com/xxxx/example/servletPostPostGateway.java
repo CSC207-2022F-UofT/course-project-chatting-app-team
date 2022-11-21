@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+// The servletPostPostGateway class works as a gateway and pass variables to presenter.
 @WebServlet("/postPostGateway")
 public class servletPostPostGateway extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

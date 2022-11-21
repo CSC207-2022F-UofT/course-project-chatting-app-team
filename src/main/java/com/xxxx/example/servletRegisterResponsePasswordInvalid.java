@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
+// The servletRegisterResponsePasswordInvalid class works as a presenter and pass incorrect message back to front-end.
 @WebServlet("/registerResponsePasswordInvalid")
 public class servletRegisterResponsePasswordInvalid extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
