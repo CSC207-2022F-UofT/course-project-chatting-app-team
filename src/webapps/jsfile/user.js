@@ -14,6 +14,7 @@
             this.init_user_password();
             this.init_user_picture(pic_path);
             this.init_login_time();
+            this.match_the_password();
         },
         init_username: function(){
             //allow system to write this value
@@ -47,6 +48,27 @@
         init_login_time: function(){
             let dayTime = new Date();
             Object.defineProperty(this,'logintime',{value:dayTime,writable:false,configurable:false});
+        },
+        //to prevent someone alter the cookie
+        match_the_password: function(){
+            if (this.username != ''||this.password!=''){
+                axios.get('login',{params:{username:this.username,password:this.password}}).
+                then(function(res){
+                    if(res.data == 'incorrect'){
+                        document.cookie = 'userName=;expires=Fri, 04 Nov 2022 17:59:51 GMT';
+                        document.cookie = 'password=;expires=Fri, 04 Nov 2022 17:59:51 GMT'
+                        location.reload();
+                    }
+                    else if(res.data=='not_exist'){
+                        document.cookie = 'userName=;expires=Fri, 04 Nov 2022 17:59:51 GMT';
+                        document.cookie = 'password=;expires=Fri, 04 Nov 2022 17:59:51 GMT'
+                        location.reload()
+                    }
+                    else {
+
+                    }
+                })
+            }
         }
     };
     User.prototype.init.prototype = User.prototype;
