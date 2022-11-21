@@ -16,7 +16,7 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://cdn.staticfile.org/vue/2.7.0/vue.min.js"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<script src="jsfile/poster.js"></script>
+	<script src="jsfile/post.js"></script>
 	<script src="jsfile/user.js"></script>
 	<script src="jsfile/allpost.js" type="text/javascript"></script>
 	<link rel="stylesheet" href="CSSstyle/popupwindow.css" />
@@ -202,6 +202,9 @@
 			margin-top: 10%;
 			width: 100%;
 			background-color: grey;
+		}
+		.chatting_post_reply_box>p{
+			word-break: break-all;
 		}
 		.chatting_reply_main {
 			float: left;
@@ -485,7 +488,7 @@
 							</div>
 							<span class="chatting_post_user_name">{{ post.user }}</span>
 						</div>
-						<div class="chatting_post_body_content" @click="reply(index)">
+						<div class="chatting_post_body_content" @click="reply(index)" :style="{'max-height': index==reply_index? '100%':'300px'}">
 							<p>{{ post.message }}</p>
 						</div>
 						<div class="chatting_post_body_pictures">
@@ -496,9 +499,9 @@
 							<div class="chatting_post_like" @click="post_liked">{{ post.has_liked }}<span class="chatting_post_like_count">{{ post.liked.length }}</span></div>
 							<span v-if="post.userme" class="chatting_post_delete" @click="deletePost(index)">删除</span>
 						</div>
-						<div v-if="post.has_reply" class="chatting_post_reply_box">
-							<p v-for="reply in post.display_reply"><em>{{ reply.user_nickname }}:</em>{{ reply.content }}</p>
-							<div v-if="post.display_reply.length <= 3" class="chatting_post_reply_history">--查看历史记录<span>{{ post.reply.length }}</span>条--</div>
+						<div v-if="post.has_reply" class="chatting_post_reply_box" :style="{'background':index==reply_index? 'white':'grey'}" @click="reply(index)">
+							<p v-for="reply in post.display_reply"><em>{{ reply.user_nickname }}: </em>{{ reply.content }}</p>
+							<div v-if="index != reply_index" class="chatting_post_reply_history">--查看历史记录<span>{{ post.reply.length }}</span>条--</div>
 						</div>
 						<div class="chatting_reply_function_box" v-if="index==reply_index&&User!=''">
 							<div class="chatting_reply_main" contenteditable="true"></div><div class="chatting_reply_send" @click="getReplyMessage(index)">发送</div>
@@ -691,6 +694,10 @@
 			reply_index: -1
 		},
 		methods: {
+            //change the CSS style when user clicking the post
+            change_shadow: function(){
+
+            },
 			deletePost: function(index){
 				console.log(index);
 				axios.get('listenDelete',{params: {username:user.username,id:post_block.posts[index]["id"]}}).then(
@@ -749,6 +756,7 @@
 					function(res){
 						post_block.posts[index]["has_reply"] = true
 						post_block.posts[index]["reply"].push({content:contents,user_nickname:user.username});
+						post_block.posts[index].display_replies(1);
 						console.log(res.data)
 					}
 				).catch(error=>{alert(error)})
