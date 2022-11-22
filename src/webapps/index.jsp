@@ -825,7 +825,7 @@
 			type: "get",
 			url: "Servlet04", //Servlet04
 			async: false,
-			success: function (data) {
+			success: function (data) { // data is in json format
 				User = acquire_user();
 				//turn data to array type || 将数据转换成数组
 				console.log(data);
@@ -851,10 +851,10 @@
 				}
 				//Make the scrollbar bottom || 让滚动条处于最底部(最底部展示最新消息)
 				$("#top").scrollTop(0);
-				console.log(list_of_all_posts);
+				// console.log(list_of_all_posts);
 			},
 			error: function (e) {
-				//If request history message fails, return error || 如果请求失败,返回错误问题
+				// If request history message fails, return error || 如果请求失败,返回错误问题
 				console.log(e);
 				console.log("Error occur!");
 			}
@@ -916,7 +916,7 @@
 		list_of_post["has_liked"] = false
 		// should be like this: list_of_post = {id = string,message:string,liked:[],user:string,userme:'',time:string,img:[],reply:[],user_pic:string}
 		//turn each element in array to json type || 转化成json形式
-		let messageJson = eval("(" + messageArray[n] + ")");
+		let messageJson = messageArray[n];
 		//distinguish other user and "me" || 根据用户名生成，区别“其他用户”和“我”
 		let messageClass = 'other'
 		let userme = false;
