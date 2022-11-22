@@ -19,7 +19,7 @@
     width: 90%;
     border-radius: 10%;
     overflow: hidden;
-    background-color: white;
+    background-color: rgba(255,255,255,.8);
     border: none;
     box-shadow: 6px 5px 10px rgb(164, 160, 160);
 }
@@ -36,15 +36,9 @@
     width: 100%;
     margin-top: 1%;
     line-height: 136px;
+    overflow:hidden;
     background-color: transparent;
 }
-/* .chatting_post_header_block {
-    float: left;
-    display: inline-block;
-    height: 100%;
-    width: 10%;
-    background-color: white;
-} */
 .chatting_post_user_pic {
     float: left;
     height: 25%;
@@ -130,7 +124,6 @@
 .chatting_post_reply_box {
     margin-bottom: 58px;
     border: 1px solid white;
-    background-color: rgb(168, 158, 158);
 }
 .chatting_post_reply_box>p {
     font-size: 1.8em;

@@ -17,8 +17,8 @@ import java.io.IOException;
 public class servletLoginGateway extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = (String) req.getAttribute("username");
-        String password = (String) req.getAttribute("password");
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
         Database myDatabase = new Database("", "DatingAppStaging");
         Document returnedUser = myDatabase.find_user_by_id(username);
         boolean checkExist = LoginUsernameCheck.check(returnedUser);

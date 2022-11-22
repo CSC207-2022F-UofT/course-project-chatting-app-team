@@ -16,6 +16,9 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://cdn.staticfile.org/vue/2.7.0/vue.min.js"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="jsfile/post.js"></script>
+	<script src="jsfile/user.js"></script>
+	<script src="jsfile/allpost.js" type="text/javascript"></script>
 	<link rel="stylesheet" href="CSSstyle/popupwindow.css" />
 	<link rel="stylesheet" href="CSSstyle/header.css" />
 	<link rel="stylesheet" href="CSSstyle/chattingpost.css" />
@@ -116,7 +119,7 @@
 			height: 84%;
 			width: 78%;
 			border-radius: 10px 10px;
-			background-color: rgb(188, 182, 216);
+			background-color: rgba(249,250,249);
 		}
 		/*Chatting window 聊天窗口*/
 		.chatting_box {
@@ -194,6 +197,33 @@
 			background-image: url("images/creator_photo/creatorphoto.jpeg");
 			background-repeat: no-repeat;
 			background-size: cover;
+		}
+		.chatting_reply_function_box {
+			margin-top: 10%;
+			width: 100%;
+			background-color: grey;
+		}
+		.chatting_post_reply_box>p{
+			word-break: break-all;
+		}
+		.chatting_reply_main {
+			float: left;
+			margin-bottom: 8%;
+			width: 85%;
+			max-height: 175px;
+			padding-left: 1%;
+			font-size: 2.1em;
+			border-radius: 5%;
+			background: rgba(211, 211, 211, 0.6);
+			overflow: scroll;
+		}
+		.chatting_reply_send {
+			float: left;
+			margin-left: 1%;
+			width: 12%;
+			color: dodgerblue;
+			font-size: 2em;
+			text-align: center;
 		}
 		.vip {
 			animation-name: vipSpecial;
@@ -440,21 +470,25 @@
 						<span class="chatting_post_time">刚刚</span>
 						<div class="chatting_post_like"><span class="chatting_post_like_count">0</span></div>
 					</div>
+					<div class="chatting_reply_function_box">
+						<div class="chatting_reply_main" contenteditable="true">你好啊</div><div class="chatting_reply_send">发送</div>
+						<div class="chatting_reply_other_function"></div>
+					</div>
 				</div>
 			</div>
 		</div>
 <%--	Here is what Vue need to initialize--%>
 		<div class="chatting_post_reach_out">
-			<div v-for="post in posts" class="chatting_post">
+			<div v-for="(post,index) in posts" class="chatting_post">
 				<div :class='["chatting_post_body", {"chatting_post_shadow":post.post_shadow}]' :id="post.id" @mousedown="change_shadow($event)" @mouseup="change_shadow($event)">
-					<div class="chatting_post_body_para">
-						<div class="chatting_post_body_head">
+					<div class="chatting_post_body_para" >
+						<div class="chatting_post_body_head" @click="reply(index)">
 							<div class="chatting_post_user_pic">
 								<div class="user_photo" :style="{'background-image': post.user_pic}"></div>
 							</div>
 							<span class="chatting_post_user_name">{{ post.user }}</span>
 						</div>
-						<div class="chatting_post_body_content">
+						<div class="chatting_post_body_content" @click="reply(index)" :style="{'max-height': index==reply_index? '100%':'300px'}">
 							<p>{{ post.message }}</p>
 						</div>
 						<div class="chatting_post_body_pictures">
@@ -463,11 +497,15 @@
 						<div class="chatting_function_box">
 							<span class="chatting_post_time">21 小时前</span>
 							<div class="chatting_post_like" @click="post_liked">{{ post.has_liked }}<span class="chatting_post_like_count">{{ post.liked.length }}</span></div>
-							<span v-if="post.userme" class="chatting_post_delete" @click="deletePost">删除</span>
+							<span v-if="post.userme" class="chatting_post_delete" @click="deletePost(index)">删除</span>
 						</div>
-						<div v-if="post.has_reply" class="chatting_post_reply_box">
-							<p v-for="reply in post.replies"><em>Tianxianbaobao:</em>{{ reply }}</p>
-							<div class="chatting_post_reply_history">--查看历史记录<span>{{ post.replies.length }}</span>条--</div>
+						<div v-if="post.has_reply" class="chatting_post_reply_box" :style="{'background':index==reply_index? 'white':'rgba(233,233,233,.8)'}" @click="reply(index)">
+							<p v-for="reply in post.display_reply"><em>{{ reply.user_nickname }}: </em>{{ reply.content }}</p>
+							<div v-if="index != reply_index" class="chatting_post_reply_history">--查看历史记录<span>{{ post.reply.length }}</span>条--</div>
+						</div>
+						<div class="chatting_reply_function_box" v-if="index==reply_index&&User!=''">
+							<div class="chatting_reply_main" contenteditable="true"></div><div class="chatting_reply_send" @click="getReplyMessage(index)">发送</div>
+							<div class="chatting_reply_other_function"></div>
 						</div>
 					</div>
 				</div>
@@ -572,13 +610,17 @@
 <!-- 代码部分(需要js文档与html分离) -->
 <script>
 	// jq framework language || jq语法: $(function(){}) || Immediately execute these function ||刷新时立即响应
-	$(function () {
-		var User;
-		//Function_piece 4: Initialize the emoji tab\生成表情包库
-		initialize_emoji_tab();
-		console.log("this should be run first")
-	})
-	// Vue part, user register and login
+	//initialize the User
+	const user = new User();
+	//Function_piece 4: Initialize the emoji tab\生成表情包库
+	initialize_emoji_tab();
+	console.log('this will be initialize first');
+	//initialize the post history
+	const postManage = new PostManage()
+	display_message_history();
+
+
+	// Vue part, user register and login block
 	const register_block = new Vue({
 		el: "#div1",
 		data: {
@@ -590,6 +632,7 @@
 			confirm_password:''
 		},
 		methods: {
+			// User choose to login or register
 			switch_login: function(){
 				if (this.do_what == "login"){
 					this.do_what = 'register'
@@ -602,21 +645,37 @@
 					this.display_login = "none"
 				}
 			},
+			// close login block
 			close_login: function(){
 				div.style.display = "none";
 			},
 			login: function(){
-
+				axios.get('login',{params:{username:this.nickname,password:this.first_password}}).
+				then(function(res){
+					if(res.data == 'success'){
+						document.cookie = 'userName=;expires=Fri, 04 Nov 2022 17:59:51 GMT';
+						document.cookie = 'password=;expires=Fri, 04 Nov 2022 17:59:51 GMT'
+						document.cookie = 'userName=' + register_block.nickname;
+						document.cookie = 'password=' + register_block.first_password;
+						location.reload();
+					}
+					else if(res.data=='incorrect'){
+						alert('incorrect password, please login again!!!')
+					}
+					else {
+						alert('username does not exist!!!')
+					}
+				})
 			},
 			register: function(){
-				axios.get('listenregister',{
+				axios.get('listenRegister',{
 					params:{username:this.nickname,password:this.first_password,reEnterPassword:this.confirm_password}})
 						.then(function(res){
 							if(res.data == 'success'){
-								console.log(res.data)
 								register_block.do_what = 'register'
 								register_block.display_confirm = "none"
 								register_block.display_login = 'block'
+								alert("注册成功！！！");
 							}
 							else {
 								alert(res.data);
@@ -627,35 +686,27 @@
 		}
 	})
 
-	// Vue part, post box data
+	// Display all the post message and its associated method
 	const post_block = new Vue({
 		el: ".chatting_post_reach_out",
 		data: {
-			posts: display_message_history()
+			posts: postManage.postlist,
+			reply_index: -1
 		},
 		methods: {
-			change_shadow: function(e){
-			},
-			deletePost: function(e){
-				let current_id = e.currentTarget.parentElement.parentElement.parentElement.getAttribute("id");
-				let status;
-				axios.get('listenDelete',{params: {current_user:User,delete_id:current_id}}).then(function(res){
-					status = res.data;
-					if(status =="success"){
-						for (let i = 0; i < post_block.posts.length; i++){
-							if (post_block.posts[i]["id"] == current_id) {
-								post_block.posts.splice(i,1);
-							}
-						}
-					}
-					else {
-						console.log(res.data);
-						alert("fail to delete!!!");
-					}
+            //change the CSS style when user clicking the post
+            change_shadow: function(){
+
+            },
+			deletePost: function(index){
+				console.log(index);
+				axios.get('listenDelete',{params: {username:user.username,id:post_block.posts[index]["id"]}}).then(
+					res=>{res.data=="success"? post_block.posts.splice(index,1) : alert("fail to delete this")
 				}).catch(error=>alert("fail to delete"));
 			},
+			// like the post
 			post_liked: function(e){
-				if (User ==''){
+				if (user.username ==''){
 					alert("请先登录");
 					return;
 				}
@@ -665,78 +716,89 @@
 					if (post_block.posts[i]["id"] == current_id) {
 						if(post_block.posts[i].has_liked == ''){
 							post_block.posts[i].has_liked = '';
-							post_block.posts[i].liked.push(User);
+							post_block.posts[i].liked.push(user.username);
 							status = 'liked'
 						}
 						else{
 							status = 'unliked'
 							post_block.posts[i].has_liked = '';
-							let record_position = post_block.posts[i].liked.indexOf(User);
+							let record_position = post_block.posts[i].liked.indexOf(user.username);
 							post_block.posts[i].liked.splice(record_position,1);
 						}
 						// setTimeout(function(){
-							axios.get('listenLiked',{params:{current_user:User,post_id:current_id,event_type:status}}).then({
-								function(res){alert(res.data)}
-							}).catch(error=>alert(error))
+							axios.get('listenLikedEvent',{params:{current_user:user.username,post_id:current_id,event_type:status}}).then(
+								function(res){}
+							).catch(error=>alert(error))
 						// },3000)
 					}
 				}
-			}
-		},
-		computed: {
-			check_replies: function (){
-				if (this.posts.replies.length > 0){
-					return true
+			},
+			// prepare for reply ( not really send the reply)
+			reply: function(index){
+				post_block.posts[index].display_replies();
+				post_block.posts.forEach(function(element,index2){
+					if(index != index2){
+						post_block.posts[index2].display_reply = post_block.posts[index2].reply.slice(0,3);
+					}
+				})
+				if(index == post_block.reply_index){
+					post_block.reply_index = -1;
 				}
 				else {
-					return false
+				    post_block.reply_index = index;
 				}
+			},
+			// this send the reply message
+			getReplyMessage: function(index){
+				if (user.username == ''){
+					alert('please login');
+					return;
+				}
+				contents = document.getElementsByClassName("chatting_reply_main")[1].innerHTML;
+				document.getElementsByClassName("chatting_reply_main")[1].innerHTML = '';
+				current_id = post_block.posts[index]["id"];
+				axios.get('listenSendReply',{params:{username:user.username,id:current_id,text:contents}}).then(
+					function(res){
+						post_block.posts[index]["has_reply"] = true
+						post_block.posts[index]["reply"].push({content:contents,user_nickname:user.username});
+						post_block.posts[index].display_replies(1);
+						console.log(res.data)
+					}
+				).catch(error=>{alert(error)})
 			}
 		}
 	})
+	// This is the block for the nav bar
 	const headerView = new Vue({
 		el: ".chatting_app_header",
 		data: {
 			catmessage:"hello!",
 		},
 		computed: {
+			// How the cat response to the login
 			catWord: function(){
-				if(User == ''){
+				if(user.username == ''){
 					return '喵~啦啦啦,检测到你还没登录，除了浏览功能之外你可能做不了什么欧,要不点一下右侧头像框登录或者注册一下?'
 				}
 				else {
-					return  '喵~你好啊' + User + '欢迎来找我,你现在有'+ post_block.posts[0]["liked"].length + '条点赞消息'+post_block.posts[0]["reply"].length + '条回复消息'
+					return  '喵~你好啊' + user.username + '欢迎来找我,你现在有'+ post_block.posts[0]["liked"].length + '条点赞消息'+post_block.posts[0]["reply"].length + '条回复消息'
 				}
 			}
 		}
 	})
+
 	// Event part, 1. click
 	//Send message when clicking this button || 点击按钮发送消息
 	$(".chatting_input_submit").click(function () {
 		// 传递数据
 		//如果没登陆，那么不能发送信息
-		if (User == '') {
+		if (user.username == '') {
 			alert("请先登录!");
 			return
 		}
 		var absolu = initialWord(); //line 375, display the message just sent || 前端展示刚刚发送消息, 374行
-		$.ajax({
-			url: "ser05", //java文件名 ser03
-			contentType: "application/x-www-form-urlencoded;charset:utf-8;",
-			type: "get", //post, send the parameter || post传递参数
-			data: { time: absolu[0], text: absolu[1], userName: User }, //send key:values data || 传递参数类型
-			async: false,
-			success: function (data) {
-				console.log(data);
-				let messageArr = data.split("tbs010143fniwufwifnj+)4733&3uoghqgushvsjcvbjbke3bfb34uofuvhduvwb1=f");
-				new_post = form_post(messageArr,0);
-				console.log(new_post);
-				post_block.posts.unshift(new_post);
-			},
-			error: function (e) {
-				console.log("出现错误:" + e);
-			}
-		});
+		postManage.write_new_post(absolu[0],absolu[1],user.username)
+
 		// Form emoji word 生成emoji
 	})
 	//Switch the chatting box when click this button || 点击切换版面
@@ -745,9 +807,6 @@
 		let user2 = $('#bottom');
 		user1.attr("id", "bottom");
 		user2.attr("id", "top");
-		console.log("测试一下")
-		console.log(user1);
-		console.log(user2);
 	});
 	//Response to the click of the body element
 	$("body").click(function () {
@@ -789,77 +848,19 @@
 		}
 		$(".chatting_input_text").focus();
 	})
-	//Click this button to switch the user || 切换用户测试
-	$("#user_login").click(function () {
-		document.cookie = 'userName=tianxianbaobao;expires=Fri, 04 Nov 2022 17:59:51 GMT'
-		let User = document.getElementsByClassName("account")[0].value;
-		let r = /\W/;
-		if (User.search(r) != -1) {
-			alert("NickName中不能出现数字和字母以外的符号!请重新输入");
-			return;
-		}
-		if ($.trim(User) == '') {
-			alert("登录失败,不能输入空白！");
-			return;
-		}
-		document.cookie = 'userName=' + User;
-		location.reload();
-	})
 	//Click this button to exit from this user || 退出web
 	$("#logout").on("click", function () {
 		document.cookie = 'userName=tianxianbaobao;expires=Fri, 04 Nov 2022 17:59:51 GMT';
-		User = "";
 		location.reload();
 	})
-	//Click delete button to delete the post
-	$(".chatting_post_delete").click(function(){
-		console.log($(this).parent().parent().parent());
-	})
+
+
 	//Function piece part, definition of the function
 	//Function_piece 1: Function that show message history\此处function为展示历史记录
 	function display_message_history() {
-		let list_of_all_posts = [];
 		let picture_path = 'url(images/UserPhoto/randomPhoto/randompic8.jpg)'
 		$('#LoginUser').css("background-image",picture_path);
-		$.ajax({
-			type: "get",
-			url: "Servlet04", //Servlet04
-			async: false,
-			success: function (data) { // data is in json format
-				User = acquire_user();
-				//turn data to array type || 将数据转换成数组
-				console.log(data);
-				let messageArr = data.split("tbs010143fniwufwifnj+)4733&3uoghqgushvsjcvbjbke3bfb34uofuvhduvwb1=f");
-				console.log(messageArr);
-				for (var i = 0; i <= messageArr.length - 2; i++) {
-					//Vue data
-					list_of_all_posts[i] = form_post(messageArr, i);
-					//This is just for fun || 一下纯属娱乐,vip + title标签测试
-					// if (messageJson.user_nickname == "tianxianbaobao") {
-					// 	let vipTitle = "这是尊贵的VIP用户"
-					// 	time.attr("title", vipTitle);
-					// 	time.children("span").attr("class", "vip")
-					// }
-					// if (messageJson.user_nickname == "bruce_liu") {
-					// 	let descriptiveTitle = "这是个写不完论文的废物"
-					// 	time.attr("title", descriptiveTitle);
-					// }
-					// if (messageJson.user_nickname == "Dai") {
-					// 	let descriptiveTitle = "这是高级数据工程师 + shuaibi"
-					// 	time.attr("title", descriptiveTitle);
-					// }
-				}
-				//Make the scrollbar bottom || 让滚动条处于最底部(最底部展示最新消息)
-				$("#top").scrollTop(0);
-				// console.log(list_of_all_posts);
-			},
-			error: function (e) {
-				// If request history message fails, return error || 如果请求失败,返回错误问题
-				console.log(e);
-				console.log("Error occur!");
-			}
-		});
-		return list_of_all_posts;
+		console.log(postManage)
 	}
 	//Function_piece 2: Display the message at chatting box once click the button || 前端立即响应发送消息event
 	function initialWord() {
@@ -890,112 +891,16 @@
 	//Function_piece 4: Initialize the emoji tab\生成表情包库
 	function initialize_emoji_tab() {
 		var emoji = '😀😁😂😃😄😅😆😉😊😋😎😍😘😗😙😚😇😐😑😶😏😣😥😮😯😪😫😴😌😛😜😝😒😓😔😕😲😷😖😞😟😤😢😭😦😧😨😬😰😱😳😵😡😠😈👿👹👺💀👻👽👦👧👨👩👴👵👶👱👮👲👳👷👸💂🎅👰👼💆💇🙍🙎🙅🙆💁🙋🙇🙌🙏👤👥🚶🏃👯💃👫👬👭💏💑👪💪👈👉☝';
-		// console.log("测试" + emoji.substring(0, 2))
-		// console.log("测试" + '😃')
 		for (var i = 0; i < emoji.length; i += 2) {
 			let emoji_singleword = emoji.substring(i, i + 2);
 			let chatting_emoji_singleword = $("<div class='chatting_input_emoji_singleword'>" + emoji_singleword + "</div>");
 			$(".chatting_input_emoji_tab_body").append(chatting_emoji_singleword);
-			// console.log(emoji_singleword);
 		}
 	}
-	//Function_piece 5: Arrange the data to dictionary type
-	function form_post(messageArray, n){
-		let list_of_post = {};
-		list_of_post["id"] = ''
-		list_of_post["message"] = '';
-		list_of_post["liked"] = [];
-		list_of_post["user"] = '';
-		list_of_post["userme"] = false;
-		list_of_post["time"] = '';
-		list_of_post["img"] = [];
-		list_of_post["reply"] = [];
-		list_of_post["has_reply"] = false;
-		list_of_post["user_pic"] = '';
-		list_of_post["post_shadow"] = false;
-		list_of_post["has_liked"] = false
-		// should be like this: list_of_post = {id = string,message:string,liked:[],user:string,userme:'',time:string,img:[],reply:[],user_pic:string}
-		//turn each element in array to json type || 转化成json形式
-		let messageJson = messageArray[n];
-		//distinguish other user and "me" || 根据用户名生成，区别“其他用户”和“我”
-		let messageClass = 'other'
-		let userme = false;
-		//if this message is sent by "me" || 如果是user本人发送的信息
-		console.log("测试"+User)
-		console.log("测试"+messageJson.user_nickname);
-		if (messageJson.user_nickname == User) {
-			userme = true;
-		}
-		if(messageJson.replies.length > 0){
-			list_of_post.has_reply = true;
-		}
-		else {
-			list_of_post.has_reply = false;
-		}
-		// get the liked information
-		list_of_post.liked = messageJson.likes;
-		if (list_of_post.liked == null){
-			list_of_post.liked = [];
-		}
-		console.log(list_of_post.liked)
-		console.log(User)
-		console.log(list_of_post.liked.indexOf(User))
-		if(list_of_post.liked.indexOf(User) != -1){
-			list_of_post.has_liked = '';
-		}
-		else {
-			list_of_post.has_liked = '';
-		}
-
-		let random_num = Math.floor(Math.random()*10+1)
-		let picture_path = 'url(images/UserPhoto/randomPhoto/randompic'+random_num+'.jpg)'
-		list_of_post.user_pic = picture_path;
-		if (messageJson.user_nickname == "tianxianbaobao"){
-			list_of_post.user_pic = 'url(images/UserPhoto/tianxianbaobao/headpic.jpg)'
-		}
-		console.log("测试"+userme);
-		//Vue data bind
-		list_of_post.message = messageJson.content;
-		list_of_post.time = messageJson.created_on;
-		list_of_post.user = messageJson.user_nickname;
-		list_of_post.userme = userme;
-		console.log("测试"+list_of_post.userme);
-		list_of_post.id = messageJson._id;
-		list_of_post.reply = messageJson.replies;
-		// test
-		// console.log(list_of_post);
-		// console.log(messageJson.content);
-		// console.log(messageJson.created_on);
-		// console.log(messageJson._id)
-		// console.log(messageJson.replies);
-		return list_of_post;
-	}
-	//function piece 6 First to check the User
-	function acquire_user(){
-		let User;
-		//acquier the User information||获取用户信息
-		//get the cookie if user already login||cookie设置,因为安全问题之后需要清除重写
-		let cookieIndex = document.cookie.indexOf("userName");
-		let nextcookie = document.cookie.indexOf(";",cookieIndex + 9);
-		if (cookieIndex != -1)
-		{
-			if (nextcookie != -1) {User = document.cookie.substring(cookieIndex + 9, nextcookie);}
-			else {User = document.cookie.substring(cookieIndex + 9);}
-		}
-		else {
-			User = '';
-		}
-		if (User != '') $("#LoginUser").text(User);
-		let random_num = Math.floor(Math.random()*10+1);
-		let picture_path = 'url(images/UserPhoto/randomPhoto/randompic8.jpg)'
-		$('#LoginUser').css("background-image",picture_path);
-		return User;
-	}
-	//some funny extension || 趣味测试
 	//when user login, check if user spell right username || 检查用户拼写规范(还未使用)
 	function checkUser() {
 		let r = /\W/;
-		while ($.trim(User) == '' || User.search(r) != -1) {
+		while ($.trim(user.name) == '' || user.username.search(r) != -1) {
 			User = prompt("NickName中不能出现数字和字母以外的符号!请重新输入,也不能输入空白！");
 			document.cookie = "userName=" + User;
 		}
@@ -1016,6 +921,7 @@
 			div.style.display = "none";
 		}
 	};
+
 
 </script>
 </body>

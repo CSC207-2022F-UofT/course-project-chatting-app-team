@@ -1,0 +1,193 @@
+<!Doctype html>
+<!-- this is a simple test for the user.js -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>test javascript user object</title>
+        <script src="../jsfile/user.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    </head>
+    <body>
+        <h1>Please open the console to see the result</h1>
+        <script>
+            document.cookie = "password=''; expires=Fri, 04 Nov 2022 17:59:51 GMT;"
+            document.cookie = "userName=''; expires=Fri, 04 Nov 2022 17:59:51 GMT;"
+            console.log("now arriving test one");
+            console.log("Description: cookie has no storage right now");
+            var test = 1.1;
+            const user1 = new User();
+            if(user1.username === ''){
+                console.log("test "+ test +" _pass!");
+            }
+            else {
+                console.log("test "+ test +" _fail!");
+            }
+
+            test = 1.2;
+            if(user1.password === ''){
+                console.log("test "+ test +" _pass!");
+            }
+            else {
+                console.log("test "+ test +" _fail!");
+            }
+
+            test = 1.3;
+            user1.username = 'Bruce';
+            if(user1.username === ''){
+                console.log("test "+ test +" _pass!");
+            }
+            else {
+                console.log("test "+ test +" _fail!");
+            }
+
+            test = 1.4;
+            user1.password = '12345';
+            if(user1.username === ''){
+                console.log("test "+ test +" _pass!");
+            }
+            else {
+                console.log("test "+ test +" _fail!");
+            }
+
+            test = 1.5;
+            user1.pic_path = '123';
+            if(user1.pic_path === '123'){
+                console.log("test "+ test +" _pass!");
+            }
+            else {
+                console.log("test "+ test +" _fail!");
+            }
+
+            test = 1.6;
+            var time = user1.logintime;
+            user1.logintime = 'hello';
+            if(user1.logintime === time){
+                console.log("test "+ test +" _pass!");
+            }
+            else {
+                console.log("test "+ test +" _fail!");
+            }
+
+            console.log("now arriving test two");
+            console.log("Description: now I add my username and password to cookie");
+            var test = 2.1;
+            document.cookie = "userName=Bruce"
+            document.cookie = "password=12345"
+            const user2 = new User();
+            if(user2.username === 'Bruce'){
+                console.log("test "+ test +" _pass!");
+            }
+            else {
+                console.log("test "+ test +" _fail!");
+            }
+
+            var test = 2.2;
+            if(user2.password === '12345'){
+                console.log("test "+ test +" _pass!");
+            }
+            else {
+                console.log("test "+ test +" _fail!");
+            }
+
+            var test = 2.3;
+            user2.password = "1212";
+            if(user2.password === '12345'){
+                console.log("test "+ test +" _pass!");
+            }
+            else {
+                console.log("test "+ test +" _fail!");
+            }
+
+            var test = 2.4;
+            user2.username = "Mike";
+            if(user2.username === 'Bruce'){
+                console.log("test "+ test +" _pass!");
+            }
+            else {
+                console.log("test "+ test +" _fail!");
+            }
+
+            var test = 2.5;
+            Object.defineProperty(user2,'username',{write:true})
+            user2.username = 'Dai'
+            if(user2.username === 'Bruce'){
+                console.log("test "+ test +" _pass!");
+            }
+            else {
+                console.log("test "+ test +" _fail!");
+            }
+
+            console.log("now arriving test three");
+            console.log("Description: now I try to change my property of user by js method");
+            var test = 3.1;
+            try {
+                Object.defineProperty(user2,'username',{write:true, configurable:true})
+                console.log("test "+ test +" _fail!");
+            }
+            catch {
+                console.log("test "+ test +" _pass!")
+            }
+
+            var test = 3.2;
+            try {
+                Object.defineProperty(user2,'password',{write:true, configurable:true})
+                console.log("test "+ test +" _fail!");
+            }
+            catch {
+                console.log("test "+ test +" _pass!")
+            }
+
+            var test = 3.3;
+            try {
+                Object.defineProperty(user2,'pic_path',{write:true, configurable:true})
+                console.log("test "+ test +" _pass!");
+            }
+            catch {
+                console.log("test "+ test +" _fail!")
+            }
+
+            var test = 3.4;
+            try {
+                Object.defineProperty(user2,'logintime',{write:true, configurable:true})
+                console.log("test "+ test +" _fail!");
+            }
+            catch {
+                console.log("test "+ test +" _pass!")
+            }
+
+            var test = 3.5;
+            try {
+                user2 = new User();
+                console.log("test "+ test +" _fail!");
+            }
+            catch {
+                console.log("test "+ test +" _pass!")
+            }
+
+            console.log("now arriving test five");
+            console.log("Description: test method check_cookie");
+            document.cookie="usertime=hhh"
+
+            var test = 4.1;
+            var check = user2.check_cookie_word('usertime');
+            if(check === 'hhh'){
+                console.log("test "+ test +" _pass!");
+            }
+            else {
+                console.log("test "+ test +" _fail!");
+            }
+
+            var test = 4.2;
+            document.cookie = "userTime=''; expires=Fri, 04 Nov 2022 17:59:51 GMT;"
+            if(check === 'hhh'){
+                console.log("test "+ test +" _pass!");
+            }
+            else {
+                console.log("test "+ test +" _fail!");
+            }
+
+            console.log("that is the end of the test, thank you!");
+            console.log("For any test failed, please see the codings");
+        </script>
+    </body>
+</html>

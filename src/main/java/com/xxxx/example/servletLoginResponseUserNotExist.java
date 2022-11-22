@@ -12,6 +12,6 @@ import java.io.IOException;
 public class servletLoginResponseUserNotExist extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().append("user do not exist");
+        resp.getWriter().append("not_exist");
     }
 }

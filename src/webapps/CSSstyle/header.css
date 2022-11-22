@@ -1,7 +1,7 @@
 .chatting_app_header {
     position: relative;
     height: 8%;
-    background-color: pink;
+    background-color: rgba(255,255,255,5);
 }
 #LoginUser {
     float: right;
