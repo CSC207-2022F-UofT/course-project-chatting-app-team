@@ -119,7 +119,7 @@
 			height: 84%;
 			width: 78%;
 			border-radius: 10px 10px;
-			background-color: rgb(188, 182, 216);
+			background-color: rgba(249,250,249);
 		}
 		/*Chatting window 聊天窗口*/
 		.chatting_box {
@@ -499,7 +499,7 @@
 							<div class="chatting_post_like" @click="post_liked">{{ post.has_liked }}<span class="chatting_post_like_count">{{ post.liked.length }}</span></div>
 							<span v-if="post.userme" class="chatting_post_delete" @click="deletePost(index)">删除</span>
 						</div>
-						<div v-if="post.has_reply" class="chatting_post_reply_box" :style="{'background':index==reply_index? 'white':'grey'}" @click="reply(index)">
+						<div v-if="post.has_reply" class="chatting_post_reply_box" :style="{'background':index==reply_index? 'white':'rgba(233,233,233,.8)'}" @click="reply(index)">
 							<p v-for="reply in post.display_reply"><em>{{ reply.user_nickname }}: </em>{{ reply.content }}</p>
 							<div v-if="index != reply_index" class="chatting_post_reply_history">--查看历史记录<span>{{ post.reply.length }}</span>条--</div>
 						</div>
@@ -736,6 +736,11 @@
 			// prepare for reply ( not really send the reply)
 			reply: function(index){
 				post_block.posts[index].display_replies();
+				post_block.posts.forEach(function(element,index2){
+					if(index != index2){
+						post_block.posts[index2].display_reply = post_block.posts[index2].reply.slice(0,3);
+					}
+				})
 				if(index == post_block.reply_index){
 					post_block.reply_index = -1;
 				}
