@@ -897,7 +897,6 @@
 			$(".chatting_input_emoji_tab_body").append(chatting_emoji_singleword);
 		}
 	}
-
 	//when user login, check if user spell right username || 检查用户拼写规范(还未使用)
 	function checkUser() {
 		let r = /\W/;
