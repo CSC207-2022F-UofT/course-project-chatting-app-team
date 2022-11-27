@@ -1,6 +1,8 @@
 package com.xxxx.example;
 
 import database_connection.Database;
+import post_reply_user.Reply;
+import send_reply_use_case.ReturnAsReply;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +20,9 @@ public class servletSendReplyGateway extends HttpServlet {
         String username = req.getParameter("username");
         String id = req.getParameter("id");
         Database myDatabase = new Database("", "DatingAppStaging");
-        myDatabase.insert_reply(id, username, text);
+        Reply reply = ReturnAsReply.returnReply(username, id, text);
+        myDatabase.insert_reply(reply);
+        myDatabase.close();
         req.getRequestDispatcher("/sendReplyResponse").forward(req,resp);
     }
 }

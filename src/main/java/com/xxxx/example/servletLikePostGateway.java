@@ -23,9 +23,11 @@ public class servletLikePostGateway extends HttpServlet {
         Database myDatabase = new Database("", "DatingAppStaging");
         if(event_type.equals("liked")){
             myDatabase.like(current_user,post_id);
+            myDatabase.close();
             req.getRequestDispatcher("/likePostResponseLike").forward(req,resp);
         } else if (event_type.equals("unliked")) {
             myDatabase.unlike(current_user,post_id);
+            myDatabase.close();
             req.getRequestDispatcher("/likePostResponseDislike").forward(req,resp);
         }
     }

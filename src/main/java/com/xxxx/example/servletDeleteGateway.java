@@ -2,6 +2,7 @@ package com.xxxx.example;
 
 import database_connection.Database;
 import org.bson.Document;
+import post_reply_user.Post;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,8 +21,9 @@ public class servletDeleteGateway extends HttpServlet {
         String delete_id = (String) req.getAttribute("id");
         String status;
 
-        Document post_sender = myDatabase.find_post_by_id(delete_id);
-        String sender = post_sender.getString("user_nickname");
+        Post post_sender = myDatabase.find_post_by_id(delete_id);
+        myDatabase.close();
+        String sender = post_sender.getUserId();
         if(sender.equals(username)){
             status = "success";
             myDatabase.delete_post_by_id(delete_id);
