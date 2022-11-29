@@ -13,10 +13,10 @@ public class servletDelete extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("current_user");
-        String delete_id = req.getParameter("delete_id");
+        String deleteId = req.getParameter("delete_id");
 
         req.setAttribute("username",username);
-        req.setAttribute("id",delete_id);
+        req.setAttribute("id",deleteId);
         req.getRequestDispatcher("/deleteGateway").forward(req,resp);
     }
 }

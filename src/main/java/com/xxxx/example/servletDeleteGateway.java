@@ -18,15 +18,15 @@ public class servletDeleteGateway extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Database myDatabase = new Database("", "DatingAppStaging");
         String username = (String) req.getAttribute("username");
-        String delete_id = (String) req.getAttribute("id");
+        String deleteId = (String) req.getAttribute("id");
         String status;
 
-        Post post_sender = myDatabase.find_post_by_id(delete_id);
+        Post post_sender = myDatabase.find_post_by_id(deleteId);
         myDatabase.close();
         String sender = post_sender.getUserId();
         if(sender.equals(username)){
             status = "success";
-            myDatabase.delete_post_by_id(delete_id);
+            myDatabase.delete_post_by_id(deleteId);
         }
         else {
             status = "fail";

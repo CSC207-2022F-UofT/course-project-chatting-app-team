@@ -4,7 +4,7 @@ import post_reply_user.CommonUser;
 import post_reply_user.User;
 
 public class ReturnAsUser {
-    public static CommonUser returnUser(String nickname, String password, String avatar){
+    public CommonUser returnUser(String nickname, String password, String avatar){
         return new CommonUser(nickname, password, avatar);
     }
 }

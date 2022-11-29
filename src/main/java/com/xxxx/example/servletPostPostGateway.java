@@ -18,7 +18,8 @@ public class servletPostPostGateway extends HttpServlet {
         String text = (String) req.getParameter("text");
         String userName = (String) req.getParameter("userName");
         Database myDatabase = new Database("", "DatingAppStaging");
-        Post post = ReturnAsPost.returnPost(userName, text);
+        ReturnAsPost returnPost = new ReturnAsPost();
+        Post post = returnPost.returnPost(userName, text);
         myDatabase.insert_post(post);
         myDatabase.close();
         req.getRequestDispatcher("/postPostResponse").forward(req,resp);

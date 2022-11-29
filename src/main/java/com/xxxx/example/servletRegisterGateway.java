@@ -24,9 +24,11 @@ public class servletRegisterGateway extends HttpServlet {
         String username = req.getParameter("username");
         CommonUser returnedUsername = myDatabase.find_user_by_id(username);
         String password = req.getParameter("password");
-        boolean check = RegisterUsernameCheck.check(returnedUsername);
+        RegisterUsernameCheck usernameCheck = new RegisterUsernameCheck();
+        boolean check = usernameCheck.registerUsernameCheck(returnedUsername);
         if (check) {
-            CommonUser user = ReturnAsUser.returnUser(username, password, null);
+            ReturnAsUser returnUser = new ReturnAsUser();
+            CommonUser user = returnUser.returnUser(username, password, null);
             myDatabase.insert_user(user);
             myDatabase.close();
             req.getRequestDispatcher("/registerResponse").forward(req, resp);
