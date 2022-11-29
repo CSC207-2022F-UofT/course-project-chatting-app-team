@@ -522,7 +522,7 @@
 						<span class="chatting_post_user_name">Bruce</span>
 					</div>
 					<div class="chatting_post_body_content">
-						<p>我今天写不完论文了,太难受了</p>
+						<p>我今天写不完了,太难受了</p>
 						<p>Robart走起!</p>
 					</div>
 					<div class="chatting_post_body_pictures">

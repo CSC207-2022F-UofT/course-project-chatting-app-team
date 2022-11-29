@@ -13,13 +13,14 @@ import java.io.IOException;
 public class servlet05 extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        String get = req.getParameter("text");
-        String userName = req.getParameter("userName");
-
-        Database myDatabase = new Database("", "DatingAppStaging");
-        myDatabase.insert_post(userName, get);
-        req.getRequestDispatcher("/ser06").forward(req,resp);
+//        req.setCharacterEncoding("UTF-8");
+//        String get = req.getParameter("text");
+//        String userName = req.getParameter("userName");
+//
+//        Database myDatabase = new Database("", "DatingAppStaging");
+//        myDatabase.insert_post(userName, get);
+//        myDatabase.close();
+//        req.getRequestDispatcher("/ser06").forward(req,resp);
     }
 }
 

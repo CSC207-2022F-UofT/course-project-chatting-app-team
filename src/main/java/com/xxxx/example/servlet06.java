@@ -16,18 +16,19 @@ import java.util.List;
 public class servlet06 extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setCharacterEncoding("UTF-8");
-        resp.setContentType("application/json");
-        Database myDatabase = new Database("", "DatingAppStaging");
-        List<Document> postDocs = myDatabase.find_latest_posts(1);
-
-        // convert to a BsonArray
-        BsonArray postStrArray = new BsonArray();
-        for (Document post: postDocs) {
-            postStrArray.add(post.toBsonDocument());
-        }
-
-        // System.out.print(postStrArray.getValues());
-        resp.getWriter().append(postStrArray.getValues().toString());
+//        resp.setCharacterEncoding("UTF-8");
+//        resp.setContentType("application/json");
+//        Database myDatabase = new Database("", "DatingAppStaging");
+//        List<Document> postDocs = myDatabase.find_latest_posts(1);
+//
+//        // convert to a BsonArray
+//        BsonArray postStrArray = new BsonArray();
+//        for (Document post: postDocs) {
+//            postStrArray.add(post.toBsonDocument());
+//        }
+//        myDatabase.close();
+//
+//        // System.out.print(postStrArray.getValues());
+//        resp.getWriter().append(postStrArray.getValues().toString());
     }
 }

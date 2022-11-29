@@ -1,6 +1,8 @@
 package com.xxxx.example;
 
 import database_connection.Database;
+import post_post_use_case.ReturnAsPost;
+import post_reply_user.Post;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +18,10 @@ public class servletPostPostGateway extends HttpServlet {
         String text = (String) req.getParameter("text");
         String userName = (String) req.getParameter("userName");
         Database myDatabase = new Database("", "DatingAppStaging");
-        myDatabase.insert_post(userName, text);
+        ReturnAsPost returnPost = new ReturnAsPost();
+        Post post = returnPost.returnPost(userName, text);
+        myDatabase.insert_post(post);
+        myDatabase.close();
         req.getRequestDispatcher("/postPostResponse").forward(req,resp);
     }
 }
