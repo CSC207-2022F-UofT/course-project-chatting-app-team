@@ -2,8 +2,7 @@ package com.xxxx.example;
 
 import database_connection.Database;
 import log_in_use_case.LoginPasswordCheck;
-import log_in_use_case.LoginUserExistCheck;
-import org.bson.Document;
+import user_exist_use_case.UserExistCheck;
 import post_reply_user.User;
 
 import javax.servlet.ServletException;
@@ -23,9 +22,9 @@ public class servletLoginGateway extends HttpServlet {
         Database myDatabase = new Database("", "DatingAppStaging");
         User returnedUser = myDatabase.find_user_by_id(username);
         myDatabase.close();
-        LoginUserExistCheck usernameCheck = new LoginUserExistCheck();
+        UserExistCheck usernameCheck = new UserExistCheck();
         LoginPasswordCheck passwordCheck = new LoginPasswordCheck();
-        boolean checkExist = usernameCheck.loginUserExistCheck(returnedUser);
+        boolean checkExist = usernameCheck.userExistCheck(returnedUser);
         boolean checkPassword = passwordCheck.loginPasswordCheck(returnedUser, password);
         if (checkExist && checkPassword) {
             req.getRequestDispatcher("/loginResponseSuccess").forward(req, resp);

@@ -1,11 +1,8 @@
 package com.xxxx.example;
 
 import database_connection.Database;
-import org.bson.types.ObjectId;
+import user_exist_use_case.UserExistCheck;
 import post_reply_user.CommonUser;
-import post_reply_user.User;
-import register_use_case.RegisterUsernameCheck;
-import org.bson.Document;
 import register_use_case.ReturnAsUser;
 
 import javax.servlet.ServletException;
@@ -24,9 +21,9 @@ public class servletRegisterGateway extends HttpServlet {
         String username = req.getParameter("username");
         CommonUser returnedUsername = myDatabase.find_user_by_id(username);
         String password = req.getParameter("password");
-        RegisterUsernameCheck usernameCheck = new RegisterUsernameCheck();
-        boolean check = usernameCheck.registerUsernameCheck(returnedUsername);
-        if (check) {
+        UserExistCheck userCheck = new UserExistCheck();
+        boolean check = userCheck.userExistCheck(returnedUsername);
+        if (!check) {
             ReturnAsUser returnUser = new ReturnAsUser();
             CommonUser user = returnUser.returnUser(username, password, null);
             myDatabase.insert_user(user);
