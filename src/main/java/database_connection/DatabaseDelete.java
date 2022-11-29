@@ -4,13 +4,13 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
 
-public class DatabaseDelete extends Database{
+public class databaseDelete extends database {
 
-    public DatabaseDelete(String connectionUri, String DatabaseName) {
+    public databaseDelete(String connectionUri, String DatabaseName) {
         super(connectionUri, DatabaseName);
     }
 
-    public void delete_post_by_id(String post_id) {
+    public void deletePostById(String post_id) {
 
         MongoCollection<Document> post_collection = mongoDatabase.getCollection("post");
         MongoCollection<Document> reply_collection = mongoDatabase.getCollection("reply");

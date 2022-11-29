@@ -4,7 +4,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
-import post_reply_user.CommonUser;
+import post_reply_user.commonUser;
 import post_reply_user.Post;
 import post_reply_user.Reply;
 
@@ -15,17 +15,17 @@ import java.util.List;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Sorts.descending;
 
-public class DatabaseRead extends Database {
+public class databaseRead extends database {
 
-    private CommonUser docs_to_user(Document user_doc) {
+    private commonUser docsToUser(Document user_doc) {
         String userId = user_doc.getString("user_id");
         String password = user_doc.getString("password");
         String avatar = user_doc.getString("avatar");
-        ArrayList<Post> posts = find_posts_by_user_id(userId);
+        ArrayList<Post> posts = findPostsByUserId(userId);
 
-        return new CommonUser(userId, password, avatar, posts);
+        return new commonUser(userId, password, avatar, posts);
     }
-    private Post doc_to_post(Document post_doc) {
+    private Post docToPost(Document post_doc) {
 
         ArrayList<Document> reply_docs = post_doc.get("replies", new ArrayList<>());
 
@@ -34,20 +34,20 @@ public class DatabaseRead extends Database {
         String content = post_doc.getString("content");
 
         // using an empty ArrayList as the default value here
-        // old records inside db does not come with "likes" array
-        // thus using the default value to prevent null pointer exception
+        // old records inside db does not come with “likes” array
+        // thus using the default value to prevent null pointer exception.
         ArrayList<String> likedBy = post_doc.get("likes", new ArrayList<>());
         String createdOn = post_doc.getString("created_on");
 
         ArrayList<Reply> replies = new ArrayList<>();
         for (Document reply_doc: reply_docs) {
-            replies.add(doc_to_reply(reply_doc));
+            replies.add(docToReply(reply_doc));
         }
 
         return new Post(id, userId, content, replies, likedBy, createdOn);
     }
 
-    private Reply doc_to_reply(Document reply_doc) {
+    private Reply docToReply(Document reply_doc) {
         String id = reply_doc.getString("_id");
         String user_id = reply_doc.getString("user_nickname");
         String parent_post_id = reply_doc.getString("parent_post_id");
@@ -57,11 +57,11 @@ public class DatabaseRead extends Database {
         return new Reply(id, user_id, parent_post_id, content, created_on);
     }
 
-    public DatabaseRead(String connectionUri, String DatabaseName) {
+    public databaseRead(String connectionUri, String DatabaseName) {
         super(connectionUri, DatabaseName);
     }
 
-    public Post find_post_by_id(String post_id) {
+    public Post findPostById(String post_id) {
         MongoCollection<Document> post_collection = mongoDatabase.getCollection("post");
 
         Document doc = post_collection.aggregate(
@@ -71,10 +71,10 @@ public class DatabaseRead extends Database {
                 )
         ).first();
 
-        return doc == null ? null : doc_to_post(doc);
+        return doc == null ? null : docToPost(doc);
     }
 
-    public ArrayList<Post> find_latest_posts(int num, int offset) {
+    public ArrayList<Post> findLatestPosts(int num, int offset) {
         MongoCollection<Document> post_collection = mongoDatabase.getCollection("post");
 
         List<Document> post_docs = new ArrayList<>();
@@ -89,24 +89,24 @@ public class DatabaseRead extends Database {
 
         ArrayList<Post> posts = new ArrayList<>();
         for (Document post_doc: post_docs) {
-            posts.add(doc_to_post(post_doc));
+            posts.add(docToPost(post_doc));
         }
 
         return posts;
     }
 
-    public ArrayList<Post> find_latest_posts(int num) {
-        return find_latest_posts(num, 0);
+    public ArrayList<Post> findLatestPosts(int num) {
+        return findLatestPosts(num, 0);
     }
 
-    public CommonUser find_user_by_id(String user_id){
+    public commonUser findUserById(String user_id){
         // Maybe the collection can be moved to an instance variable, need double-checking
         MongoCollection<Document> user_collection = mongoDatabase.getCollection("user");
         Document user_doc = user_collection.find(eq("user_id", user_id)).first();
-        return user_doc == null ? null : docs_to_user(user_doc);
+        return user_doc == null ? null : docsToUser(user_doc);
     }
 
-    public ArrayList<Post> find_posts_by_user_id(String user_id) {
+    public ArrayList<Post> findPostsByUserId(String user_id) {
         MongoCollection<Document> post_collection = mongoDatabase.getCollection("post");
 
         ArrayList<Document> post_docs = new ArrayList<>();
@@ -120,7 +120,7 @@ public class DatabaseRead extends Database {
 
         ArrayList<Post> posts = new ArrayList<>();
         for (Document post_doc: post_docs) {
-            posts.add(doc_to_post(post_doc));
+            posts.add(docToPost(post_doc));
         }
 
         return posts;

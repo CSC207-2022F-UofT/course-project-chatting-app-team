@@ -1,14 +1,14 @@
 package post_reply_user;
 
 import java.util.ArrayList;
-public class CommonUser extends User{
+public class commonUser extends User{
 
     ArrayList<Post> allPost;
 
-    public CommonUser(String nickname, String password, String avatar) {
+    public commonUser(String nickname, String password, String avatar) {
         this(nickname, password, avatar, new ArrayList<>());
     }
-    public CommonUser(String nickname, String password, String avatar, ArrayList<Post> posts){
+    public commonUser(String nickname, String password, String avatar, ArrayList<Post> posts){
         super(nickname, password, avatar);
         this.allPost = posts;
 
