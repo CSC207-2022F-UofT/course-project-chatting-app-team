@@ -2,19 +2,19 @@ package database_connection;
 
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
-import post_reply_user.commonUser;
+import post_reply_user.CommonUser;
 import post_reply_user.Post;
 import post_reply_user.Reply;
 
 import java.util.ArrayList;
 
-public class databaseInsert extends database {
+public class DatabaseInsert extends Database {
 
-    public databaseInsert(String connectionUri, String DatabaseName) {
+    public DatabaseInsert(String connectionUri, String DatabaseName) {
         super(connectionUri, DatabaseName);
     }
 
-    public void insertUser(commonUser user) {
+    public void insertUser(CommonUser user) {
         MongoCollection<Document> user_collection = mongoDatabase.getCollection("user");
 
         Document user_doc = new Document()
