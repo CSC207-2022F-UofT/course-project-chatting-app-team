@@ -4,9 +4,9 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
 
-public class databaseDelete extends database {
+public class DatabaseDelete extends Database {
 
-    public databaseDelete(String connectionUri, String DatabaseName) {
+    public DatabaseDelete(String connectionUri, String DatabaseName) {
         super(connectionUri, DatabaseName);
     }
 

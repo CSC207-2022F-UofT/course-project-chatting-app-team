@@ -4,7 +4,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
-import post_reply_user.commonUser;
+import post_reply_user.CommonUser;
 import post_reply_user.Post;
 import post_reply_user.Reply;
 
@@ -15,15 +15,15 @@ import java.util.List;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Sorts.descending;
 
-public class databaseRead extends database {
+public class DatabaseRead extends Database {
 
-    private commonUser docsToUser(Document user_doc) {
+    private CommonUser docsToUser(Document user_doc) {
         String userId = user_doc.getString("user_id");
         String password = user_doc.getString("password");
         String avatar = user_doc.getString("avatar");
         ArrayList<Post> posts = findPostsByUserId(userId);
 
-        return new commonUser(userId, password, avatar, posts);
+        return new CommonUser(userId, password, avatar, posts);
     }
     private Post docToPost(Document post_doc) {
 
@@ -57,7 +57,7 @@ public class databaseRead extends database {
         return new Reply(id, user_id, parent_post_id, content, created_on);
     }
 
-    public databaseRead(String connectionUri, String DatabaseName) {
+    public DatabaseRead(String connectionUri, String DatabaseName) {
         super(connectionUri, DatabaseName);
     }
 
@@ -99,7 +99,7 @@ public class databaseRead extends database {
         return findLatestPosts(num, 0);
     }
 
-    public commonUser findUserById(String user_id){
+    public CommonUser findUserById(String user_id){
         // Maybe the collection can be moved to an instance variable, need double-checking
         MongoCollection<Document> user_collection = mongoDatabase.getCollection("user");
         Document user_doc = user_collection.find(eq("user_id", user_id)).first();

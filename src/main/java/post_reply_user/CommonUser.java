@@ -1,14 +1,14 @@
 package post_reply_user;
 
 import java.util.ArrayList;
-public class commonUser extends User{
+public class CommonUser extends User{
 
     ArrayList<Post> allPost;
 
-    public commonUser(String nickname, String password, String avatar) {
+    public CommonUser(String nickname, String password, String avatar) {
         this(nickname, password, avatar, new ArrayList<>());
     }
-    public commonUser(String nickname, String password, String avatar, ArrayList<Post> posts){
+    public CommonUser(String nickname, String password, String avatar, ArrayList<Post> posts){
         super(nickname, password, avatar);
         this.allPost = posts;
 
@@ -72,6 +72,3 @@ public class commonUser extends User{
 //    //the user delete a post
 
 }
-
-
-

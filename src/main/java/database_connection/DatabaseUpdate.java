@@ -6,8 +6,8 @@ import com.mongodb.client.model.Updates;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-public class databaseUpdate extends database {
-    public databaseUpdate(String connectionUri, String DatabaseName) {
+public class DatabaseUpdate extends Database {
+    public DatabaseUpdate(String connectionUri, String DatabaseName) {
         super(connectionUri, DatabaseName);
     }
 
