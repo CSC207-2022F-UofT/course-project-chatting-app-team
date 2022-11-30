@@ -1,6 +1,7 @@
 package com.xxxx.example;
 
 import database_connection.Database;
+import database_connection.DatabaseRead;
 import log_in_use_case.LoginPasswordCheck;
 import user_exist_use_case.UserExistCheck;
 import post_reply_user.User;
@@ -19,8 +20,8 @@ public class servletLoginGateway extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        Database myDatabase = new Database("", "DatingAppStaging");
-        User returnedUser = myDatabase.find_user_by_id(username);
+        DatabaseRead myDatabase = new DatabaseRead("", "DatingAppStaging");
+        User returnedUser = myDatabase.findUserById(username);
         myDatabase.close();
         UserExistCheck usernameCheck = new UserExistCheck();
         LoginPasswordCheck passwordCheck = new LoginPasswordCheck();

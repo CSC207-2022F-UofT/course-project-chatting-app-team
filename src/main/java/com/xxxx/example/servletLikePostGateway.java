@@ -1,6 +1,7 @@
 package com.xxxx.example;
 
 import database_connection.Database;
+import database_connection.DatabaseUpdate;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,7 +21,7 @@ public class servletLikePostGateway extends HttpServlet {
         String postId = req.getParameter("post_id");
         String eventType = req.getParameter("event_type");
 
-        Database myDatabase = new Database("", "DatingAppStaging");
+        DatabaseUpdate myDatabase = new DatabaseUpdate("", "DatingAppStaging");
         if(eventType.equals("liked")){
             myDatabase.like(currentUser,postId);
             myDatabase.close();

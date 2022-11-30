@@ -1,6 +1,8 @@
 package com.xxxx.example;
 
 import database_connection.Database;
+import database_connection.DatabaseDelete;
+import database_connection.DatabaseRead;
 import org.bson.Document;
 import post_reply_user.Post;
 
@@ -16,17 +18,19 @@ import java.io.IOException;
 public class servletDeleteGateway extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Database myDatabase = new Database("", "DatingAppStaging");
+        DatabaseRead myDatabase = new DatabaseRead("", "DatingAppStaging");
         String username = (String) req.getAttribute("username");
         String deleteId = (String) req.getAttribute("id");
         String status;
 
-        Post post_sender = myDatabase.find_post_by_id(deleteId);
+        Post post_sender = myDatabase.findPostById(deleteId);
         myDatabase.close();
         String sender = post_sender.getUserId();
         if(sender.equals(username)){
             status = "success";
-            myDatabase.delete_post_by_id(deleteId);
+            DatabaseDelete databaseDelete = new DatabaseDelete("", "DatingAppStaging");
+            databaseDelete.deletePostById(deleteId);
+            databaseDelete.close();
         }
         else {
             status = "fail";

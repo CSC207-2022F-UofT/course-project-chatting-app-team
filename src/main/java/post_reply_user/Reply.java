@@ -36,9 +36,6 @@ public class Reply {
         return postId;
     }
 
-//    public void setLiked_by(ArrayList<CommonUser> liked_by) {
-//        this.liked_by = liked_by;
-//    }
 
 
     public String getUserId() {
@@ -53,16 +50,7 @@ public class Reply {
         return created_on;
     }
 
-
     public String getContent() {
         return content;
     }
-
-
-//    //user_1 likes this reply.
-//    public void like_reply(CommonUser user_1){
-//        this.liked_by.add(user_1);
-//
-//    }
-
 }
