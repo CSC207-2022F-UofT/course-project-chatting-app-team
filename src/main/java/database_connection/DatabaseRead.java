@@ -34,7 +34,7 @@ public class DatabaseRead extends Database {
         String content = post_doc.getString("content");
 
         // using an empty ArrayList as the default value here
-        // old records inside db does not come with “likes” array
+        // old records inside db does not come with "likes" array
         // thus using the default value to prevent null pointer exception.
         ArrayList<String> likedBy = post_doc.get("likes", new ArrayList<>());
         String createdOn = post_doc.getString("created_on");
