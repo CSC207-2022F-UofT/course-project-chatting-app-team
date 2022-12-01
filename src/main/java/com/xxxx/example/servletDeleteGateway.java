@@ -19,8 +19,8 @@ public class servletDeleteGateway extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DatabaseRead myDatabase = new DatabaseRead("", "DatingAppStaging");
-        String username = (String) req.getAttribute("username");
-        String deleteId = (String) req.getAttribute("id");
+        String username = req.getParameter("username");
+        String deleteId = req.getParameter("id");
         String status;
 
         Post post_sender = myDatabase.findPostById(deleteId);
