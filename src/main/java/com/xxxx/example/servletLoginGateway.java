@@ -20,6 +20,7 @@ public class servletLoginGateway extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
+
         DatabaseRead myDatabase = new DatabaseRead("", "DatingAppStaging");
         User returnedUser = myDatabase.findUserById(username);
         myDatabase.close();

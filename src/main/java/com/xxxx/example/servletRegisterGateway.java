@@ -19,6 +19,7 @@ import java.io.IOException;
 public class servletRegisterGateway extends HttpServlet {
     private boolean check;
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         DatabaseRead myDatabase = new DatabaseRead("", "DatingAppStaging");
         String username = req.getParameter("username");
         CommonUser returnedUsername = myDatabase.findUserById(username);
