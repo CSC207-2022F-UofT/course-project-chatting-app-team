@@ -19,14 +19,14 @@
             this.display_reply = this.reply.slice(0,3)
         },
         init_id: function(messageJson){
-            Object.defineProperty(this,'id',{value:messageJson._id,writable:false,configurable:false})
+            Object.defineProperty(this,'id',{value:messageJson.id,writable:false,configurable:false})
         },
         init_nickname: function(messageJson){
-            Object.defineProperty(this,'user',{value:messageJson.user_nickname,writable:false,configurable:false})
+            Object.defineProperty(this,'user',{value:messageJson.userId,writable:false,configurable:false})
         },
         init_hasreply: function(messageJson){
-            if(messageJson.replies!=null && messageJson.replies.length > 0){
-                this.reply = messageJson.replies;
+            if(messageJson.totalReply != null && messageJson.totalReply.length > 0){
+                this.reply = messageJson.totalReply;
                 this.has_reply = true;
             }
             else{
@@ -58,7 +58,7 @@
             messageJson == null ? this.img = [] : this.img = messageJson.img
         },
         determine_user: function(messageJson){
-            messageJson.user_nickname == user.username? this.userme = true : this.userme = false
+            messageJson.userId == user.username? this.userme = true : this.userme = false
         },
         // choose how many replies to display
         display_replies: function(index){

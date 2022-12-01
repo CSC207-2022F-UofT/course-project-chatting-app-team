@@ -500,7 +500,7 @@
 							<span v-if="post.userme" class="chatting_post_delete" @click="deletePost(index)">删除</span>
 						</div>
 						<div v-if="post.has_reply" class="chatting_post_reply_box" :style="{'background':index==reply_index? 'white':'rgba(233,233,233,.8)'}" @click="reply(index)">
-							<p v-for="reply in post.display_reply"><em>{{ reply.user_nickname }}: </em>{{ reply.content }}</p>
+							<p v-for="reply in post.display_reply"><em>{{ reply.userId }}: </em>{{ reply.content }}</p>
 							<div v-if="index != reply_index" class="chatting_post_reply_history">--查看历史记录<span>{{ post.reply.length }}</span>条--</div>
 						</div>
 						<div class="chatting_reply_function_box" v-if="index==reply_index&&User!=''">
@@ -726,7 +726,7 @@
 							post_block.posts[i].liked.splice(record_position,1);
 						}
 						// setTimeout(function(){
-							axios.get('listenLikedEvent',{params:{current_user:user.username,post_id:current_id,event_type:status}}).then(
+							axios.get('listenLikedEvent',{params:{username:user.username,post_id:current_id,event_type:status}}).then(
 								function(res){}
 							).catch(error=>alert(error))
 						// },3000)
@@ -760,7 +760,7 @@
 				axios.get('listenSendReply',{params:{username:user.username,id:current_id,text:contents}}).then(
 					function(res){
 						post_block.posts[index]["has_reply"] = true
-						post_block.posts[index]["reply"].push({content:contents,user_nickname:user.username});
+						post_block.posts[index]["reply"].push({content:contents,userId:user.username});
 						post_block.posts[index].display_replies(1);
 						console.log(res.data)
 					}
