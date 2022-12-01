@@ -17,7 +17,7 @@ public class servletSendReplyGateway extends HttpServlet {
         String text = req.getParameter("text");
         String username = req.getParameter("username");
         String id = req.getParameter("id");
-        Database myDatabase = new Database("", "DatingAppStaging");
+        Database myDatabase = new Database(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
         myDatabase.insert_reply(id, username, text);
         req.getRequestDispatcher("/sendReplyResponse").forward(req,resp);
     }

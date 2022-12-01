@@ -17,7 +17,7 @@ import java.io.IOException;
 public class servletRegisterGateway extends HttpServlet {
     private boolean check;
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Database myDatabase = new Database("", "DatingAppStaging");
+        Database myDatabase = new Database(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
         String username = req.getParameter("username");
         Document returnedUsername = myDatabase.find_user_by_id(username);
         String password = req.getParameter("password");

@@ -15,7 +15,7 @@ import java.io.IOException;
 public class servletDeleteGateway extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Database myDatabase = new Database("", "DatingAppStaging");
+        Database myDatabase = new Database(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
         String username = (String) req.getAttribute("username");
         String delete_id = (String) req.getAttribute("id");
         String status;

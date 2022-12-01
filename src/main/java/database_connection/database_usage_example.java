@@ -27,7 +27,7 @@ public class database_usage_example {
     public static void main(String[] args) {
         // paste in connection string
         // <connection string goes here>
-        Database myDatabase = new Database("<connection string goes here>", "DatingAppStaging");
+        Database myDatabase = new Database(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
 
         //test for insert_post
         myDatabase.insert_post("input_username", "input_post_content");
