@@ -1,8 +1,8 @@
 package com.xxxx.example;
 
-import database_connection.Database;
-import org.bson.Document;
-import org.bson.BsonArray;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import database_connection.*;
+import post_reply_user.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,17 +20,15 @@ public class Servlet04 extends HttpServlet{
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
 
-        Database myDatabase = new Database("", "DatingAppStaging");
+        DatabaseRead myDatabase = new DatabaseRead("", "DatingAppStaging");
 
         // Should probably move off this hardcoded 20 at some point
-        List<Document> postDocs = myDatabase.find_latest_posts(20);
+        List<Post> postDocs = myDatabase.findLatestPosts(20);
 
-        // convert to a BsonArray
-        BsonArray postStrArray = new BsonArray();
-        for (Document post: postDocs) {
-            postStrArray.add(post.toBsonDocument());
-        }
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        resp.getWriter().append(postStrArray.getValues().toString());
+        String postsJsonString = objectMapper.writeValueAsString(postDocs);
+        myDatabase.close();
+        resp.getWriter().append(postsJsonString);
     }
 }
