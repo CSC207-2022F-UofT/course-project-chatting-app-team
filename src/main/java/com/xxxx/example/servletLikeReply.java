@@ -1,6 +1,7 @@
 package com.xxxx.example;
 
 import database_connection.Database;
+import database_connection.DatabaseUpdate;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +17,7 @@ public class servletLikeReply extends HttpServlet {
         String user = req.getParameter("user");
         String replyID = req.getParameter("replyID");
         String status = "success";
-        Database myDatabase = new Database("", "DatingAppStaging");
+        Database myDatabase = new Database(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
 
         req.setAttribute("status", status);
         req.getRequestDispatcher("/likeReplyResponse").forward(req,resp);

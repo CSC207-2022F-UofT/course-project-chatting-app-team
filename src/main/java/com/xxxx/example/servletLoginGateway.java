@@ -21,7 +21,7 @@ public class servletLoginGateway extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        DatabaseRead myDatabase = new DatabaseRead("", "DatingAppStaging");
+        DatabaseRead myDatabase = new DatabaseRead(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
         User returnedUser = myDatabase.findUserById(username);
         myDatabase.close();
         UserExistCheck usernameCheck = new UserExistCheck();
