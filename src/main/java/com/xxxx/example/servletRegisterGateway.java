@@ -1,9 +1,11 @@
 package com.xxxx.example;
 
 import database_connection.Database;
-import org.bson.types.ObjectId;
-import register_use_case.RegisterUsernameCheck;
-import org.bson.Document;
+import database_connection.DatabaseInsert;
+import database_connection.DatabaseRead;
+import user_exist_use_case.UserExistCheck;
+import post_reply_user.CommonUser;
+import register_use_case.ReturnAsUser;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,16 +19,20 @@ import java.io.IOException;
 public class servletRegisterGateway extends HttpServlet {
     private boolean check;
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Database myDatabase = new Database("", "DatingAppStaging");
+
+        DatabaseRead myDatabase = new DatabaseRead("", "DatingAppStaging");
         String username = req.getParameter("username");
-        Document returnedUsername = myDatabase.find_user_by_id(username);
+        CommonUser returnedUsername = myDatabase.findUserById(username);
         String password = req.getParameter("password");
-        boolean check = RegisterUsernameCheck.check(returnedUsername);
-        if (check) {
-            myDatabase.insert_user(new Document()
-                    .append("_id", new ObjectId())
-                    .append("user_id", username)
-                    .append("password", password));
+        UserExistCheck userCheck = new UserExistCheck();
+        boolean check = userCheck.userExistCheck(returnedUsername);
+        myDatabase.close();
+        if (!check) {
+            ReturnAsUser returnUser = new ReturnAsUser();
+            CommonUser user = returnUser.returnUser(username, password, null);
+            DatabaseInsert databaseInsert = new DatabaseInsert("", "DatingAppStaging");
+            databaseInsert.insertUser(user);
+            databaseInsert.close();
             req.getRequestDispatcher("/registerResponse").forward(req, resp);
         } else {
             req.getRequestDispatcher("/registerResponseUserExist").forward(req, resp);

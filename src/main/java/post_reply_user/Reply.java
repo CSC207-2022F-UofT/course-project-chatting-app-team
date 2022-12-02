@@ -1,54 +1,60 @@
 package post_reply_user;
 
-import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.UUID;
 
 
 public class Reply {
-    common_User auther;
-    String context;
-    String time;
-    post_reply_user.Post post;
-    ArrayList<post_reply_user.common_User> liked_by;
+    String userId;
+    String content;
+    String created_on;
+    String postId;
+    String id;
+//    ArrayList<CommonUser> liked_by;
 
-    public Reply(common_User auther, String context, String time, Post post, ArrayList<common_User> liked_by){
-        this.time = String.valueOf(LocalDateTime.now());
-        setPost(post);
-        setAuther(auther);
-        setContext(context);
-        setLiked_by(liked_by);
+    public Reply( String id, String userId, String postId, String content, String created_on){
+
+        this.id = id;
+        this.userId = userId;
+        this.postId = postId;
+        this.content = content;
+        this.created_on = created_on;
+//        setLiked_by(liked_by);
+        //not used at the moment
 
     }
     //constructor
 
-
-
-    //setter
-    public void setPost(post_reply_user.Post post) {
-        this.post = post;
+    public Reply(String userId, String postId, String content){
+        this(UUID.randomUUID().toString(), userId, postId, content, Instant.now().toString());
     }
 
-    public void setLiked_by(ArrayList<post_reply_user.common_User> liked_by) {
-        this.liked_by = liked_by;
-    }
-
-
-    public void setAuther(post_reply_user.common_User auther) {
-        this.auther = auther;
+    // getter
+    public String getPostId() {
+        return postId;
     }
 
 
-    public void setContext(String context) {
-        this.context = context;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getTime() {
+        return created_on;
     }
 
 
-    //user_1 likes this reply.
-    public void like_reply(post_reply_user.common_User user_1){
-        this.liked_by.add(user_1);
-
+    public String getContent() {
+        return content;
     }
+
+
 
 }

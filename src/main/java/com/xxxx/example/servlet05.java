@@ -1,6 +1,7 @@
 package com.xxxx.example;
 
-import database_connection.Database;
+import database_connection.*;
+import post_reply_user.Post;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,11 +15,13 @@ public class servlet05 extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        String get = req.getParameter("text");
+        String postContent = req.getParameter("text");
         String userName = req.getParameter("userName");
 
-        Database myDatabase = new Database("", "DatingAppStaging");
-        myDatabase.insert_post(userName, get);
+        DatabaseInsert myDatabase = new DatabaseInsert(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
+        myDatabase.insertPost(new Post(userName, postContent));
+
+        myDatabase.close();
         req.getRequestDispatcher("/ser06").forward(req,resp);
     }
 }
