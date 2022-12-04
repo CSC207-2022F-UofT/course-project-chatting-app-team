@@ -19,7 +19,7 @@ public class servlet06 extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
 
-        DatabaseRead myDatabase = new DatabaseRead("", "DatingAppStaging");
+        DatabaseRead myDatabase = new DatabaseRead(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
 
         // Should probably move off this hardcoded 20 at some point
         List<Post> postDocs = myDatabase.findLatestPosts(20);
