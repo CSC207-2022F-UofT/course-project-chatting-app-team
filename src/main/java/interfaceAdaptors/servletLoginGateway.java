@@ -1,4 +1,4 @@
-package com.xxxx.example;
+package interfaceAdaptors;
 
 import database_connection.Database;
 import database_connection.DatabaseRead;

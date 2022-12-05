@@ -1,6 +1,4 @@
-package com.xxxx.example;
-
-import database_connection.Database;
+package interfaceAdaptors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,12 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-// The servletPostPost class works as a controller and pass variables to gateway.
-@WebServlet("/listenPostPost")
-public class servletPostPost extends HttpServlet {
+// Not yet functioning (to be added later)
+@WebServlet("/likeReplyResponse")
+public class servletLikeReplyResponse extends HttpServlet {
+    @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        req.getRequestDispatcher("/postPostGateway").forward(req,resp);
+        String status = (String) req.getAttribute("status");
+        resp.getWriter().append(status);
     }
 }
-
