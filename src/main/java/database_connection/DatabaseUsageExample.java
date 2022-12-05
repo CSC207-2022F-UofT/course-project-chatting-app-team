@@ -12,11 +12,10 @@ public class DatabaseUsageExample {
     public static void main(String[] args) {
 
         print_divider();
-        // paste in connection string
-        Database myDatabaseInsert = new DatabaseInsert("<connection string goes here>", "DatingAppStaging");
-        Database myDatabaseRead = new DatabaseRead("<connection string goes here>", "DatingAppStaging");
-        Database myDatabaseUpdate = new DatabaseUpdate("<connection string goes here>", "DatingAppStaging");
-        Database myDatabaseDelete = new DatabaseDelete("<connection string goes here>", "DatingAppStaging");
+        Database myDatabaseInsert = new DatabaseInsert(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
+        Database myDatabaseRead = new DatabaseRead(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
+        Database myDatabaseUpdate = new DatabaseUpdate(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
+        Database myDatabaseDelete = new DatabaseDelete(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
         Random rand = new Random();
 
         // generate a random user nickname each time

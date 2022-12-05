@@ -19,7 +19,7 @@ import java.io.IOException;
 public class servletDeleteGateway extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DatabaseRead myDatabase = new DatabaseRead("", "DatingAppStaging");
+        DatabaseRead myDatabase = new DatabaseRead(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
         String username = req.getParameter("username");
         String deleteId = req.getParameter("id");
         String status;
@@ -29,7 +29,7 @@ public class servletDeleteGateway extends HttpServlet {
         String sender = post_sender.getUserId();
         if(sender.equals(username)){
             status = "success";
-            DatabaseDelete databaseDelete = new DatabaseDelete("", "DatingAppStaging");
+            DatabaseDelete databaseDelete = new DatabaseDelete(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
             databaseDelete.deletePostById(deleteId);
             databaseDelete.close();
         }

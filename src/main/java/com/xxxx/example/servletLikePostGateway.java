@@ -21,7 +21,7 @@ public class servletLikePostGateway extends HttpServlet {
         String postId = req.getParameter("post_id");
         String eventType = req.getParameter("event_type");
 
-        DatabaseUpdate myDatabase = new DatabaseUpdate("", "DatingAppStaging");
+        DatabaseUpdate myDatabase = new DatabaseUpdate(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
         if(eventType.equals("liked")){
             myDatabase.like(currentUser,postId);
             myDatabase.close();

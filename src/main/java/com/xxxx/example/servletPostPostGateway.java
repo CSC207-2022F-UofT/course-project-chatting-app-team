@@ -18,7 +18,7 @@ public class servletPostPostGateway extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String text = (String) req.getParameter("text");
         String userName = (String) req.getParameter("userName");
-        DatabaseInsert myDatabase = new DatabaseInsert("", "DatingAppStaging");
+        DatabaseInsert myDatabase = new DatabaseInsert(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
         ReturnAsPost returnPost = new ReturnAsPost();
         Post post = returnPost.returnPost(userName, text);
         myDatabase.insertPost(post);
