@@ -1,4 +1,4 @@
-package com.xxxx.example;
+package interfaceAdaptors;
 
 import database_connection.*;
 import post_reply_user.Post;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/ser05")
-public class servlet05 extends HttpServlet {
+public class servletSendPostController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");

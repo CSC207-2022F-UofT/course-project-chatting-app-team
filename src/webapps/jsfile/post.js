@@ -13,20 +13,21 @@
             this.determine_user(messageJson);
             this.init_hasreply(messageJson);
             this.init_post_img(messageJson);
-            this.time = messageJson.created_on;
+            this.authorizedby = 'Mike'
+            this.time = this.init_time(messageJson);
             this.message = messageJson.content
             // How many replies need to be displayed
             this.display_reply = this.reply.slice(0,3)
         },
         init_id: function(messageJson){
-            Object.defineProperty(this,'id',{value:messageJson.id,writable:false,configurable:false})
+            Object.defineProperty(this,'id',{value:messageJson._id,writable:false,configurable:false})
         },
         init_nickname: function(messageJson){
-            Object.defineProperty(this,'user',{value:messageJson.userId,writable:false,configurable:false})
+            Object.defineProperty(this,'user',{value:messageJson.user_nickname,writable:false,configurable:false})
         },
         init_hasreply: function(messageJson){
-            if(messageJson.totalReply != null && messageJson.totalReply.length > 0){
-                this.reply = messageJson.totalReply;
+            if(messageJson.replies!=null && messageJson.replies.length > 0){
+                this.reply = messageJson.replies;
                 this.has_reply = true;
             }
             else{
@@ -58,7 +59,7 @@
             messageJson == null ? this.img = [] : this.img = messageJson.img
         },
         determine_user: function(messageJson){
-            messageJson.userId == user.username? this.userme = true : this.userme = false
+            messageJson.user_nickname == user.username? this.userme = true : this.userme = false
         },
         // choose how many replies to display
         display_replies: function(index){
@@ -71,6 +72,37 @@
             else{
 
             }
+        },
+        init_time(messageJson){
+            let database_time = messageJson.created_on;
+            let current_time = this.get_actual_time();
+            if (current_time.substring(5,10)==database_time.substring(5,10)){
+                if(current_time.substring(11,13)==database_time.substring(11,13)){
+                    return parseInt(current_time.substring(14,16)) - parseInt(database_time.substring(14,16)) + '分钟前'
+                }
+                return parseInt(current_time.substring(11,13)) - parseInt(database_time.substring(11,13)) + '小时前'
+            }
+            return database_time.substring(5,10)
+        },
+        get_actual_time(){
+            let current_time = new Date();
+            let year = current_time.getUTCFullYear();
+            let month = current_time.getUTCMonth() + 1;
+            let day = current_time.getUTCDate();
+            let hour = current_time.getUTCHours();
+            let minute = current_time.getUTCMinutes();
+            let second = current_time.getUTCSeconds();
+            if(month.toString().length == 1){
+                month = '0'+month;
+            }
+            if(day.toString().length == 1){
+                day = '0'+day;
+            }
+            if(hour.toString().length == 1){
+                hour = '0'+hour;
+            }
+            let time = year + "-" + month + "-" + day + "-" + hour + ":" + minute + ":" + second;
+            return time;
         }
 
 

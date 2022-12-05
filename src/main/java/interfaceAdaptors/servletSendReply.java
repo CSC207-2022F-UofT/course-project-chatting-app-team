@@ -1,4 +1,6 @@
-package com.xxxx.example;
+package interfaceAdaptors;
+
+import database_connection.Database;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -7,11 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-// The servletLoginResponseUserNotExist class works as a presenter and pass user not exist message back to front-end.
-@WebServlet("/loginResponseUserNotExist")
-public class servletLoginResponseUserNotExist extends HttpServlet {
-    @Override
+// The servletSendReply class works as a controller and pass variables to gateway.
+@WebServlet("/listenSendReply")
+public class servletSendReply extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().append("not_exist");
+        req.setCharacterEncoding("UTF-8");
+        req.getRequestDispatcher("/sendReplyGateway").forward(req,resp);
     }
 }

@@ -1,4 +1,4 @@
-package com.xxxx.example;
+package interfaceAdaptors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import database_connection.*;
@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/Servlet04")
-public class Servlet04 extends HttpServlet{
+@WebServlet("/servletGetHistory")
+public class servletGetHistory extends HttpServlet{
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");

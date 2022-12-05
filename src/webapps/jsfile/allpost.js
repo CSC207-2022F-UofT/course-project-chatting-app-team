@@ -20,7 +20,7 @@
             console.log("start the point")
             $.ajax({
                 type: "get",
-                url: "Servlet04", //Servlet04
+                url: "servletGetHistory", //Servlet04
                 async: false,
                 success: function (data) {
                     //turn data to array type || 将数据转换成数组

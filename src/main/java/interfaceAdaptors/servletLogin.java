@@ -1,6 +1,4 @@
-package com.xxxx.example;
-
-import database_connection.Database;
+package interfaceAdaptors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,11 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-// The servletSendReply class works as a controller and pass variables to gateway.
-@WebServlet("/listenSendReply")
-public class servletSendReply extends HttpServlet {
+// The servletLogin class works as a controller and pass variables to gateway.
+@WebServlet("/login")
+public class servletLogin extends HttpServlet {
+    @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        req.getRequestDispatcher("/sendReplyGateway").forward(req,resp);
+        req.getRequestDispatcher("/loginGateway").forward(req,resp);
     }
 }

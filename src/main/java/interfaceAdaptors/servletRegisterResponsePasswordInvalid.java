@@ -1,6 +1,4 @@
-package com.xxxx.example;
-
-import database_connection.Database;
+package interfaceAdaptors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,10 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-// The servletPostPostResponse class works as a presenter and pass message back to front-end.
-@WebServlet("/postPostResponse")
-public class servletPostPostResponse extends HttpServlet {
+// The servletRegisterResponsePasswordInvalid class works as a presenter and pass incorrect message back to front-end.
+@WebServlet("/registerResponsePasswordInvalid")
+public class servletRegisterResponsePasswordInvalid extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().append("success");
+        resp.getWriter().append("password not match");
     }
 }
