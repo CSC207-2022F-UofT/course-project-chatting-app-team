@@ -528,10 +528,22 @@
 <!-- middle domain:chatting room 聊天室 -->
 <div class="chatting_app_chatting_room">
     <div class="chatting_box" id="top">
-        <div class="chatting_messageBox">
-            <p class="timeline other">2022-10-31-10:46:42</p>
-            <p class="other">这是第一段话</p>
+
+        <div v-for="message in messages" class="chatting_messageBox">
+            <p class="timeline other">message.time</p>
+            <p class="other">message.content</p>
         </div>
+
+        <script>
+            const message_boxes = new Vue({
+                data: {
+                    el: ".chatting_messageBox",
+                    messages: [{time: '2022-11-18 13:08',content: "hello!"},
+                               {time: '2022-11-19 19:23',content: "good!"},
+                               {time: '2022-11-19 19:23',content: "good!"}]
+                }
+            })
+        </script>
 
         <!-- chatting post  -->
         <div class="chatting_post">
@@ -770,16 +782,18 @@
                         userme = true;
                     }
                     let post_id = messageJson._id
+            for (messageJson in messages){
                     //build div element || 创建盒子元素
                     let messageBox = $("<div class='chatting_messageBox'></div>");
                     //build text element, put history message || 创建文本元素
                     let message = $("<p class =" + messageClass + ">" + messageJson.content + "</p>");
                     //record the time send the element || 创建时间元素
-                    let time = $("<p>" + messageJson.created_on + " <span>(" + userTag + ")<span></p>");
+                    let time = $("<p>" + messageJson.time + " <span>(" + userTag + ")<span></p>");
                     //append message element and time element into div element || 盒子中塞入文本和时间元素
                     messageBox.append(time);
                     messageBox.append(message);
-
+                    $("#top>div").eq(0).before(messageBox);
+            }
                     //Vue data bind
                     list_of_post.message = messageJson.content;
                     list_of_post.time = messageJson.created_on;
