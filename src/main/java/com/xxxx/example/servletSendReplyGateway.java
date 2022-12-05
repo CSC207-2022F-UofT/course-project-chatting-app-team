@@ -22,7 +22,7 @@ public class servletSendReplyGateway extends HttpServlet {
         String username = req.getParameter("username");
         String id = req.getParameter("id");
 
-        DatabaseInsert myDatabase = new DatabaseInsert("", "DatingAppStaging");
+        DatabaseInsert myDatabase = new DatabaseInsert(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
         ReturnAsReply re = new ReturnAsReply();
         Reply reply = re.returnReply(username, id, text);
         myDatabase.insertReply(reply);

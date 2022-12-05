@@ -20,7 +20,7 @@ public class servletRegisterGateway extends HttpServlet {
     private boolean check;
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        DatabaseRead myDatabase = new DatabaseRead("", "DatingAppStaging");
+        DatabaseRead myDatabase = new DatabaseRead(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
         String username = req.getParameter("username");
         CommonUser returnedUsername = myDatabase.findUserById(username);
         String password = req.getParameter("password");
@@ -30,7 +30,7 @@ public class servletRegisterGateway extends HttpServlet {
         if (!check) {
             ReturnAsUser returnUser = new ReturnAsUser();
             CommonUser user = returnUser.returnUser(username, password, null);
-            DatabaseInsert databaseInsert = new DatabaseInsert("", "DatingAppStaging");
+            DatabaseInsert databaseInsert = new DatabaseInsert(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
             databaseInsert.insertUser(user);
             databaseInsert.close();
             req.getRequestDispatcher("/registerResponse").forward(req, resp);
