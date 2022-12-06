@@ -1,15 +1,12 @@
 package CommonUser;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import post_reply_user.CommonUser;
 import post_reply_user.Post;
 import post_reply_user.Reply;
 
 import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 class CommonUserTest {
     //create some users, posts and replies
@@ -41,8 +38,7 @@ class CommonUserTest {
     @Test
     public void testGetPassword() {
         CommonUser user = new CommonUser("nick", "1122", "avatar1", null);
-        String password = user.getPassword();
-        Assertions.assertEquals("1122", password);
+        Assertions.assertEquals("1122", user.getPassword());
     }
 
     @Test
@@ -55,7 +51,8 @@ class CommonUserTest {
     @Test
     public void testGetALLPost1() {
         CommonUser user = new CommonUser("nick", "1122", "avatar1");
-        Assertions.assertNull(user.getAllPost());
+        ArrayList<Post> res = new ArrayList<>();
+        Assertions.assertEquals(res, user.getAllPost());
     }
 
     @Test
