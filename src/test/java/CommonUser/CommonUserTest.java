@@ -178,7 +178,7 @@ class CommonUserTest {
 
     @Test
     public void testTotalReplyReceive1(){
-        CommonUser user = new CommonUser("nick", "1122", "avatar1", null);
+        CommonUser user = new CommonUser("nick", "1122", "avatar1");
         int result = user.total_reply_received();
         Assertions.assertEquals(0, result);
 
