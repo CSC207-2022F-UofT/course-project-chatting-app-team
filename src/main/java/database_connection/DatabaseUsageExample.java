@@ -12,7 +12,6 @@ public class DatabaseUsageExample {
     public static void main(String[] args) {
 
         print_divider();
-        // paste in connection string
         Database myDatabaseInsert = new DatabaseInsert(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
         Database myDatabaseRead = new DatabaseRead(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
         Database myDatabaseUpdate = new DatabaseUpdate(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
