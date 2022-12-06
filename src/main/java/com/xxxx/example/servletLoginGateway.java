@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 // The servletLoginGateway class works as a gateway and pass variables to presenter.
@@ -29,10 +30,20 @@ public class servletLoginGateway extends HttpServlet {
         boolean checkExist = usernameCheck.userExistCheck(returnedUser);
         boolean checkPassword = passwordCheck.loginPasswordCheck(returnedUser, password);
         if (checkExist && checkPassword) {
+            //assign session if succeed
+            HttpSession session = req.getSession();
+            session.setAttribute("username",username);
+
             req.getRequestDispatcher("/loginResponseSuccess").forward(req, resp);
         } else if (!checkExist) {
+            // clear the session if exists
+            HttpSession session = req.getSession();
+            session.invalidate();
             req.getRequestDispatcher("/loginResponseUserNotExist").forward(req, resp);
         } else {
+            // clear the session if exists
+            HttpSession session = req.getSession();
+            session.invalidate();
             req.getRequestDispatcher("/loginResponsePasswordIncorrect").forward(req, resp);
         }
     }

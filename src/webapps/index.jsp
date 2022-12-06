@@ -13,16 +13,17 @@
 	<meta charset="utf-8">
 	<meta name="google-site-verification" content="voj8Ol_S-ikM2atkCkB7B1yjKW-pDuJVGq2cMi403h0" />
 	<title></title>
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://cdn.staticfile.org/vue/2.7.0/vue.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<script src="jsfile/post.js"></script>
+	<script src="jsfile/poster.js"></script>
 	<script src="jsfile/user.js"></script>
 	<script src="jsfile/cat.js"></script>
 	<script src="jsfile/allpost.js" type="text/javascript"></script>
 	<link rel="stylesheet" href="CSSstyle/popupwindow.css" />
 	<link rel="stylesheet" href="CSSstyle/header.css" />
 	<link rel="stylesheet" href="CSSstyle/chattingpost.css" />
+	<link rel="shortcut icon" href="favicon.ico" />
 	<style>
 		/*Please take some time read this before writing CSS!
 		请用几分钟详细阅读后再书写CSS!
@@ -325,9 +326,9 @@
 			width: 100%;
 			background-color: whitesmoke;
 		}
-        .chatting_app_bottom_function_box {
+		.chatting_app_bottom_function_box {
 
-        }
+		}
 		.chatting_initial_send {
 			float: left;
 			margin: 1%;
@@ -436,12 +437,12 @@
 </div>
 <!-- Header domain 头部栏 -->
 <div class="chatting_app_header">
-<%--	<button id="switch_chatting_box">点击切换版面(测试中)</button>--%>
-<%--	<button>点击切换网页(未创建)</button>--%>
-<%--	<button id="switch">登录/切换用户(测试中)</button>--%>
-<%--	<button id="logout">退出(测试中)</button>--%>
-<%--	<button>点击切换天气(筹备中)</button>--%>
-<%--	<button id="apply_Vip">点击申请vip,彩虹狗牌(筹备中)</button>--%>
+	<%--	<button id="switch_chatting_box">点击切换版面(测试中)</button>--%>
+	<%--	<button>点击切换网页(未创建)</button>--%>
+	<%--	<button id="switch">登录/切换用户(测试中)</button>--%>
+	<%--	<button id="logout">退出(测试中)</button>--%>
+	<%--	<button>点击切换天气(筹备中)</button>--%>
+	<%--	<button id="apply_Vip">点击申请vip,彩虹狗牌(筹备中)</button>--%>
 	<div id="catKnows">你好猫</div>
 	<div id="catKnowsWhatSay">(测试中){{ catWord }}</div>
 	<div id="LoginUser">请登录</div>
@@ -455,34 +456,36 @@
 <!-- middle domain:chatting room 聊天室 -->
 <div class="chatting_app_chatting_room">
 	<div class="chatting_box" id="top">
-<%--		//One example of the post style --%>
-		<div class="chatting_post">
-			<div class="chatting_post_body">
+		<%--		//One example of the post style --%>
+		<div class="chatting_post" id="announcement">
+			<div class="chatting_post_body" @click="change_index">
 				<div class="chatting_post_body_para">
 					<div class="chatting_post_body_head">
 						<div class="chatting_post_user_pic">
 							<div class="user_photo" id="creater_photo"></div>
 						</div>
-						<span class="chatting_post_user_name">创作者</span>
+						<span class="chatting_post_user_name">创作者公告栏 Announcement</span>
 					</div>
-					<div class="chatting_post_body_content">
-						<p>公告: 如有任何侵犯您产权行为,请联系右下角,发送转人工客服,谢谢!</p>
-						<p>Annoucement: If there's any offend to your property right, please click right bottom button and sending this message: "转人工客服"(this means to contact our representative) Thank you</p>
+					<div class="chatting_post_body_content" v-if="display_index==1">
+						<p color="brown">制作者团队</p>
+						<p>我们是热爱计算机的年轻人,致力于创造出更好的作品, 造福人类</p>
+						<p>Mike, Michelle, Rannuo, Daii, Karrie, Bruce</p>
+						<p>加入我们请致电120</p>
 					</div>
-					<div class="chatting_post_body_pictures">
+					<div class="chatting_post_body_pictures" v-if="display_index==1">
 					</div>
-					<div class="chatting_function_box">
-						<span class="chatting_post_time">刚刚</span>
-						<div class="chatting_post_like"><span class="chatting_post_like_count">0</span></div>
+					<div class="chatting_function_box" v-if="display_index==1">
+						<span class="chatting_post_time">2022.12.05</span>
+						<div class="chatting_post_like"><span class="chatting_post_like_count">666</span></div>
 					</div>
-					<div class="chatting_reply_function_box">
+					<div class="chatting_reply_function_box" v-if="display_index==2">
 						<div class="chatting_reply_main" contenteditable="true">你好啊</div><div class="chatting_reply_send">发送</div>
 						<div class="chatting_reply_other_function"></div>
 					</div>
 				</div>
 			</div>
 		</div>
-<%--	Here is what Vue need to initialize--%>
+		<%--	Here is what Vue need to initialize--%>
 		<div class="chatting_post_reach_out">
 			<div v-for="(post,index) in posts" class="chatting_post">
 				<div :class='["chatting_post_body", {"chatting_post_shadow":post.post_shadow}]' :id="post.id" @mousedown="change_shadow($event)" @mouseup="change_shadow($event)">
@@ -500,7 +503,7 @@
 							<img v-for="picture in post.img">
 						</div>
 						<div class="chatting_function_box">
-							<span class="chatting_post_time">21 小时前</span>
+							<span class="chatting_post_time">{{post.time}}</span>
 							<div class="chatting_post_like" @click="post_liked">{{ post.has_liked }}<span class="chatting_post_like_count">{{ post.liked.length }}</span></div>
 							<span v-if="post.userme" class="chatting_post_delete" @click="deletePost(index)">删除</span>
 						</div>
@@ -577,13 +580,13 @@
 			</div>
 		</div>
 	</div>
-<%--	<div class="chatting_box" id="bottom">--%>
-<%--		<p>公共群群2</p>--%>
-<%--	</div>--%>
+	<%--	<div class="chatting_box" id="bottom">--%>
+	<%--		<p>公共群群2</p>--%>
+	<%--	</div>--%>
 
 	<div class="chatting_input_box" :style="{display: input_view, height: input_height}">
 		<textarea :style="{height: input_text_height}" class="chatting_input_text" placeholder="把那些心情都讲出来啦" v-model="post_message" maxlength="500" ></textarea>
-<%--		<input class="chatting_input_text" placeholder="输入你想要的话" value="" />--%>
+		<%--		<input class="chatting_input_text" placeholder="输入你想要的话" value="" />--%>
 		<div class="chatting_input_function_tab">
 			<div class="chatting_input_emoji" v-for="(logo,index) in function_logo" @click="show_tab(index)">
 				<span class="chatting_input_emoji_logo">{{logo}}</span>
@@ -612,7 +615,7 @@
 
 <!-- bottom side domain 底部边栏 -->
 <div class="chatting_app_bottom">
-    <div class="chatting_app_bottom_function_box">
+	<div class="chatting_app_bottom_function_box">
 		<span class="chatting_initial_send" @click="change_view">{{button_text}}</span>
 	</div>
 </div>
@@ -685,21 +688,33 @@
 				axios.get('listenRegister',{
 					params:{username:this.nickname,password:this.first_password,reEnterPassword:this.confirm_password}})
 						.then(function(res){
-							if(res.data == 'success'){
-								register_block.do_what = 'register'
-								register_block.display_confirm = "none"
-								register_block.display_login = 'block'
-								alert("注册成功！！！");
-							}
-							else {
-								alert(res.data);
-							}
-						}
-				).catch(error=>alert(error));
+									if(res.data == 'success'){
+										register_block.do_what = 'register'
+										register_block.display_confirm = "none"
+										register_block.display_login = 'block'
+										alert("注册成功！！！");
+									}
+									else {
+										alert(res.data);
+									}
+								}
+						).catch(error=>alert("注册次数频繁,请稍后再试!"));
 			}
 		}
 	})
-
+	// top announcement block
+	const announcement_block = new Vue({
+		el:"#announcement",
+		data:{
+			display_index : 0
+		},
+		methods: {
+			change_index: function(){
+				console.log("想要加入我们请致电120")
+				this.display_index == 0? this.display_index = 1:this.display_index = 0;
+			}
+		}
+	})
 	// Display all the post message and its associated method
 	const post_block = new Vue({
 		el: ".chatting_post_reach_out",
@@ -708,15 +723,15 @@
 			reply_index: -1
 		},
 		methods: {
-            //change the CSS style when user clicking the post
-            change_shadow: function(){
+			//change the CSS style when user clicking the post
+			change_shadow: function(){
 
-            },
+			},
 			deletePost: function(index){
 				console.log(index);
 				axios.get('listenDelete',{params: {username:user.username,id:post_block.posts[index]["id"]}}).then(
-					res=>{res.data=="success"? post_block.posts.splice(index,1) : alert("fail to delete this")
-				}).catch(error=>alert("fail to delete"));
+						res=>{res.data=="success"? post_block.posts.splice(index,1) : alert("fail to delete this")
+						}).catch(error=>alert("fail to delete"));
 			},
 			// like the post
 			post_liked: function(e){
@@ -740,9 +755,9 @@
 							post_block.posts[i].liked.splice(record_position,1);
 						}
 						// setTimeout(function(){
-							axios.get('listenLikedEvent',{params:{username:user.username,post_id:current_id,event_type:status}}).then(
+						axios.get('listenLikedEvent',{params:{current_user:user.username,post_id:current_id,event_type:status}}).then(
 								function(res){}
-							).catch(error=>alert(error))
+						).catch(error=>alert(error))
 						// },3000)
 					}
 				}
@@ -759,7 +774,7 @@
 					post_block.reply_index = -1;
 				}
 				else {
-				    post_block.reply_index = index;
+					post_block.reply_index = index;
 				}
 			},
 			// this send the reply message
@@ -768,16 +783,16 @@
 					alert('please login');
 					return;
 				}
-				contents = document.getElementsByClassName("chatting_reply_main")[1].innerHTML;
-				document.getElementsByClassName("chatting_reply_main")[1].innerHTML = '';
+				contents = document.getElementsByClassName("chatting_reply_main")[0].innerHTML;
+				document.getElementsByClassName("chatting_reply_main")[0].innerHTML = '';
 				current_id = post_block.posts[index]["id"];
 				axios.get('listenSendReply',{params:{username:user.username,id:current_id,text:contents}}).then(
-					function(res){
-						post_block.posts[index]["has_reply"] = true
-						post_block.posts[index]["reply"].push({content:contents,userId:user.username});
-						post_block.posts[index].display_replies(1);
-						console.log(res.data)
-					}
+						function(res){
+							post_block.posts[index]["has_reply"] = true
+							post_block.posts[index]["reply"].push({content:contents,userId:user.username});
+							post_block.posts[index].display_replies(1);
+							console.log(res.data)
+						}
 				).catch(error=>{alert(error)})
 			}
 		}
@@ -851,12 +866,19 @@
 			},
 			sendPost: function(){
 				// send the post when clicking the send button
-				if(user.username=""){
-					alert("请先登录");
+				if(user.username==""){
+					alert("请先点右上角头像登录！");
 				}
 				else{
 					let message = this.post_message;
-					let currentUser = user.username;
+					if(message.trim() === ''){
+						alert("别空着阿(#`O′)！");
+						return;
+					}
+					postManage.write_new_post('good',message,user.username);
+					this.post_message = ''
+					$("#top").scrollTop(0);
+					bottom_bar.change_view();
 				}
 
 			}
@@ -876,27 +898,7 @@
 			}
 		}
 	})
-	// Event part, 1. click
-	//Send message when clicking this button || 点击按钮发送消息
-	$(".chatting_input_submit").click(function () {
-		// 传递数据
-		//如果没登陆，那么不能发送信息
-		if (user.username == '') {
-			alert("请先登录!");
-			return
-		}
-		var absolu = initialWord(); //line 375, display the message just sent || 前端展示刚刚发送消息, 374行
-		postManage.write_new_post(absolu[0],absolu[1],user.username)
-
-		// Form emoji word 生成emoji
-	})
-	//Switch the chatting box when click this button || 点击切换版面
-	$("#switch_chatting_box").click(function () {
-		let user1 = $('#top');
-		let user2 = $('#bottom');
-		user1.attr("id", "bottom");
-		user2.attr("id", "top");
-	});
+	// Event part
 	//Response to the click of the body element
 	//Click this button to exit from this user || 退出web
 	$("#logout").on("click", function () {
@@ -911,32 +913,6 @@
 		let picture_path = 'url(images/UserPhoto/randomPhoto/randompic8.jpg)'
 		$('#LoginUser').css("background-image",picture_path);
 		console.log(postManage)
-	}
-	//Function_piece 2: Display the message at chatting box once click the button || 前端立即响应发送消息event
-	function initialWord() {
-		var inppp = document.getElementsByClassName("chatting_input_text")[0];
-		var intime = initialTime();
-		inpContent = inppp.value
-		if (inppp.value.trim() == "") {
-			inpContent = "[空白文字no]"
-		}
-		//此处代码有耦合，注意优化
-		inppp.value = "";
-		// make scrollbar always bottom when sending message 让滚轮处于最底部
-		$("#top").scrollTop(0);
-		return [intime, inpContent]
-	}
-	//Function_piece 3: initialize the time\生成时间
-	function initialTime() {
-		let dayTime = new Date();
-		let year = dayTime.getFullYear();
-		let month = dayTime.getMonth() + 1;
-		let day = dayTime.getDate();
-		let hour = dayTime.getHours();
-		let minute = dayTime.getMinutes();
-		let second = dayTime.getSeconds();
-		let time = year + "-" + month + "-" + day + "-" + hour + ":" + minute + ":" + second;
-		return time;
 	}
 	//Function_piece 4: Initialize the emoji tab\生成表情包库
 	function initialize_emojis() {
