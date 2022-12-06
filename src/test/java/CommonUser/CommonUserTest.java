@@ -11,15 +11,11 @@ import java.util.ArrayList;
 class CommonUserTest {
     //create some users, posts and replies
 
-    Post post1 = new Post("postId1", "userId1", "post1 content", null, null,
-            "2022-12-01");
+    Post post1 = new Post("userId1", "post1 content");
 
-    Post post2 = new Post("postId2", "userId1", "post2 content", null, null,
-            "2022-12-01");
-    Post post3 = new Post("postId3", "userId1", "post3 content", null, null,
-            "2022-11-01");
-    Post post4 = new Post("postId4", "userId1", "post4 content", null, null,
-            "2022-10-01");
+    Post post2 = new Post("userId1", "post2 content");
+    Post post3 = new Post("userId1", "post3 content");
+    Post post4 = new Post("userId1", "post4 content");
 
     Reply reply1 = new Reply("1","userId1","postId2","reply1","2022-12-01");
     Reply reply2 = new Reply("2","userId2","postId3","reply2","2021-12-01");
