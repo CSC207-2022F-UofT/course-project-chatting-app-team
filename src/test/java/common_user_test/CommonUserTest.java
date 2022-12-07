@@ -1,4 +1,4 @@
-package commonUser;
+package common_user_test;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
