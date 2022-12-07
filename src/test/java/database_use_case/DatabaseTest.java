@@ -24,7 +24,6 @@ public class DatabaseTest {
 
     @BeforeEach
     public void connectionString() {
-        // paste in connection string
         this.myDatabaseInsert = new DatabaseInsert(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
         this.myDatabaseRead = new DatabaseRead(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
         this.myDatabaseUpdate = new DatabaseUpdate(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
@@ -34,7 +33,6 @@ public class DatabaseTest {
 
     @BeforeEach
     public void setUser(){
-        // generate a random user nickname each time
         this.testUser = new CommonUser("testUser1", "password1", "");
     }
 
