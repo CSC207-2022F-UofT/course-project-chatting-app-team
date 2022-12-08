@@ -38,6 +38,7 @@ public class DatabaseTest {
 
     @Test
     public void checkEnv(){
+        System.out.println(System.getenv("DatabaseCollection"));
         Assertions.assertEquals("DatingAppStaging", (System.getenv("DatabaseCollection")));
     }
 
