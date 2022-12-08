@@ -16,8 +16,10 @@ jobs:
     name: Autograding
     runs-on: ubuntu-latest
     steps:
-      - name: try to print out env
-        run: echo "DBCollection:$DatabaseCollection"
+      
       - uses: actions/checkout@v2
+        env: 
+          DatabaseCollection: ${{DatabaseCollection}}
+          DatabaseConnectionString: ${{DatabaseConnectionString}}
       - uses: education/autograding@v1
 
