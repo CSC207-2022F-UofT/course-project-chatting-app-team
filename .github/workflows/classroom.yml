@@ -6,6 +6,7 @@ permissions:
   checks: write
   actions: read
   contents: read
+  
 env: 
   DatabaseCollection: DatingAppStaging
   DatabaseConnectionString: mongodb+srv://K125_member2:asdw1357@cluster0.gnzfm1q.mongodb.net/test
@@ -17,4 +18,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: education/autograding@v1
-      - run: echo "DBCollection:$DatabaseCollection"
+      - name: try to print out env
+        run: echo "DBCollection:$DatabaseCollection"
