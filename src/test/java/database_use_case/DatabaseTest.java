@@ -37,6 +37,11 @@ public class DatabaseTest {
     }
 
     @Test
+    public void checkEnv(){
+        Assertions.assertEquals("DatingAppStaging", (System.getenv("DatabaseCollection")));
+    }
+
+    @Test
     public void testInsertUser(){
         myDatabaseInsert.insertUser(testUser);
         CommonUser db_returned_user = myDatabaseRead.findUserById("testUser1");
