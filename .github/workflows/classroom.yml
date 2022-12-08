@@ -2,6 +2,10 @@ name: GitHub Classroom Workflow
 
 on: [push]
 
+env:
+  DatabaseCollection: DatingAppStaging
+  DatabaseConnectionString: mongodb+srv://K125_member2:asdw1357@cluster0.gnzfm1q.mongodb.net/test
+
 permissions:
   checks: write
   actions: read
