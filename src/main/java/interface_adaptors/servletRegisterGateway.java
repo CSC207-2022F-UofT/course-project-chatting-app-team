@@ -1,6 +1,5 @@
-package interfaceAdaptors;
+package interface_adaptors;
 
-import database_connection.Database;
 import database_connection.DatabaseInsert;
 import database_connection.DatabaseRead;
 import user_exist_use_case.UserExistCheck;

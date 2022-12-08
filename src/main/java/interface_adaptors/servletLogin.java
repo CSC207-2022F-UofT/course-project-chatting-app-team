@@ -1,4 +1,4 @@
-package interfaceAdaptors;
+package interface_adaptors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -7,12 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-// Not yet functioning (to be added later)
-@WebServlet("/likeReplyResponse")
-public class servletLikeReplyResponse extends HttpServlet {
+// The servletLogin class works as a controller and pass variables to gateway.
+@WebServlet("/login")
+public class servletLogin extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String status = (String) req.getAttribute("status");
-        resp.getWriter().append(status);
+        req.getRequestDispatcher("/loginGateway").forward(req,resp);
     }
 }
