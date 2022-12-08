@@ -9,17 +9,14 @@ permissions:
   
 env: 
   DatabaseCollection: DatingAppStaging
-  DatabaseConnectionString: mongodb+srv://K125_member2:asdw1357@cluster0.gnzfm1q.mongodb.net/test
 
 jobs:
   build:
     name: Autograding
     runs-on: ubuntu-latest
+    env: 
+      DatabaseCollection: DatingAppStaging
     steps:
-      
       - uses: actions/checkout@v2
-      - env: 
-          DatabaseCollection: "DatingAppStaging"
-          DatabaseConnectionString: "hmmmm"
-        uses: education/autograding@v1
+      - uses: education/autograding@v1
 
