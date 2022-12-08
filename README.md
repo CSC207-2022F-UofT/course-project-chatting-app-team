@@ -12,26 +12,26 @@ Web-link: k125.love/127
 
 ## Features:
 1) **Login**: click the top right profile picture, to log-in or register.
-2) **Reply** the post: click somewhere in the post and a text box will appear, so you can comment on the post.
-3) **Like/Unlike** post: you can also like a post.
-4) **Delete your own** post: you can also delete if the post is yours.
-5) **Send post**: you can also send a post using the test box on the bottom.
-6) **Others**: There are some other incidental functions that are not introduced.
+2) **Send post**: you can send a post from the test box on the bottom.
+3) **Reply** the post: click the post and a text box will appear, so you can comment on the post.
+4) **Like/Unlike** post: you can also like/unlike(click twice) a post.
+5) **Delete your own** post: you can also delete your post.
+6) **Others**: There are some other interesting functions that are not introduced (not important bcz unrelated to usecase and entities).
 
 ## Language for project:
 1. **UI**: HTML, CSS
-2. **Frontend-controller,presenter**: Javascript, Vue.js
+2. **Frontend-controller,presenter**: Javascript, Vue.js (whole structure)
 3. **Controller, Presenter, Gateway**: Java servlet
 4. **Database**: Java, MangoDB API
 5. **Usecase, Entity**: Java
 
 ## :briefcase:Directories and files:
-Symbol meaning:
-- :bangbang: means the this directory(all content)/file is necessary to read
+Symbols:
+- :bangbang: means this directory(all content)/file is necessary to read for understanding the architecture.
 - :x: means not finish (not for marking), but leave for future improvement
 - :file_folder:/:memo: indicates file/folder
 
-We will not list all files, files that listed are that we think need further clarification.
+We will not list all included files, listed files are that need further emphasis/clarifications.
 
 ## Part1. Project Architecture: 
 - :file_folder:[src/webapps](https://github.com/CSC207-2022F-UofT/course-project-dating-app-team/tree/main/src/webapps): frontend + UI
