@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 // The servletSendReplyGateway class works as a gateway and pass variables to presenter.
@@ -19,8 +20,16 @@ public class servletSendReplyGateway extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String text = req.getParameter("text");
-        String username = req.getParameter("username");
         String id = req.getParameter("id");
+
+        //Session security
+        HttpSession session = req.getSession();
+        String username = (String) session.getAttribute("username");
+        if(username == null){
+            resp.sendError(412,"Fail to send the post, wrong session!!!");
+            return;
+        }
+
 
         DatabaseInsert myDatabase = new DatabaseInsert(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
         ReturnAsReply re = new ReturnAsReply();

@@ -39,7 +39,7 @@
         },
         write_new_post: function(timeline, content, username){
             $.ajax({
-                url: "ser05", //java文件名 ser03
+                url: "sendPostGateway", //java文件名 sendPostGateway
                 contentType: "application/x-www-form-urlencoded;charset:utf-8;",
                 type: "get", //post, send the parameter || post传递参数
                 data: { time: timeline, text: content, userName: username }, //send key:values data || 传递参数类型

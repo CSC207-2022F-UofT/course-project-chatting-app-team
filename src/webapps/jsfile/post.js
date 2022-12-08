@@ -13,21 +13,20 @@
             this.determine_user(messageJson);
             this.init_hasreply(messageJson);
             this.init_post_img(messageJson);
-            this.authorizedby = 'Mike'
             this.time = this.init_time(messageJson);
             this.message = messageJson.content
             // How many replies need to be displayed
             this.display_reply = this.reply.slice(0,3)
         },
         init_id: function(messageJson){
-            Object.defineProperty(this,'id',{value:messageJson._id,writable:false,configurable:false})
+            Object.defineProperty(this,'id',{value:messageJson.id,writable:false,configurable:false})
         },
         init_nickname: function(messageJson){
-            Object.defineProperty(this,'user',{value:messageJson.user_nickname,writable:false,configurable:false})
+            Object.defineProperty(this,'user',{value:messageJson.userId,writable:false,configurable:false})
         },
         init_hasreply: function(messageJson){
-            if(messageJson.replies!=null && messageJson.replies.length > 0){
-                this.reply = messageJson.replies;
+            if(messageJson.totalReply != null && messageJson.totalReply.length > 0){
+                this.reply = messageJson.totalReply;
                 this.has_reply = true;
             }
             else{
@@ -36,13 +35,13 @@
             }
         },
         init_has_liked: function(messageJson){
-            if (messageJson.likes == null){
+            if (messageJson.likedBy == [] || messageJson.likedBy == null){
                 this.liked = [];
                 this.has_liked = '';
             }
             else {
-                this.liked = messageJson.likes;
-                messageJson.likes.indexOf(user.username)!=-1?  this.has_liked = '': this.has_liked = '';
+                this.liked = messageJson.likedBy;
+                messageJson.likedBy.indexOf(user.username)!=-1?  this.has_liked = '': this.has_liked = '';
             }
         },
         init_user_pictures: function(messageJson){
@@ -56,10 +55,10 @@
             }
         },
         init_post_img: function(messageJson){
-            messageJson == null ? this.img = [] : this.img = messageJson.img
+            messageJson.img == null ? this.img = [] : this.img = messageJson.img
         },
         determine_user: function(messageJson){
-            messageJson.user_nickname == user.username? this.userme = true : this.userme = false
+            messageJson.userId == user.username? this.userme = true : this.userme = false
         },
         // choose how many replies to display
         display_replies: function(index){
@@ -74,7 +73,7 @@
             }
         },
         init_time(messageJson){
-            let database_time = messageJson.created_on;
+            let database_time = messageJson.time;
             let current_time = this.get_actual_time();
             if (current_time.substring(5,10)==database_time.substring(5,10)){
                 if(current_time.substring(11,13)==database_time.substring(11,13)){
@@ -92,14 +91,14 @@
             let hour = current_time.getUTCHours();
             let minute = current_time.getUTCMinutes();
             let second = current_time.getUTCSeconds();
-            if(month.toString().length == 1){
+            if(month.length == 1){
                 month = '0'+month;
             }
-            if(day.toString().length == 1){
-                day = '0'+day;
+            if(day.length == 1){
+                month = '0'+day;
             }
-            if(hour.toString().length == 1){
-                hour = '0'+hour;
+            if(hour.length == 1){
+                month = '0'+hour;
             }
             let time = year + "-" + month + "-" + day + "-" + hour + ":" + minute + ":" + second;
             return time;
