@@ -24,10 +24,12 @@ public class DatabaseTest {
 
     @BeforeEach
     public void connectionString() {
-        this.myDatabaseInsert = new DatabaseInsert(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
-        this.myDatabaseRead = new DatabaseRead(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
-        this.myDatabaseUpdate = new DatabaseUpdate(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
-        this.myDatabaseDelete = new DatabaseDelete(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
+        String databaseConnectionString = System.getenv("INPUT_DatabaseConnectionString");
+        String databaseCollection = System.getenv("INPUT_DatabaseCollection");
+        this.myDatabaseInsert = new DatabaseInsert(databaseConnectionString, databaseCollection);
+        this.myDatabaseRead = new DatabaseRead(databaseConnectionString, databaseCollection);
+        this.myDatabaseUpdate = new DatabaseUpdate(databaseConnectionString, databaseCollection);
+        this.myDatabaseDelete = new DatabaseDelete(databaseConnectionString, databaseCollection);
 
     }
 
