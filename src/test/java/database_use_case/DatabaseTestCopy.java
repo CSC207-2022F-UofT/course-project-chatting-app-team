@@ -7,8 +7,7 @@ public class DatabaseTestCopy {
 
     @Test
     public void checkEnvWorking(){
-        System.out.println(System.getenv("INPUT_DatabaseCollection"));
-        Assertions.assertEquals("DatingAppStaging", (System.getenv("INPUT_DatabaseCollection")));
+        Assertions.assertEquals("DatingAppStaging", (System.getenv("DatabaseCollection")));
     }
 
 }
