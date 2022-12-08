@@ -5,7 +5,7 @@
 A blog web, communicate with each other through posts.
 Mainly serve on mobile end, currently only support Chineses 
 
-This is our web link: [web link](k125.love/k127). (Please use **_mobile_** to enter the web / PC: right click the mouse on the web page, select inspect, **_swtich to the mobile mode_**)
+This is our web link: [web link](k125.love/k127). (Please use **_mobile_** to enter the web / PC: right click on the web page, select inspect, **_swtich to the mobile mode_**)
 
 Web-link: k125.love/127
 
