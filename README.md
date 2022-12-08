@@ -9,9 +9,6 @@ This is our web link: [web link](k125.love/k127). (Please use **_mobile_** to en
 
 Web-link: k125.love/127
 
-**Important notes**:Due to the database service limitation, you may find the website crush when you do something (it is not our coding bugs), please take a look another day (We will fix as quick as possible). 
-
-
 
 ## Features:
 1) **Login**: click the top right profile picture, to log-in or register.
