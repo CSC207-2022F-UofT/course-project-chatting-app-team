@@ -2,10 +2,6 @@ name: GitHub Classroom Workflow
 
 on: [push]
 
-env:
-  DatabaseCollection: DatingAppStaging
-  DatabaseConnectionString: mongodb+srv://K125_member2:asdw1357@cluster0.gnzfm1q.mongodb.net/test
-
 permissions:
   checks: write
   actions: read
@@ -14,6 +10,9 @@ permissions:
 jobs:
   build:
     name: Autograding
+    env: 
+      DatabaseCollection: DatingAppStaging
+      DatabaseConnectionString: mongodb+srv://K125_member2:asdw1357@cluster0.gnzfm1q.mongodb.net/test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
