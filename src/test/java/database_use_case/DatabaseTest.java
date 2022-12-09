@@ -24,8 +24,8 @@ public class DatabaseTest {
 
     @BeforeEach
     public void connectionString() {
-        String databaseConnectionString = System.getenv("INPUT_DatabaseConnectionString");
-        String databaseCollection = System.getenv("INPUT_DatabaseCollection");
+        String databaseConnectionString = System.getenv("DatabaseConnectionString");
+        String databaseCollection = System.getenv("DatabaseCollection");
         this.myDatabaseInsert = new DatabaseInsert(databaseConnectionString, databaseCollection);
         this.myDatabaseRead = new DatabaseRead(databaseConnectionString, databaseCollection);
         this.myDatabaseUpdate = new DatabaseUpdate(databaseConnectionString, databaseCollection);
@@ -37,7 +37,7 @@ public class DatabaseTest {
     public void setUser(){
         this.testUser = new CommonUser("testUser1", "password1", "");
     }
-    
+
     @Test
     public void testInsertUser(){
         myDatabaseInsert.insertUser(testUser);
