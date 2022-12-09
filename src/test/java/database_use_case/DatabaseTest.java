@@ -37,13 +37,7 @@ public class DatabaseTest {
     public void setUser(){
         this.testUser = new CommonUser("testUser1", "password1", "");
     }
-
-//    @Test
-//    public void checkEnv(){
-//        System.out.println(System.getenv("INPUT_DatabaseCollection"));
-//        Assertions.assertEquals("DatingAppStaging", (System.getenv("INPUT_DatabaseCollection")));
-//    }
-
+    
     @Test
     public void testInsertUser(){
         myDatabaseInsert.insertUser(testUser);
