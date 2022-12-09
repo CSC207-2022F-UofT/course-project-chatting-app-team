@@ -1,6 +1,5 @@
-package interfaceAdaptors;
+package interface_adaptors;
 
-import database_connection.Database;
 import database_connection.DatabaseInsert;
 import post_post_use_case.ReturnAsPost;
 import post_reply_user.Post;

@@ -1,4 +1,4 @@
-package interfaceAdaptors;
+package interface_adaptors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -7,12 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-// The servletSendReplyResponse class works as a presenter and pass message back to front-end.
-@WebServlet("/sendReplyResponse")
-public class servletSendReplyResponse extends HttpServlet {
+// The servletDelete class works as a controller and pass variables to gateway.
+@WebServlet("/listenDelete")
+public class servletDelete extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setCharacterEncoding("UTF-8");
-        resp.getWriter().append("success");
+        req.getRequestDispatcher("/deleteGateway").forward(req,resp);
     }
 }

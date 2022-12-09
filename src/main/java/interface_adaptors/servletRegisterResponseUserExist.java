@@ -1,4 +1,4 @@
-package interfaceAdaptors;
+package interface_adaptors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -7,11 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-// The servletDelete class works as a controller and pass variables to gateway.
-@WebServlet("/listenDelete")
-public class servletDelete extends HttpServlet {
-    @Override
+// The servletRegisterResponseUserExist class works as a presenter and pass invalid message back to front-end.
+@WebServlet("/registerResponseUserExist")
+public class servletRegisterResponseUserExist extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/deleteGateway").forward(req,resp);
+        resp.getWriter().append("username already exist");
     }
 }

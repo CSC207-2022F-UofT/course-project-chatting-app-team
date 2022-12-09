@@ -1,10 +1,7 @@
-package interfaceAdaptors;
-
-import database_connection.Database;
+package interface_adaptors;
 
 import database_connection.DatabaseDelete;
 import database_connection.DatabaseRead;
-import org.bson.Document;
 import post_reply_user.Post;
 
 import javax.servlet.ServletException;

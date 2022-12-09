@@ -1,4 +1,4 @@
-package interfaceAdaptors;
+package interface_adaptors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
