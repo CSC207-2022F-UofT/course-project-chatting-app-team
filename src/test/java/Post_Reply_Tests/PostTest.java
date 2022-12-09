@@ -1,9 +1,7 @@
-package post_reply_tests;
+package Post_Reply_Tests;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import post_reply_user.CommonUser;
 import post_reply_user.Post;
 import post_reply_user.Reply;
 import java.util.ArrayList;
@@ -11,23 +9,12 @@ import java.util.ArrayList;
 
 public class PostTest {
     // set up replies for the ArrayList of replies in test cases.
-    Reply reply1 = null;
-    Reply reply2 = null;
-    Reply reply3 = null;
-    Reply reply4 = null;
-    Reply reply5 = null;
-    Reply reply6 = null;
-
-    @BeforeEach
-    public void setup(){
-        reply1 = new Reply("1","userId1","postId2","reply1","2022-12-01");
-        reply2 = new Reply("2","userId2","postId3","reply2","2021-12-01");
-        reply3 = new Reply("3","userId3","postId3","reply3","2020-12-01");
-        reply4 = new Reply("4","userId4","postId3","reply4","2022-11-01");
-        reply5 = new Reply("5","userId5","postId3","reply5","2021-11-01");
-        reply6 = new Reply("6","userId6","postId3","reply6","2020-11-01");
-
-    }
+    Reply reply1 = new Reply("1","userId1","postId2","reply1","2022-12-01");
+    Reply reply2 = new Reply("2","userId2","postId3","reply2","2021-12-01");
+    Reply reply3 = new Reply("3","userId3","postId3","reply3","2020-12-01");
+    Reply reply4 = new Reply("4","userId4","postId3","reply4","2022-11-01");
+    Reply reply5 = new Reply("5","userId5","postId3","reply5","2021-11-01");
+    Reply reply6 = new Reply("6","userId6","postId3","reply6","2020-11-01");
 
     // Test GetLikedBy
     // Since LikedBy is a ArrayList, we will test three scenarios:

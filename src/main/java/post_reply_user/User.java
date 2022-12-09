@@ -2,7 +2,6 @@ package post_reply_user;
 
 import java.util.ArrayList;
 
-// User abstract class is one of our entities.
 public abstract class User {
     String nickname;
     String password;

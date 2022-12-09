@@ -1,4 +1,6 @@
-package interface_adaptors;
+package interfaceAdaptors;
+
+import database_connection.Database;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

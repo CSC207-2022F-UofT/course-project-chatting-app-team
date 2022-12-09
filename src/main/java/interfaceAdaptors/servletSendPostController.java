@@ -1,4 +1,4 @@
-package interface_adaptors;
+package interfaceAdaptors;
 
 import database_connection.*;
 import post_reply_user.Post;

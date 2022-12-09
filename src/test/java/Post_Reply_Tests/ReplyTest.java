@@ -1,21 +1,14 @@
-package post_reply_tests;
+package Post_Reply_Tests;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import post_reply_user.CommonUser;
 import post_reply_user.Reply;
 
 
 
 public class ReplyTest {
     // set up
-    Reply reply1 = null;
-
-    @BeforeEach
-    public void setup(){
-        reply1 = new Reply("1", "userId1", "postId1", "reply1", "2022-12-01");
-    }
+    Reply reply1 = new Reply("1", "userId1", "postId1", "reply1", "2022-12-01");
 
     @Test
     public void testGetPostId() {

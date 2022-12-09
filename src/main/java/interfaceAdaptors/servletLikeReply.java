@@ -1,6 +1,7 @@
-package interface_adaptors;
+package interfaceAdaptors;
 
 import database_connection.Database;
+import database_connection.DatabaseUpdate;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

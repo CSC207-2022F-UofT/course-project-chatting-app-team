@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
-// Reply class is one of our entities. It is the reply of a post.
+
 public class Reply {
     String userId;
     String content;

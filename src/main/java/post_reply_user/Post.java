@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
-// Post class is one of our entities. It is the posts.
 public class Post {
     String id;
     String userId;

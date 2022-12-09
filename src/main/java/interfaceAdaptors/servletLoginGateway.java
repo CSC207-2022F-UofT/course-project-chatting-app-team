@@ -1,5 +1,6 @@
-package interface_adaptors;
+package interfaceAdaptors;
 
+import database_connection.Database;
 import database_connection.DatabaseRead;
 import log_in_use_case.LoginPasswordCheck;
 import user_exist_use_case.UserExistCheck;

@@ -1,4 +1,6 @@
-package interface_adaptors;
+package interfaceAdaptors;
+
+import database_connection.Database;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -7,12 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-// Not yet functioning (to be added later)
-@WebServlet("/likeReplyResponse")
-public class servletLikeReplyResponse extends HttpServlet {
-    @Override
+// The servletPostPost class works as a controller and pass variables to gateway.
+@WebServlet("/listenPostPost")
+public class servletPostPost extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String status = (String) req.getAttribute("status");
-        resp.getWriter().append(status);
+        req.setCharacterEncoding("UTF-8");
+        req.getRequestDispatcher("/postPostGateway").forward(req,resp);
     }
 }
+

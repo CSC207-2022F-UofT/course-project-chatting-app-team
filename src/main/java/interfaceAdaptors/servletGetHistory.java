@@ -1,4 +1,4 @@
-package interface_adaptors;
+package interfaceAdaptors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import database_connection.*;
