@@ -6,6 +6,7 @@ permissions:
   checks: write
   actions: read
   contents: read
+  
 
 jobs:
   build:
