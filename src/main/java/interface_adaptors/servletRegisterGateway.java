@@ -8,6 +8,7 @@ import register_use_case.ReturnAsUser;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +19,15 @@ import java.io.IOException;
 public class servletRegisterGateway extends HttpServlet {
     private boolean check;
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        Cookie[] cookies = req.getCookies();
+        for (Cookie cookie : cookies){
+            System.out.println(cookie.getName());
+            if (cookie.getName().equals("recentlyRegister")){
+                System.out.println(cookie.getName());
+                resp.sendError(403,"Register blocked! Please wait another 5 minutes");
+                return;
+            }
+        }
         DatabaseRead myDatabase = new DatabaseRead(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
         String username = req.getParameter("username");
         CommonUser returnedUsername = myDatabase.findUserById(username);

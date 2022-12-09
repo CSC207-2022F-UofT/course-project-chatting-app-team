@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 // The servletLikePostGateway class works as a gateway and pass variables to presenter.
@@ -16,7 +17,14 @@ public class servletLikePostGateway extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
 
-        String currentUser = req.getParameter("current_user");
+        //Security: session to check if information is right
+        HttpSession session = req.getSession();
+        String currentUser = (String) session.getAttribute("username");
+        if(currentUser == null){
+            resp.sendError(412,"Fail to send the post, wrong session!!!");
+            return;
+        }
+
         String postId = req.getParameter("post_id");
         String eventType = req.getParameter("event_type");
 

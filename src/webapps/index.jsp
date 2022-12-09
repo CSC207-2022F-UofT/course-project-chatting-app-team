@@ -18,11 +18,11 @@
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script src="jsfile/post.js"></script>
 	<script src="jsfile/user.js"></script>
-	<script src="jsfile/cat.js"></script>
 	<script src="jsfile/allpost.js" type="text/javascript"></script>
 	<link rel="stylesheet" href="CSSstyle/popupwindow.css" />
 	<link rel="stylesheet" href="CSSstyle/header.css" />
 	<link rel="stylesheet" href="CSSstyle/chattingpost.css" />
+	<link rel="shortcut icon" href="favicon.ico" />
 	<style>
 		/*Please take some time read this before writing CSS!
 		请用几分钟详细阅读后再书写CSS!
@@ -338,7 +338,7 @@
 			background: dodgerblue;
 		}
 		/* mobile end webpage alteration */
-		@media screen and (max-width: 980px) {
+		@media screen and (max-width: 985px) {
 			.chatting_app_left_side {
 				display: none;
 				background-color: grey;
@@ -365,6 +365,7 @@
 				background-repeat: no-repeat;
 				background-size: cover;
 				border-radius: 63%;
+				color: lightgreen;
 			}
 			#catKnowsWhatSay{
 				float: left;
@@ -374,6 +375,34 @@
 				font-size: 25px;
 				word-break: break-word;
 				font-family: "icomoon";
+			}
+		}
+		@media screen and (min-width: 985px) {
+			#LoginUser {
+				width: 6%;
+				height: 91%;
+				line-height: 150px;
+				margin-top: 0%;
+			}
+			#catKnows {
+				width: 6%;
+				height: 90%;
+				line-height: 176px;
+				color: black;
+			}
+			div#catKnowsWhatSay {
+				float: left;
+				margin-top: 1%;
+				margin-left: 2%;
+				width: 60%;
+				height: 60%;
+				font-size: 1.2em;
+			}
+			.chatting_input_emoji {
+				font-size: 2.5em;
+			}
+			.chatting_input_submit {
+				font-size: 1.5em;
 			}
 		}
 	</style>
@@ -442,7 +471,7 @@
 	<%--	<button id="logout">退出(测试中)</button>--%>
 	<%--	<button>点击切换天气(筹备中)</button>--%>
 	<%--	<button id="apply_Vip">点击申请vip,彩虹狗牌(筹备中)</button>--%>
-	<div id="catKnows">你好猫</div>
+	<div id="catKnows">人工智障猫</div>
 	<div id="catKnowsWhatSay">(测试中){{ catWord }}</div>
 	<div id="LoginUser">请登录</div>
 </div>
@@ -507,7 +536,7 @@
 							<span v-if="post.userme" class="chatting_post_delete" @click="deletePost(index)">删除</span>
 						</div>
 						<div v-if="post.has_reply" class="chatting_post_reply_box" :style="{'background':index==reply_index? 'white':'rgba(233,233,233,.8)'}" @click="reply(index)">
-							<p v-for="reply in post.display_reply"><em>{{ reply.user_nickname }}: </em>{{ reply.content }}</p>
+							<p v-for="reply in post.display_reply"><em>{{ reply.userId }}: </em>{{ reply.content }}</p>
 							<div v-if="index != reply_index" class="chatting_post_reply_history">--查看历史记录<span>{{ post.reply.length }}</span>条--</div>
 						</div>
 						<div class="chatting_reply_function_box" v-if="index==reply_index&&User!=''">
@@ -697,7 +726,7 @@
 										alert(res.data);
 									}
 								}
-						).catch(error=>alert(error));
+						).catch(error=>alert("注册次数频繁,请稍后再试!"));
 			}
 		}
 	})
@@ -754,7 +783,7 @@
 							post_block.posts[i].liked.splice(record_position,1);
 						}
 						// setTimeout(function(){
-						axios.get('listenLikedEvent',{params:{username:user.username,post_id:current_id,event_type:status}}).then(
+						axios.get('listenLikedEvent',{params:{current_user:user.username,post_id:current_id,event_type:status}}).then(
 								function(res){}
 						).catch(error=>alert(error))
 						// },3000)
@@ -788,7 +817,7 @@
 				axios.get('listenSendReply',{params:{username:user.username,id:current_id,text:contents}}).then(
 						function(res){
 							post_block.posts[index]["has_reply"] = true
-							post_block.posts[index]["reply"].push({content:contents,user_nickname:user.username});
+							post_block.posts[index]["reply"].push({content:contents,userId:user.username});
 							post_block.posts[index].display_replies(1);
 							console.log(res.data)
 						}
@@ -875,6 +904,7 @@
 						return;
 					}
 					postManage.write_new_post('good',message,user.username);
+					this.post_message = ''
 					$("#top").scrollTop(0);
 					bottom_bar.change_view();
 				}
@@ -909,6 +939,9 @@
 	//Function_piece 1: Function that show message history\此处function为展示历史记录
 	function display_message_history() {
 		let picture_path = 'url(images/UserPhoto/randomPhoto/randompic8.jpg)'
+		if(user.username==""){
+			picture_path = '';
+		}
 		$('#LoginUser').css("background-image",picture_path);
 		console.log(postManage)
 	}
