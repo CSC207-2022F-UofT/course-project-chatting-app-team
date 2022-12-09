@@ -18,7 +18,6 @@ public class servletDeleteGateway extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DatabaseRead myDatabase = new DatabaseRead(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
-
         //Security: session to check if information is right
         HttpSession session = req.getSession();
         String username = (String) session.getAttribute("username");
@@ -36,6 +35,7 @@ public class servletDeleteGateway extends HttpServlet {
         myDatabase.close();
         String sender = post_sender.getUserId();
         System.out.println(sender);
+
         if(sender.equals(username)){
             status = "success";
             DatabaseDelete databaseDelete = new DatabaseDelete(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
@@ -46,7 +46,6 @@ public class servletDeleteGateway extends HttpServlet {
             status = "fail";
         }
         req.setAttribute("status",status);
-        System.out.println(status);
         req.getRequestDispatcher("/deleteResponse").forward(req,resp);
     }
 }

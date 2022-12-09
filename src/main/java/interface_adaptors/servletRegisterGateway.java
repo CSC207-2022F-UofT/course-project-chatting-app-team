@@ -28,7 +28,6 @@ public class servletRegisterGateway extends HttpServlet {
                 return;
             }
         }
-
         DatabaseRead myDatabase = new DatabaseRead(System.getenv("DatabaseConnectionString"), System.getenv("DatabaseCollection"));
         String username = req.getParameter("username");
         CommonUser returnedUsername = myDatabase.findUserById(username);

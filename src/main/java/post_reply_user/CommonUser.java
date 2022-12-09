@@ -1,6 +1,7 @@
 package post_reply_user;
 
 import java.util.ArrayList;
+// Common user class is one of our entities. It is the user of our web.
 public class CommonUser extends User{
 
     ArrayList<Post> allPost;
@@ -32,16 +33,6 @@ public class CommonUser extends User{
     }
     //get the list of all posts of this user
 
-//    public void add_post(post_reply_user.Post post){
-//        post.getAuther().allPost.add(post);
-//
-//    }
-//    //when user published a post
-//
-//    public void add_reply(Reply reply){
-//        reply.auther.allReply.add(reply);
-//    }
-//    //when user post a reply
 
     public int total_num_post(){
         return this.allPost.size();
@@ -66,9 +57,5 @@ public class CommonUser extends User{
     }
     //count the total number of reply that they receive from all of their posts.
 
-//    public void delete_Post(Post post){
-//        this.allPost.remove(post);
-//    }
-//    //the user delete a post
 
 }
